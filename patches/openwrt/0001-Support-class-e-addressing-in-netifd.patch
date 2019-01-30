@@ -1,0 +1,29 @@
+From 12d5d77d4053d7511e14853c24bba7d0a3a71c4e Mon Sep 17 00:00:00 2001
+From: Dave Taht <dave@taht.net>
+Date: Sun, 9 Dec 2018 04:52:33 +0000
+Subject: [PATCH] Support class-e addressing in netifd
+
+---
+ proto.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/proto.c b/proto.c
+index 6047735..2819e30 100644
+--- a/proto.c
++++ b/proto.c
+@@ -131,11 +131,7 @@ parse_addr(struct interface *iface, const char *str, bool v6, int mask,
+ 	if (!parse_ip_and_netmask(af, str, &addr->addr, &addr->mask))
+ 		goto error;
+ 
+-	if (!v6) {
+-		if (IN_EXPERIMENTAL(ntohl(addr->addr.in.s_addr)))
+-			goto error;
+-
+-	} else if (IN6_IS_ADDR_MULTICAST(&addr->addr.in6))
++	if (!v6 && IN6_IS_ADDR_MULTICAST(&addr->addr.in6))
+ 		goto error;
+ 
+ 	if (broadcast)
+-- 
+2.17.1
+

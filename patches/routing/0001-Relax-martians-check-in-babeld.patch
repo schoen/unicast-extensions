@@ -1,0 +1,31 @@
+From 810e27a7f077acf604efccefaaa9b411daea7bc3 Mon Sep 17 00:00:00 2001
+From: Dave Taht <dave@taht.net>
+Date: Sun, 9 Dec 2018 03:41:08 +0000
+Subject: [PATCH] Relax martians check
+
+Other routing daemons use a bogon list to manage invalid IP
+addresses. Babel's martians check was too restrictive.
+
+This patch enables both class-e and multicast IP addresses to be
+carried within the babel protocol.
+---
+ util.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/util.c b/util.c
+index 38b834f..6c1ba8c 100644
+--- a/util.c
++++ b/util.c
+@@ -446,7 +446,8 @@ martian_prefix(const unsigned char *prefix, int plen)
+          (prefix[15] == 0 || prefix[15] == 1)) ||
+         (plen >= 96 && v4mapped(prefix) &&
+          ((plen >= 104 && (prefix[12] == 127 || prefix[12] == 0)) ||
+-          (plen >= 100 && (prefix[12] & 0xE0) == 0xE0)));
++          (plen >= 128 && (prefix[12] == 0xFF) && (prefix[13] == 0xFF) &&
++	   (prefix[14] == 0xFF) && (prefix[15] == 0xFF))));
+ }
+ 
+ int
+-- 
+2.17.1
+

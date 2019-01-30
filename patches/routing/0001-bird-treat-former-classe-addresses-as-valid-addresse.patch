@@ -1,0 +1,47 @@
+From 0b837018b9ec6a0fa719cc7f991887d9cd517022 Mon Sep 17 00:00:00 2001
+From: Dave Taht <dave@taht.net>
+Date: Sat, 27 Oct 2018 09:09:17 -0700
+Subject: [PATCH] bird: treat former classe addresses as valid addresses
+
+There is no reason to disallow the former class e address
+space, except in a bogon file.
+---
+ lib/ip.c | 8 ++++++--
+ lib/ip.h | 2 +-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/lib/ip.c b/lib/ip.c
+index 9497248c..fc570c61 100644
+--- a/lib/ip.c
++++ b/lib/ip.c
+@@ -100,8 +100,12 @@ ip4_classify(ip4_addr ad)
+   if (b >= 0xe0 && b <= 0xef)
+     return IADDR_MULTICAST | SCOPE_UNIVERSE;
+ 
+-  if (a == 0xffffffff)
+-    return IADDR_BROADCAST | SCOPE_LINK;
++  if (b >= 0xf0)
++    if(a == 0xffffffff) {
++      return IADDR_BROADCAST | SCOPE_LINK;
++    } else {
++      return IADDR_HOST | SCOPE_UNIVERSE;
++    }
+ 
+   return IADDR_INVALID;
+ }
+diff --git a/lib/ip.h b/lib/ip.h
+index cc6be384..27d40faf 100644
+--- a/lib/ip.h
++++ b/lib/ip.h
+@@ -242,7 +242,7 @@ static inline int ip6_is_v4mapped(ip6_addr a)
+ #define ipa_is_link_local(x) ip6_is_link_local(x)
+ 
+ static inline int ip4_is_unicast(ip4_addr a)
+-{ return _I(a) < 0xe0000000; }
++{ return _I(a) < 0xe0000000 || (_I(a) >= 0xf0000000 && _I(a) != 0xffffffff); }
+ 
+ /* XXXX remove */
+ static inline int ipa_classify_net(ip_addr a)
+-- 
+2.17.1
+
