@@ -1,8 +1,7 @@
 # The IPv4 cleanup project
-
-* Making class-e (240/4), 0/, 127/8, 224/4 more usable*
+ - Making class-e (240/4), 0/, 127/8, 224/4 more usable
  - adding 419 million new IPs to the world
- - fixing zeroth networking
+ - fixing [zeroth networking]: /ZEROTH.md
  - improving interop
 
 * Some quick github tests to see how wrong I can get this
