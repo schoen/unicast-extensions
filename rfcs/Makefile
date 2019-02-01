@@ -2,8 +2,9 @@ MMARK := mmark
 TWO := "yes"
 TXT := $(patsubst %.md,%.txt,$(wildcard *.md))
 XML := $(patsubst %.md,%.xml,$(wildcard *.md))
+HTML := $(patsubst %.md,%.html,$(wildcard *.md))
 
-all: $(TXT) $(XML)
+all: $(TXT) $(XML) $(HTML)
 
 txt: $(TXT)
 
@@ -25,6 +26,13 @@ xml: $(XML)
 	    $(MMARK) $< > $(basename $<).xml; \
 	else \
 	    $(MMARK) -2 $< > $(basename $<).xml; \
+	fi
+
+%.xml: %.html.
+	if [ -z $(TWO) ]; then \
+	    xml2rfc --html --v3 $(basename $<).xml && rm $(basename $<).xml; \
+	else \
+	    xml2rfc --html $(basename $<).xml && rm $(basename $<).xml; \
 	fi
 
 .PHONY: clean
