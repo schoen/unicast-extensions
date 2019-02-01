@@ -5,6 +5,12 @@
  - improving interop
 
 * Some quick github tests to see how wrong I can get this
-
-[127.0.0.0/16](127.md) 
-  [240/4](CLASSE.md)  [FAQ](FAQ.md)  [MULTICAST](MULTICAST) [OVERVIEW](OVERVIEW.md) [PATCHES DIR](patches) PATCHES(PATCHES.md)  [README](README.md)  [ZERO](ZERO.md) "Zero" [ZEROTH](ZEROTH.md) Zeroth
+- [OVERVIEW](OVERVIEW.md)
+- [FAQ](FAQ.md)
+- [ZERO](ZERO.md)
+- [ZEROTH](ZEROTH.md)
+- [127.0.0.0/16](127.md) 
+- [240/4](CLASSE.md)
+- [MULTICAST](MULTICAST.md])
+- [PATCHES DIR](patches)
+- [PATCHES](PATCHES.md)
