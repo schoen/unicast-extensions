@@ -1,0 +1,52 @@
+From 2edd6dc7b8663c394a8e4df18495b0fc0ce6ca6f Mon Sep 17 00:00:00 2001
+From: Dave Taht <dave@taht.net>
+Date: Fri, 1 Feb 2019 23:41:10 +0000
+Subject: [PATCH] Allow 0.0.0.0/8 and reduce localnet, and enable 225-231 as
+ unicast
+
+This patch makes it possible to use the 0.0.0.0/8 address range,
+reduces the localnet space from 127/8 to 127/16, and makes available
+the formerly reserved for multicast block of 225/8-231/8 as ordinary
+unicast.
+
+Signed-off-by: Dave Taht <dave.taht@gmail.com>
+---
+ include/linux/in.h | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/in.h b/include/linux/in.h
+index 435e7f2a513a..dfce451e88c8 100644
+--- a/include/linux/in.h
++++ b/include/linux/in.h
+@@ -41,12 +41,17 @@ static inline int proto_ports_offset(int proto)
+ 
+ static inline bool ipv4_is_loopback(__be32 addr)
+ {
+-	return (addr & htonl(0xff000000)) == htonl(0x7f000000);
++	if((addr & htonl(0xff000000)) == htonl(0x7f000000))
++		return( addr & htonl(0x00ff0000)) == 0;
++	return 0;
+ }
+ 
+ static inline bool ipv4_is_multicast(__be32 addr)
+ {
+-	return (addr & htonl(0xf0000000)) == htonl(0xe0000000);
++	if((addr & htonl(0xf0000000)) == htonl(0xe0000000))
++		return !((htonl(addr) >= 0xe1000000) &&
++			 (htonl(addr) < 0xe8000000));
++	return 0;
+ }
+ 
+ static inline bool ipv4_is_local_multicast(__be32 addr)
+@@ -67,7 +72,7 @@ static inline bool ipv4_is_all_snoopers(__be32 addr)
+ 
+ static inline bool ipv4_is_zeronet(__be32 addr)
+ {
+-	return (addr & htonl(0xff000000)) == htonl(0x00000000);
++	return (addr == 0);
+ }
+ 
+ /* Special-Use IPv4 Addresses (RFC3330) */
+-- 
+2.17.1
+
