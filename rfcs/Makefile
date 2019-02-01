@@ -28,7 +28,7 @@ xml: $(XML)
 	    $(MMARK) -2 $< > $(basename $<).xml; \
 	fi
 
-%.xml: %.html.
+%.html: %.xml
 	if [ -z $(TWO) ]; then \
 	    xml2rfc --html --v3 $(basename $<).xml && rm $(basename $<).xml; \
 	else \
