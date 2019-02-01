@@ -1,21 +1,32 @@
-SOURCE=draft-ietf-aqm-fq-codel-xx.mkd
+MMARK := mmark
+TWO := "yes"
+TXT := $(patsubst %.md,%.txt,$(wildcard *.md))
+XML := $(patsubst %.md,%.xml,$(wildcard *.md))
 
-title=$(shell grep 'docname: ' $(SOURCE) | sed 's/docname: //')
+all: $(TXT) $(XML)
 
-objects=draft-ietf-aqm-fq-codel-??.{xml,html,txt}
+txt: $(TXT)
 
-all: $(title).html $(title).txt
+xml: $(XML)
 
+%.txt: %.md
+	if [ -z $(TWO) ]; then \
+	    $(MMARK) $< > $(basename $<).xml; \
+	    xml2rfc --text --v3 $(basename $<).xml && rm $(basename $<).xml; \
+	else \
+	    $(MMARK) -2 $< > $(basename $<).xml; \
+	    xml2rfc --text $(basename $<).xml && rm $(basename $<).xml; \
+	fi
 
-$(title).xml: $(SOURCE)
-	kramdown-rfc2629 $(SOURCE) > $(title).xml
+xml: $(XML)
 
-$(title).html: $(title).xml
-	xml2rfc $(title).xml --html
-
-$(title).txt: $(title).xml
-	xml2rfc $(title).xml --text
+%.xml: %.md
+	if [ -z $(TWO) ]; then \
+	    $(MMARK) $< > $(basename $<).xml; \
+	else \
+	    $(MMARK) -2 $< > $(basename $<).xml; \
+	fi
 
 .PHONY: clean
 clean:
-	rm -f $(objects)
+	rm -f *.txt *.xml
