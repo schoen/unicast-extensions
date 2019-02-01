@@ -4,7 +4,7 @@
  - fixing [zeroth networking](/ZEROTH.md)
  - improving interop
 
-* Some quick github tests to see how wrong I can get this
+## Some quick github tests to see how wrong I can get this
 - [OVERVIEW](OVERVIEW.md)
 - [FAQ](FAQ.md)
 - [ZERO](ZERO.md)

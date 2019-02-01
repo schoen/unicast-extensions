@@ -93,15 +93,33 @@ MUST be upgraded to be capable of monitoring and managing these addresses.
 
 # Address space
 
-{#fig-240}
-                             Table M: Former Class-e
+{#fig-0}
+
+	+----------------------+----------------------------+
+	| Attribute            | Value                      |
+	+----------------------+----------------------------+
+	| Address Block        | 0.0.0.0/32                 |
+	| Name                 | "Host Address Unknown"     |
+	| RFC                  | [RFC1122], Section 3.2.1.3 |
+	| Allocation Date      | September 1981             |
+	| Termination Date     | N/A                        |
+	| Source               | True                       |
+	| Destination          | False                      |
+	| Forwardable          | False                      |
+	| Globally Reachable   | False                      |
+	| Reserved-by-Protocol | True                       |
+	+----------------------+----------------------------+
+
+                    Table 1: "Host Address Unknown"
+
+{#fig-1}
               +----------------------+----------------------------+
               | Attribute            | Value                      |
               +----------------------+----------------------------+
-              | Address Block        | 240.0.0.0/4                |
-              |                      | (except 255.255.255.255)   |
-              | Name                 | Ordinary Unicast Addresses |
-              | RFC                  | This Internet-Draft        |
+              | Address Block        | 0.0.0.0/8                  |
+              |                      | (except 0.0.0.0/32)        |
+              | Name                 | Ordinary unicast addresses |
+              | RFC                  | This Internet-Draft  XXXXXXXX  [RFC1122], Section 3.2.1.3 |
               | Allocation Date      | 2019                       |
               | Termination Date     | N/A                        |
               | Source               | True                       |
@@ -110,7 +128,6 @@ MUST be upgraded to be capable of monitoring and managing these addresses.
               | Global               | True                       |
               | Reserved-by-Protocol | False                      |
               +----------------------+----------------------------+
-
 
 # Related Work
 
