@@ -1,0 +1,17 @@
+Demand for multicast addresses was grossly over-estimated and no
+viable new addressing mode for class-e ever appeared.
+
+https://tools.ietf.org/html/rfc1112#section-4
+
+1981: Class E IP addresses, i.e.,
+   those with "1111" as their high-order four bits, are reserved for
+   future addressing modes.
+
+In the interim, since the last attempts at making class-e addresses
+work, for some purpose (), most operating systems and stacks chose
+to treat 240/4 as globally reachable unicast, and those that didn't
+(windows only, so far as we have found), not allow them at all.
+
+* Fixing Windows
+
+Will probably take an RFC

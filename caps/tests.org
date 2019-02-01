@@ -1,0 +1,155 @@
+* Ubuntu Test Network
+
+Config: 
+Network: enp4s0 = 242.2.2.1/24 
+
+* Debian /etc/network/interfaces
+
+Works if you specify netmask
+
+test: ifdown, ifup
+
+* isc dhcp server
+
+serves dhcp on 242.2.2.1 with the right range
+
+bug in my setup? Gives itself two addresses
+
+    inet 242.2.2.1/24 brd 242.2.2.255 scope global enp4s0
+       valid_lft forever preferred_lft forever
+    inet 242.2.2.10/24 brd 242.2.2.255 scope global secondary enp4s0
+       valid_lft forever preferred_lft forever
+
+lease 242.2.2.11 {
+  starts 2 2018/10/16 18:17:08;
+  ends 2 2018/10/16 18:27:08;
+  cltt 2 2018/10/16 18:17:08;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 00:1e:06:20:17:b7;
+  client-hostname "c2";
+}
+
+* Avahi mdns
+
+WORKS: serves mdns
+
+Oct 16 10:47:41 prancer avahi-daemon[596]: Joining mDNS multicast group on interface enp4s0.IPv4 with address 242.2.2.1.
+Oct 16 10:47:41 prancer avahi-daemon[596]: New relevant interface enp4s0.IPv4 for mDNS.
+Oct 16 10:47:41 prancer avahi-daemon[596]: Registering new address record for 242.2.2.1 on enp4s0.IPv4.
+
+Test elsewhere: mdns-scan
+
+* TP-link smart switch 
+
+Takes a 242.2.2.X via DHCP. Is also assignable directly
+
+* dns servers
+** linode dns setup
+
+classe.taht.net resolves from various vantage points I have.
+
+242.2.2.1 classe.taht.net
+
+225.0.0.1 mcast.taht.net
+
+127.2.0.1 lhost.taht.net
+
+I don't have a good way to test reverse lookup. We'd need
+bind9 etc to have reverse lookups for this stuff.
+
+dnsmasq, bind9, linode work
+
+** bind
+
+DHCPREQUEST of 242.2.2.10 on enp4s0 to 242.2.2.1 port 67 (xid=0xadcd0e1)
+
+** bind9
+
+Serves 242.2.2.1 up as dns
+
+Local bind9 server works.
+
+Can slaves take it?
+
+nsupdate?
+
+host
+nslookup
+
+ip add add 242.2.1.1/24 broadcast 242.2.1.255 dev enp0s20u2
+
+enp0s20u2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 242.2.1.1  netmask 255.255.255.0  broadcast 0.0.0.0
+
+* wpa_supplicant and hostapd
+
+* client boxes
+
+** odroid C2 running debian
+
+Linux c2 3.10.96-161 #1 SMP PREEMPT Mon Aug 29 23:32:06 UTC 2016 armv7l armv7l armv7l GNU/Linux
+
+lease 242.2.2.11 {
+  starts 2 2018/10/16 18:17:08;
+  ends 2 2018/10/16 18:27:08;
+  cltt 2 2018/10/16 18:17:08;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 00:1e:06:20:17:b7;
+  client-hostname "c2";
+}
+
+** Chip over usb gadget 
+
+** OSX
+
+Takes 242.2.2.X address over wifi with 
+
+* Babeld (with a patch)
+
+routes 242.2.2.0 just fine... briefly
+
+ip route add 224.2.2.0/24 from 0.0.0.0/0 table 254 metric 0 dev eno1 via 172.22.0.85 proto 42
+
+Other babeld listeners start logging martian prefixes every 4 seconds. This
+just dumps to syslog, normally.
+
+* iptables masq - (nat) 
+
+* 127/8
+
+* TODO update babel daemon on gateway
+
+
+* 224
+
+iface enp0s20u2
+        address 224.2.1.1
+        netmask 255.255.255.0
+        broadcast 224.2.1.255
+
+/etc/network/interfaces:24: unknown or no address type and no inherits keyword specified
+
+* Traceroute tests
+
+On my network (which does no filtering til it hits the default gw)
+traceroute -n classe.taht.net wanders til that point.
+
+On linode there is no response even on the first hop.
+
+* Other bugs
+** Hostapd broke in general:
+https://bugzilla.redhat.com/show_bug.cgi?id=1570903
+** My sysupgrade to ubuntu 18.04 LTS broke my build box
+** TP-link easy switch
+
+Never generates a dhcp request anymore in the first place.
+You can't get to it from elinks because it requires javascript
+It doesn't work through a polipo proxy on the box
+and it defaults to 192.168.0.1. Out there, there are millions
+of networks with the switch interfereing with everything else.
+
+
