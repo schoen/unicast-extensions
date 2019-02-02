@@ -64,13 +64,13 @@ The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **S
 
 # Introduction
 
-[@!RFC2119]
-
 despite rfcxyz... No viable alternate addressing mode has yet appeared.
 
 Treating 240/4 as routable unicast is now a defacto standard, with support in all the major operating systems except windows.
 
 Future experimentation should happen in ipv6 addressing, but due to a pressing shortage of unicast ipv4 addresses, 240/4 should be allocated for that purpose.
+
+IPv4 Address exaustion happened, on schedule. Demand for 
 
 [@I.D.FULLER88]
 
@@ -106,45 +106,56 @@ It is now evident that despite the failure of any of these drafts to become Inte
 # Implementation status
 
 As of the release of the first version of this draft, Apple OSX and
-IOS have been confirmed to support the use of 240.0.0.0/4 as unicast,
-globally reachable address space. Sun Solaris, Linux, Android, and
-FreeBSD all treat it as such. Four out of the top 5 open source IoT stacks, also treat 240/4 as unicast, with a 3 line patch awaiting submission.
+Apple IOS have been confirmed to support the use of 240.0.0.0/4 as
+unicast, globally reachable address space. Sun Solaris, Linux,
+Android, and FreeBSD all treat it as such. Four out of the top 5 open
+source IoT stacks, also treat 240/4 as unicast, with a 3 line patch
+awaiting submission for the last. The Babel routing protocol fully
+supports 240/4, and patches have been submitted to the
+BGP/OSPF/ISIS/etc capable routing daemon projects, "Bird", and "FRR".
 
-No plans have been announced for modifications to any version
-of Microsoft Windows, in part because of uncertainty over how to
-perform 6-to-4 tunneling in the absence of a definitive statement on
-whether 240.0.0.0/4 is "public" or "private" space.
+No plans have been announced for modifications to any version of
+Microsoft Windows, however Windows developers are aware of the work
+and are considering it for a future version.
 
 ## Implementation guidelines
 
-### Enable Reverse DNS
+### Allow configuration via ifconfig and 
+
+Patches were accepted into Linux 4.20 and backported into openwrt to
+allow for the assignment of 
 
 ### Repair IN_MULTICAST check
 
 ### Remove 240/4 from Martian Addresses and bogon lists
 
-   [@!RFC2827] recommends that ISPs police their customers' traffic by
-   dropping traffic entering their networks that is coming from a source
-   address not legitimately in use by the customer network.  The
-   filtering includes but is in no way limited to the traffic whose
-   source address is a so-called "Martian Address" - an address that is
-   reserved [3], including any address within 0.0.0.0/8, 10.0.0.0/8,
-   127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 224.0.0.0/4, or
-   240.0.0.0/4.
+[@!RFC2827] recommends that ISPs police their customers' traffic by
+dropping traffic entering their networks that is coming from a source
+address not legitimately in use by the customer network.  The
+filtering includes but is in no way limited to the traffic whose
+source address is a so-called "Martian Address" - an address that is
+reserved [3], including any address within 0.0.0.0/8, 10.0.0.0/8,
+127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 224.0.0.0/4, or
+240.0.0.0/4.
 
 This memo removes 240.0.0.0/4 from the martian address spaces, keeping
-only 255.255.255.255/32. 
+only 255.255.255.255/32. Bogon lists that currently conflate 224/3
+MUST be altered to suit.
 
 Firewalls [@!CBR03], packet filters, and intrusion detection systems, 
 MUST be upgraded to be capable of monitoring and managing these addresses.
 
 Routing protocols MUST treat these as unicast, globally routable addresses.
 
+### Enable Reverse DNS for 255.0.0.0/8
+
+Common deployments of the bind routing daemon (e.g. debian) map reverse DNS for 255. to a local empty domain and do not forward requests for that to in-addr.arpa. The daemon itself does not have such a limit, with modern versions correctly intercepting 255.255.255.255 only.
+
 # Related Work
 
-The last attempts at making more ipv4 address space occurred in the 2008-2010
+The last attempts at making more IPv4 address space occurred in the 2008-2010
 timeframe, with proposals for making it pure public routable unicast
-[@I.D.FULLER88], or routable, but private, rfc1918 style address space [IFORGET]. Neither proposal gained traction in the IETF.
+[@I.D.FULLER88], or routable, but private, rfc1918 style address space [I.D.HUSTON]. Neither proposal gained traction in the IETF, however the first was almost universally adopted in the field.
 
 # IANA Considerations
 
@@ -153,11 +164,12 @@ dns space in in-addr.arpa.
 
 # Security Considerations
 
-Presently access to the 240/4 block is mostly assumed to be managed somewhere
-along the edge of the network, and wider availability requires removal of
-common bogon lists and hard coded martian files. In many other cases it will
-"just work", but thought needs to be given to any additional security
-exposures to existing firewall'd networks.
+Presently access to the 240/4 block is mostly assumed to be managed
+somewhere along the edge of the network, and wider availability merely
+requires removal of this space from common bogon lists and hard coded
+martian files. In many other cases it will "just work", but thought
+needs to be given to any additional security exposures to existing
+firewall'd networks.
 
 # Acknowledgements
 
