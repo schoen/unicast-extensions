@@ -51,8 +51,9 @@ organization = "TekLibre"
 .# Abstract
 
 This memo reclassifies the address block 240.0.0.0/4 as unicast
-globally routable address space, in recognition that the vast majority
-of operating systems and devices deployed now treat it as such.
+globally routable and reachable address space, in recognition that the
+vast majority of operating systems and devices deployed now treat it
+as such.
 
 It directs IANA to make the arrangements for reverse DNS. 
 	
@@ -171,7 +172,7 @@ otherwise obsolete ifconfig ioctl. Support for assignment and static
 routing via netlink-enabled interfaces had otherwise been universally
 enabled since 2010.
 
-In freeBSD - an incorrect ICMP check existed.
+In FreeBSD - an incorrect ICMP check existed.
 
 All the open source ARP, DHCP, and DNS implementations do no explicit
 checking for 240/4 and thus "just work". No open source application we have scanned has any limitations regarding usage of these addresses.
@@ -225,7 +226,7 @@ Routing protocols MUST treat these as unicast, globally routable addresses.
 
 ## Enable Reverse DNS for 255.0.0.0/8
 
-Common deployments of the BIND routing daemon (e.g. debian) map reverse DNS for 255. to a local empty domain and do not forward requests for that to in-addr.arpa. The daemon itself does not have such a limit, with modern versions correctly intercepting 255.255.255.255 only.
+Common deployments of the BIND routing daemon (e.g. Debian) map reverse DNS for 255. to a local empty domain and do not forward requests for that to in-addr.arpa. The daemon itself does not have such a limit, with modern versions correctly intercepting 255.255.255.255 only.
 
 # Related Work
 
@@ -254,7 +255,8 @@ firewall'd networks.
 
 # Acknowledgements
 
-Vince Fuller, Eliot Lear, Stephen Hemminger, Geoff Huston, Jason Ackley, Dan Mahoney, Vint Cerf, Rob Landley, Paul Wouters all made contributions to this document, directly or indirectly.
+Jason Ackley, Vint Cerf, Vince Fuller, Stephen Hemminger, Geoff Huston, Rob Landley, Elliot Lear, Dan Mahoney, and Paul Wouters
+all made contributions to this document, directly or indirectly.
 
 {backmatter}
 
