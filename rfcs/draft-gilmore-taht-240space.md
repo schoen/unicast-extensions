@@ -51,7 +51,7 @@ organization = "TekLibre"
 .# Abstract
 
 This memo reclassifies the address block 240.0.0.0/4 as unicast
-globally routable and reachable address space, in recognition that the
+globally rout-able and reachable address space, in recognition that the
 vast majority of operating systems and devices deployed now treat it
 as such.
 
@@ -67,11 +67,11 @@ The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **S
 
 Much has changed since the 240/4 address range was first set aside as EXPERIMENTAL.
 
-IPv4 address exaustion happened, on schedule, in 2011. Demand for IPv4
+IPv4 address exhaustion happened, on schedule, in 2011. Demand for IPv4
 and IPv6 to IPv4 translation technologies spiked, leveraging
 [@!RFC1918], with [@!RFC7289] CGNs, [@!RFC6333] DS-Lite, and
 [@!RFC6877] 464XLAT becoming widely adopted.  While each of these
-solutions is inadaquate in their own way, and pure IPv6 superior,
+solutions is inadequate in their own way, and pure IPv6 superior,
 the need for IPv4 address space appears unslakable for the next
 20 years.
 
@@ -84,13 +84,13 @@ explicit use; the second, as "private" RFC1918-like addresses.
 It is now evident that despite the failure of either of these drafts
 to become Internet Standards, the network community followed the
 spirit of these draft recommendations to actually implement them in
-the 2008-2010 timeframe.
+the 2008-2010 time-frame.
 
-Treating 240/4 as routable unicast is now a defacto standard, with
+Treating 240/4 as routable unicast is now a de facto standard, with
 support in all the major operating systems except Windows, and only a
 few edge cases left to fix.
 
-This memo requires implementors to make the changes necessary to
+This memo requires implementer to make the changes necessary to
 receive, transmit, and forward packets that contain addresses in this
 block as if they were within any other unicast address block.
 
@@ -251,12 +251,13 @@ somewhere along the edge of the network, and wider availability merely
 requires removal of this space from common bogon lists and hard coded
 martian files. In many other cases it will "just work", but thought
 needs to be given to any additional security exposures to existing
-firewall'd networks.
+firewalled networks.
 
 # Acknowledgements
 
-Jason Ackley, Vint Cerf, Vince Fuller, Stephen Hemminger, Geoff Huston, Rob Landley, Elliot Lear, Dan Mahoney, and Paul Wouters
-all made contributions to this document, directly or indirectly.
+Jason Ackley, Vint Cerf, Vince Fuller, Stephen Hemminger, Geoff
+Huston, Rob Landley, Elliot Lear, Dan Mahoney, and Paul Wouters all
+made contributions to this document, directly or indirectly.
 
 {backmatter}
 
