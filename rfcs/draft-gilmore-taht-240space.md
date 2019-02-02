@@ -50,9 +50,9 @@ organization = "TekLibre"
 
 .# Abstract
 
-This memo reclassifies the address block 240.0.0.0/4 as unicast,
-globally routable address space, in recognition that the majority of
-operating systems now treat it as such.
+This memo reclassifies the address block 240.0.0.0/4 as unicast
+globally routable address space, in recognition that the vast majority
+of operating systems and devices deployed now treat it as such.
 
 It directs IANA to make the arrangements for reverse DNS. 
 	
@@ -64,27 +64,30 @@ The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **S
 
 # Introduction
 
-despite rfcxyz... No viable alternate addressing mode has yet appeared.
+Much has changed since the 240/4 address range was first set aside as EXPERIMENTAL.
 
-Treating 240/4 as routable unicast is now a defacto standard, with support in all the major operating systems except windows.
+IPv4 address exaustion happened, on schedule, in 2011. Demand for IPv4
+and IPv6 to IPv4 translation technologies spiked, leveraging
+[@!RFC1918], with [@!RFC7289] CGNs, [@!RFC6333] DS-Lite, and
+[@!RFC6877] 464XLAT becoming widely adopted.  While each of these
+solutions is inadaquate in their own way, and pure IPv6 superior,
+the need for pure IPv4 address space appears unslakable for the next
+20 years.
 
-Future experimentation should happen in ipv6 addressing, but due to a pressing shortage of unicast ipv4 addresses, 240/4 should be allocated for that purpose.
+Although a market has appeared for existing IPv4 allocations, and small amounts of address space returned to the global pools, demand for IPv4 addressing continues unabated. New edge and data center technologies are creating new demands, and internet-accessible servers will need to be dual stacked for a long time to come.
 
-IPv4 Address exaustion happened, on schedule. Demand for 
+In 2008 [@I.D.FULLER08], and 2010 [@I.D.WILSON10] first proposed that
+the 240/4 address space become usable - the first draft mandating no
+explicit use; the second, as "private" rfc1918-like addresses.
 
-[@I.D.FULLER88]
+It is now evident that despite the failure of either of these drafts
+to become Internet Standards, the network community followed the
+spirit of these draft recommendations to actually implement them in
+the 2008-2010 timeframe.
 
-[@!RFC1918] 
-
-[@!RFC7289] CGNs
-
-Tools have appeared to search the codebases of the world
-
-[@!RFC6333] DS-Lite
-
-While each of these solutions is inadaquate in their own way,
-
-It is now evident that despite the failure of any of these drafts to become Internet Standards, the network community followed the spirit of the draft recommendations to actually implement. 
+Treating 240/4 as routable unicast is now a defacto standard, with
+support in all the major operating systems except Windows, and only a
+few edge cases left to fix.
 
 This memo requires implementors to make the changes necessary to
 receive, transmit, and forward packets that contain addresses in this
@@ -93,7 +96,13 @@ block as if they were within any other unicast address block.
 It is envisioned that the utility of this block will grow over time.
 Some devices may never be able to use it as their IP implementations
 have no update mechanism.
-   
+
+Users are encouraged to treat 240/4 IPv4 allocations as a chance to
+improve IPv4 handling generally, to allow for more protocols than just
+UDP NAT and TCP to traverse it (such as UDP-Lite and SCTP) and to
+address other long standing problems in the IPv4 blocks in new
+allocations such as using /32 rather than /30 networks.
+
 # Address space
 
 {#fig-240}
@@ -113,15 +122,20 @@ have no update mechanism.
               | Reserved-by-Protocol | False                      |
               +----------------------+----------------------------+
 
+The broadcast address, 255.255.255.255, still must be treated
+specially in each case: it is illegal as a source IP address, it is
+illegal as an network interface address, and it matches the local
+system when used as the destination address in a received datagram.
+   
 # Implementation status
 
 As of the release of the first version of this draft, Apple OSX and
 Apple IOS have been confirmed to support the use of 240.0.0.0/4 as
-unicast, globally reachable address space. Sun Solaris, Linux,
+unicast, globally reachable address space. Solaris, Linux,
 Android, and FreeBSD all treat it as such. These operating systems
 have supported 240/4 since 2008. Four out of the top 5 open source IoT
 stacks, also treat 240/4 as unicast, with a 3 line patch awaiting
-submission for the last. The [@RFC6126] Babel routing protocol fully
+submission for the last. The [@!RFC6126] Babel routing protocol fully
 supports 240/4, and patches have been submitted to the
 BGP/OSPF/ISIS/etc capable routing daemon projects, "Bird", and "FRR".
 
@@ -131,21 +145,24 @@ required and are considering it for a future version.
 
 # Implementation guidelines
 
-The following guidelines have been developed via [@IPv4cleanup] project.
+The following guidelines have been developed via [@IPv4CLEANUP] project.
 
-## Allow configuration via ifconfig ioctl
+## Allow configuration
 
-In Linux... patches were accepted into Linux 4.20 and backported into
-openwrt to allow for the assignment of 240/4 addresses via the
-otherwise obsolete ifconfig ioctl. (Support for assignment and static
-routing via netlink-enabled interfaces has otherwise been universally
-enabled since 2012)
+In Linux -  patches were accepted into Linux 4.20 and backported into
+OpenWrt to allow for the assignment of 240/4 addresses via the
+otherwise obsolete ifconfig ioctl. Support for assignment and static
+routing via netlink-enabled interfaces had otherwise been universally
+enabled since 2010.
 
 In freeBSD - an incorrect ICMP check existed.
 
-## Repair IN_MULTICAST check
+All the open source ARP, DHCP, and DNS implementations do no explicit
+checking for 240/4 and thus "just work". No open source application we have scanned has any limitations regarding usage of these addresses.
 
-One stack conflated an IN_MULTICAST check with the 240/4 address space.
+## Repair IN\_MULTICAST and limit IN\_EXPERIMENTAL macros
+
+One stack conflated an IN\_MULTICAST check with the 240/4 address space.
 e.g. 
 
 ```
@@ -159,11 +176,15 @@ where a correct check is:
 ```
 
 Very few stacks actually check explicitly for the presence of 240/4
-address otherwise. However as a macro that is extended to userspace,
+addresses otherwise. However as a macro that is extended to userspace,
 some binary applications may have trouble reaching 240/4 until recompiled.
 
 The almost entirely unused IN_EXPERIMENTAL macro also has been revised
 to check for 255.255.255.255 only as a backwards compatible mechanism.
+
+Other network stacks and applications bury these checks deep in their
+libraries, however, searches for a key phrase of multicast usually
+turns up whatever code nearby that might need to be patched to fix it.
 
 ## Remove 240/4 from Martian Addresses and Bogon Lists
 
@@ -177,8 +198,9 @@ reserved [3], including any address within 0.0.0.0/8, 10.0.0.0/8,
 240.0.0.0/4.
 
 This memo removes 240.0.0.0/4 from the martian address spaces, keeping
-only the universal broadcast 255.255.255.255/32. Bogon lists that
-currently conflate 224/3 MUST be altered to suit.
+the universal broadcast address 255.255.255.255/32. Bogon and martion
+lists that currently reduce 224/4 and 240/4 to 224/3 MUST be altered
+to suit to block 224/4 and 255.255.255.255/32 only.
 
 Firewalls [@!CBR03], packet filters, and intrusion detection systems, 
 MUST be upgraded to be capable of monitoring and managing these addresses.
@@ -193,11 +215,12 @@ Common deployments of the BIND routing daemon (e.g. debian) map reverse DNS for 
 
 The last attempts at making more IPv4 address space occurred in the
 2008-2010 timeframe, with proposals for making it pure public routable
-unicast [@I.D.FULLER88], or routable, but private, rfc1918 style
-address space [I.D.HUSTON]. Neither proposal gained traction in the
+unicast [@I.D.FULLER08], or routable, but private, RFC1918 style
+address space [@I.D.WILSON10]. Neither proposal gained traction in the
 IETF, however the first step - making 240/4 actually work - was almost
-universally adopted in the field. It is presently unknown if any
-organisation is making use of 240/4 in a non-standard way.
+universally adopted in the field.
+
+It is presently unknown if any organization is making use of 240/4.
 
 # IANA Considerations
 
@@ -215,11 +238,11 @@ firewall'd networks.
 
 # Acknowledgements
 
-Vince Fuller, Eliot Lear, Stephen Hemminger, Geoff Huston, Jason Ackley, Dan Mahoney, Vint Cerf, Rob Landley, Paul Wouters
+Vince Fuller, Eliot Lear, Stephen Hemminger, Geoff Huston, Jason Ackley, Dan Mahoney, Vint Cerf, Rob Landley, Paul Wouters all made contributions to this document, directly or indirectly.
 
 {backmatter}
 
-<reference anchor='IPv4cleanup' target='https://github.com/dtaht/ipv4-cleanup'>
+<reference anchor='IPv4CLEANUP' target='https://github.com/dtaht/ipv4-cleanup'>
 <front>
 <title>IPv4 cleanup project</title>
 <author initials='D.' surname='Taht' fullname='Dave Taht'>
@@ -231,7 +254,25 @@ Vince Fuller, Eliot Lear, Stephen Hemminger, Geoff Huston, Jason Ackley, Dan Mah
 </front>
 </reference>
 
-<reference anchor='I.D.FULLER88' target='https://tools.ietf.org/id/draft-fuller-240space-02.txt'>
+<reference anchor='I.D.WILSON10' target='https://tools.ietf.org/id/draft-wilson-class-e-02'>
+<front>
+<title>Redesignation of 240/4 from "Future Use" to "Private Use"</title>
+<author initials='G.' surname='Huston' fullname='Geoff Huston'>
+<address>
+<email>gih@apnic.net</email>
+</address>
+</author>
+<author initials='G.' surname='Michaelson' fullname='George Michaelson'>
+<email>ggm@apnic.net</email>
+</author>
+<author initials='P.' surname='Wilson' fullname='Paul Wilson'>
+<email>pwilson@apnic.net</email>
+</author>
+<date year='2010' />
+</front>
+</reference>
+
+<reference anchor='I.D.FULLER08' target='https://tools.ietf.org/id/draft-fuller-240space-02.txt'>
 <front>
 <title>240 address space</title>
 <author initials='V.' surname='Fuller' fullname='Vince Fuller'>
@@ -245,6 +286,7 @@ Vince Fuller, Eliot Lear, Stephen Hemminger, Geoff Huston, Jason Ackley, Dan Mah
 <date year='2008' />
 </front>
 </reference>
+
 
 <reference anchor='CBR03' target=''>
  <front>
