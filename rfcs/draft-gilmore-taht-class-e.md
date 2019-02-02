@@ -8,7 +8,7 @@ docname = "draft-gilmore-taht-class-e-01"
 workgroup = "Network Working Group"
 submissiontype = "IETF"
 keyword = [""]
-date = 2019-01-30T00:00:00Z
+#date = 2019-01-30T00:00:00Z
 
 [seriesInfo]
 name = "Internet-Draft"
@@ -134,10 +134,23 @@ exposures to existing firewall'd networks.
 
 # Acknowledgements
 
-Vince Fuller, Eliot Lear, Stephen Hemminger, Geoff Huston, Jason Ackley, Dan Mahoney, 
-Vint Cerf, Rob Landley.
+Vince Fuller, Eliot Lear, Stephen Hemminger, Geoff Huston, Jason Ackley, Dan Mahoney, Vint Cerf, Rob Landley.
 
 {backmatter}
+
+<reference anchor='pandoc' target='http://johnmacfarlane.net/pandoc/'>
+    <front>
+        <title>Pandoc, a universal document converter</title>
+        <author initials='J.' surname='MacFarlane' fullname='John MacFarlane'>
+            <organization>University of California, Berkeley</organization>
+            <address>
+                <email>jgm@berkeley.edu</email>
+                <uri>http://johnmacfarlane.net/</uri>
+            </address>
+        </author>
+        <date year='2006'/>
+    </front>
+</reference>
 
 <reference anchor='FULLER88' target=''>
  <front>
@@ -147,7 +160,6 @@ Vint Cerf, Rob Landley.
   <author initials='A.D.' surname='Rubin' fullname='A.D. Rubin'></author>
   <date year='2003' />
  </front>
- <seriesInfo name="Addison-Wesley" value='' />
 </reference>
 
 <reference anchor='CBR03' target=''>

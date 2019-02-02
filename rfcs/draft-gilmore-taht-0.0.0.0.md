@@ -4,11 +4,11 @@ abbrev = "0-slash-8"
 updates = [2827, 3212]
 ipr = "trust200902"
 area = "Internet"
-docname = "draft-gilmore-taht-0-0-0-0-01"
+docname = "draft-gilmore-taht-0.0.0.0"
 workgroup = "Network Working Group"
 submissiontype = "IETF"
 keyword = [""]
-date = 2019-01-30T00:00:00Z
+#date = 2019-01-30T00:00:00Z
 
 [seriesInfo]
 name = "Internet-Draft"
