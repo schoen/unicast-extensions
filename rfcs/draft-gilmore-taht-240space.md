@@ -183,13 +183,13 @@ One stack conflated an IN\_MULTICAST check with the 240/4 address space.
 e.g. 
 
 ```
-#define IN_MULTICAST(addr) ((addr & ntohl(0xfe000000) == ntohl(0xfe000000))
+#define IN_MULTICAST(addr) (((addr & ntohl(0xfe000000)) == ntohl(0xfe000000)))
 ```
 
 where a correct check is:
 
 ```
-#define IN_MULTICAST(addr) ((addr & ntohl(0xff000000) == ntohl(0xfe000000)))
+#define IN_MULTICAST(addr) (((addr & ntohl(0xff000000)) == ntohl(0xfe000000)))
 ```
 
 Very few stacks actually check explicitly for the presence of 240/4
