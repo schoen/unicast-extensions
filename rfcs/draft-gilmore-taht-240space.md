@@ -21,7 +21,7 @@ initials = "J."
 surname = "Gilmore"
 fullname = "John Gilmore"
 #role = "editor"
-organization = "TekLibre"
+organization = "Electronic Frontier Foundation"
   [author.address]
   email = "gnu@toad.com"
   phone = "+14152216524"
@@ -80,10 +80,20 @@ IPv4 Address exaustion happened, on schedule. Demand for
 
 Tools have appeared to search the codebases of the world
 
+[@!RFC6333] DS-Lite
+
 While each of these solutions is inadaquate in their own way,
 
 It is now evident that despite the failure of any of these drafts to become Internet Standards, the network community followed the spirit of the draft recommendations to actually implement. 
 
+This memo requires implementors to make the changes necessary to
+receive, transmit, and forward packets that contain addresses in this
+block as if they were within any other unicast address block.
+
+It is envisioned that the utility of this block will grow over time.
+Some devices may never be able to use it as their IP implementations
+have no update mechanism.
+   
 # Address space
 
 {#fig-240}
@@ -108,26 +118,54 @@ It is now evident that despite the failure of any of these drafts to become Inte
 As of the release of the first version of this draft, Apple OSX and
 Apple IOS have been confirmed to support the use of 240.0.0.0/4 as
 unicast, globally reachable address space. Sun Solaris, Linux,
-Android, and FreeBSD all treat it as such. Four out of the top 5 open
-source IoT stacks, also treat 240/4 as unicast, with a 3 line patch
-awaiting submission for the last. The Babel routing protocol fully
+Android, and FreeBSD all treat it as such. These operating systems
+have supported 240/4 since 2008. Four out of the top 5 open source IoT
+stacks, also treat 240/4 as unicast, with a 3 line patch awaiting
+submission for the last. The [@RFC6126] Babel routing protocol fully
 supports 240/4, and patches have been submitted to the
 BGP/OSPF/ISIS/etc capable routing daemon projects, "Bird", and "FRR".
 
 No plans have been announced for modifications to any version of
 Microsoft Windows, however Windows developers are aware of the work
-and are considering it for a future version.
+required and are considering it for a future version.
 
-## Implementation guidelines
+# Implementation guidelines
 
-### Allow configuration via ifconfig and 
+The following guidelines have been developed via [@IPv4cleanup] project.
 
-Patches were accepted into Linux 4.20 and backported into openwrt to
-allow for the assignment of 
+## Allow configuration via ifconfig ioctl
 
-### Repair IN_MULTICAST check
+In Linux... patches were accepted into Linux 4.20 and backported into
+openwrt to allow for the assignment of 240/4 addresses via the
+otherwise obsolete ifconfig ioctl. (Support for assignment and static
+routing via netlink-enabled interfaces has otherwise been universally
+enabled since 2012)
 
-### Remove 240/4 from Martian Addresses and bogon lists
+In freeBSD - an incorrect ICMP check existed.
+
+## Repair IN_MULTICAST check
+
+One stack conflated an IN_MULTICAST check with the 240/4 address space.
+e.g. 
+
+```
+#define IN_MULTICAST(addr) ((addr & ntohl(0xfe000000) == ntohl(0xfe000000))
+```
+
+where a correct check is:
+
+```
+#define IN_MULTICAST(addr) ((addr & ntohl(0xff000000) == ntohl(0xfe000000)))
+```
+
+Very few stacks actually check explicitly for the presence of 240/4
+address otherwise. However as a macro that is extended to userspace,
+some binary applications may have trouble reaching 240/4 until recompiled.
+
+The almost entirely unused IN_EXPERIMENTAL macro also has been revised
+to check for 255.255.255.255 only as a backwards compatible mechanism.
+
+## Remove 240/4 from Martian Addresses and Bogon Lists
 
 [@!RFC2827] recommends that ISPs police their customers' traffic by
 dropping traffic entering their networks that is coming from a source
@@ -139,23 +177,27 @@ reserved [3], including any address within 0.0.0.0/8, 10.0.0.0/8,
 240.0.0.0/4.
 
 This memo removes 240.0.0.0/4 from the martian address spaces, keeping
-only 255.255.255.255/32. Bogon lists that currently conflate 224/3
-MUST be altered to suit.
+only the universal broadcast 255.255.255.255/32. Bogon lists that
+currently conflate 224/3 MUST be altered to suit.
 
 Firewalls [@!CBR03], packet filters, and intrusion detection systems, 
 MUST be upgraded to be capable of monitoring and managing these addresses.
 
 Routing protocols MUST treat these as unicast, globally routable addresses.
 
-### Enable Reverse DNS for 255.0.0.0/8
+## Enable Reverse DNS for 255.0.0.0/8
 
-Common deployments of the bind routing daemon (e.g. debian) map reverse DNS for 255. to a local empty domain and do not forward requests for that to in-addr.arpa. The daemon itself does not have such a limit, with modern versions correctly intercepting 255.255.255.255 only.
+Common deployments of the BIND routing daemon (e.g. debian) map reverse DNS for 255. to a local empty domain and do not forward requests for that to in-addr.arpa. The daemon itself does not have such a limit, with modern versions correctly intercepting 255.255.255.255 only.
 
 # Related Work
 
-The last attempts at making more IPv4 address space occurred in the 2008-2010
-timeframe, with proposals for making it pure public routable unicast
-[@I.D.FULLER88], or routable, but private, rfc1918 style address space [I.D.HUSTON]. Neither proposal gained traction in the IETF, however the first was almost universally adopted in the field.
+The last attempts at making more IPv4 address space occurred in the
+2008-2010 timeframe, with proposals for making it pure public routable
+unicast [@I.D.FULLER88], or routable, but private, rfc1918 style
+address space [I.D.HUSTON]. Neither proposal gained traction in the
+IETF, however the first step - making 240/4 actually work - was almost
+universally adopted in the field. It is presently unknown if any
+organisation is making use of 240/4 in a non-standard way.
 
 # IANA Considerations
 
@@ -176,6 +218,18 @@ firewall'd networks.
 Vince Fuller, Eliot Lear, Stephen Hemminger, Geoff Huston, Jason Ackley, Dan Mahoney, Vint Cerf, Rob Landley, Paul Wouters
 
 {backmatter}
+
+<reference anchor='IPv4cleanup' target='https://github.com/dtaht/ipv4-cleanup'>
+<front>
+<title>IPv4 cleanup project</title>
+<author initials='D.' surname='Taht' fullname='Dave Taht'>
+<address>
+<email>dave@taht.net</email>
+</address>
+</author>
+<date year='2019' />
+</front>
+</reference>
 
 <reference anchor='I.D.FULLER88' target='https://tools.ietf.org/id/draft-fuller-240space-02.txt'>
 <front>
