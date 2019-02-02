@@ -71,14 +71,14 @@ and IPv6 to IPv4 translation technologies spiked, leveraging
 [@!RFC1918], with [@!RFC7289] CGNs, [@!RFC6333] DS-Lite, and
 [@!RFC6877] 464XLAT becoming widely adopted.  While each of these
 solutions is inadaquate in their own way, and pure IPv6 superior,
-the need for pure IPv4 address space appears unslakable for the next
+the need for IPv4 address space appears unslakable for the next
 20 years.
 
 Although a market has appeared for existing IPv4 allocations, and small amounts of address space returned to the global pools, demand for IPv4 addressing continues unabated. New edge and data center technologies are creating new demands, and internet-accessible servers will need to be dual stacked for a long time to come.
 
 In 2008 [@I.D.FULLER08], and 2010 [@I.D.WILSON10] first proposed that
 the 240/4 address space become usable - the first draft mandating no
-explicit use; the second, as "private" rfc1918-like addresses.
+explicit use; the second, as "private" RFC1918-like addresses.
 
 It is now evident that despite the failure of either of these drafts
 to become Internet Standards, the network community followed the
@@ -126,7 +126,23 @@ The broadcast address, 255.255.255.255, still must be treated
 specially in each case: it is illegal as a source IP address, it is
 illegal as an network interface address, and it matches the local
 system when used as the destination address in a received datagram.
-   
+
+{#fig-255}
+              +----------------------+----------------------------+
+              | Attribute            | Value                      |
+              +----------------------+----------------------------+
+              | Address Block        | 255.255.255.255/32         |
+              | Name                 | Broadcast Address          |
+              | RFC                  | This Internet-Draft        |
+              | Allocation Date      | 1981                       |
+              | Termination Date     | N/A                        |
+              | Source               | False                      |
+              | Destination          | False                      |
+              | Forwardable          | False                      |
+              | Global               | False                      |
+              | Reserved-by-Protocol | True                       |
+              +----------------------+----------------------------+
+
 # Implementation status
 
 As of the release of the first version of this draft, Apple OSX and
@@ -198,9 +214,9 @@ reserved [3], including any address within 0.0.0.0/8, 10.0.0.0/8,
 240.0.0.0/4.
 
 This memo removes 240.0.0.0/4 from the martian address spaces, keeping
-the universal broadcast address 255.255.255.255/32. Bogon and martion
+the universal broadcast address 255.255.255.255/32. Bogon and martian
 lists that currently reduce 224/4 and 240/4 to 224/3 MUST be altered
-to suit to block 224/4 and 255.255.255.255/32 only.
+to block 224/4 and 255.255.255.255/32 only.
 
 Firewalls [@!CBR03], packet filters, and intrusion detection systems, 
 MUST be upgraded to be capable of monitoring and managing these addresses.
