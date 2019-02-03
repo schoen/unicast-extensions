@@ -37,7 +37,7 @@ IPv6 more generally available.
 
 ## "Class-E is easy!"
 
-It is.
+It is. Thanks to nearly 10 years of quiet deployment.
 
 So far in our testing, technically, extending IPv4 systems to do Class E (240/4), 0/8, 127/8, and taking out chunks of multicast is a few very short patches.
 
@@ -57,6 +57,6 @@ but CGN networks are wildly popular.
 
 As a totally new address range, making class-e in particular globally
 routable makes it more possible to address other long-standing bugs in
-ipv4 implementations like [zeroth networks](ZEROTH), attempt to make
-more protocols available through NAT (such as udp-lite, sctp), 
+ipv4 implementations like [zeroth networks](ZEROTH.md), attempt to make
+more protocols available through NAT (such as udp-lite, sctp), and so on.
 
