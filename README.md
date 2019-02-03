@@ -1,10 +1,13 @@
-# The IPv4 cleanup project
+# The IPv4 Cleanup Project
+
+Fixing the odd nooks and crannies still mildly broken in IPv4, by:
  - Making class-e (240/4), 0/8, 127/8, 224/4 more usable
  - adding 419 million new IPs to the world
  - fixing [zeroth networking](/ZEROTH.md)
- - improving interop
+ - improving interop with multiple protocols and tunnelling technologies
+ - Supplying tested patches and tools that address these problems
 
-## Some quick github tests to see how wrong I can get this
+## Files
 - [OVERVIEW](OVERVIEW.md)
 - [FAQ](FAQ.md)
 - [ZERO](ZERO.md)
