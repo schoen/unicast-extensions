@@ -255,9 +255,10 @@ firewalled networks.
 
 # Acknowledgements
 
-Jason Ackley, Vint Cerf, Vince Fuller, Stephen Hemminger, Geoff
-Huston, Rob Landley, Elliot Lear, Dan Mahoney, and Paul Wouters all
-made contributions to this document, directly or indirectly.
+Jason Ackley, Vint Cerf, Kevin Darbyshire-Bryant, Vince Fuller,
+Stephen Hemminger, Geoff Huston, Rob Landley, Elliot Lear, Dan
+Mahoney, and Paul Wouters all made contributions to this document,
+directly or indirectly.
 
 {backmatter}
 
