@@ -1,10 +1,10 @@
 %%%
-title = "Reclassifying 240/4 as usable unicast address space"
-abbrev = "classe-u"
+title = "IPv4 Unicast Extension into 240/4"
+abbrev = "240-v4uniext"
 updates = [2827, 3330, 6890, 8190]
 ipr = "trust200902"
 area = "Internet"
-docname = "draft-gilmore-taht-240space"
+docname = "draft-gilmore-taht-240-v4uniext"
 workgroup = "Network Working Group"
 submissiontype = "IETF"
 keyword = [""]
@@ -12,7 +12,7 @@ keyword = [""]
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-gilmore-taht-240space-01"
+value = "draft-gilmore-taht-240-v4uniext-01"
 stream = "IETF"
 status = "standard"
 
@@ -23,12 +23,12 @@ fullname = "John Gilmore"
 #role = "editor"
 organization = "Electronic Frontier Foundation"
   [author.address]
-  email = "gnu@toad.com"
-  phone = "+14152216524"
+  email = "gnu@ietf-id.toad.com"
+  phone = "+1 415 221 6524"
   [author.address.postal]
-  street = "PO Box 170608"
+  street = "PO Box 170608-ietf-id"
   city = "San Francisco"
-  region = "Ca"
+  region = "CA"
   code = "94117"
   country = "USA"
 [[author]]
@@ -39,29 +39,136 @@ fullname = "David M. Täht"
 organization = "TekLibre"
   [author.address]
   email = "dave@taht.net"
-  phone = "+18312059740"
+  phone = "+1 831 205 9740"
   [author.address.postal]
   street = "20600 Aldercroft Heights Rd"
   city = "Los Gatos"
-  region = "Ca"
+  region = "CA"
   code = "95033"
   country = "USA"
 %%%
 
 .# Abstract
 
-This memo reclassifies the address block 240.0.0.0/4 as unicast
-globally rout-able and reachable address space, in recognition that the
-vast majority of operating systems and devices deployed now treat it
-as such.
-
-It directs IANA to make the arrangements for reverse DNS. 
-	
+The set of unicast addresses is the largest and most useful block of
+addresses in the Internet Protocol (IP).  Some portions of the IP address
+space have been "reserved for future use" for decades.  The future
+has arrived!  This memo reclassifies the address block 240.0.0.0/4 as
+globally routable unicast address space.  Most implementations have
+already treated it as such for a decade, and the remainder can and will
+be extended to do so.
+ 	
 {mainmatter}
 
 # Terminology
 
 The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **SHOULD**, **SHOULD NOT**, **RECOMMENDED**, **MAY**, and **OPTIONAL**, when they appear in this document, are to be interpreted as described in [@!RFC2119].
+
+# History
+
+In 1981, the Internet Protocol (IP version 4, IPv4) evolved as a
+replacement for the ARPAnet protocols.  The designers improved on
+ARPAnet's 16-bit address space with IPv4's 32-bit address space.  The
+32-bit address space was clearly chosen as a compromise; its inability
+to address all the nodes that would likely want to use it was known
+from the start, but resource limitations in early routers discouraged
+the use of longer addresses.  [@RFCxxxx] The initial IP design
+designated almost 7/8ths of the possible addresses as Unicast
+addresses.  These addresses identify individual nodes and routers, and
+can be used as source and destination addresses of packets designed to
+be forwarded with full global reachability, and/or for packets on
+local area networks. [@RFC791] [@RFC796] (The term "unicast" only came
+into use when multicast was invented for the Internet protocol
+in 1985.  Initially ALL the existing non-reserved IP addresses were,
+by default, unicast addresses.  [@RFC966])
+
+1/8th of the space was left as "reserved for future use", and a few
+other 256ths were reserved for simple protocol functions or for future
+use.  [@RFC791, section 3.2; @RFC796]
+
+By 1984, Subnets were made part of the IP protocol.  [@RFC917], [@RFC922] Initially, subnets were only used "locally"; the global
+Internet routing infrastructure still only knew how to route to Class
+A, B, and C networks; local equipment in each such network would route
+locally to any local subnets.
+
+Also in 1984, Broadcast addresses were added to IPv4. [@RFC919],
+[@RFC922] This required reserving one IPv4 address within each and
+every network or subnet (the final address in that network or subnet,
+the "all-ones" host address).  The address 255.255.255.255 was also
+reserved to make it easier to broadcast on "a local hardware network"
+without knowing the details of those networks.  This makes broadcast a
+useful mechanism for discovering a node's own address on the network.
+
+The 1984 broadcast extension [@RFC919] also reserved the initial
+(zero) address in each network or subnet, for no particular reason,
+stating that "There is probably no reason for such addresses to appear
+anywhere" with a now-obsolete exception.  They documented a human
+writing convention of designating a "network number" with the zero
+address, such as 36.0.0.0.  This convention has confused subsequent
+protocol designers into thinking that the initial (all-zero) address
+in a network or subnet cannot be used as an ordinary unicast node
+address.
+
+Later 1988 designers chose to allocate 1/16th of the total space (half
+of the formerly reserved space) for Multicast use.  [@RFC1054] While
+multicast was a much better idea than the sole similar former option
+(Broadcast), its use on anything besides local area networks has
+remained a tiny niche, in retrospect clearly not worth designating
+1/16th of the entire address space.  This address space is called
+224/4 in Phil Karn's more modern CIDR notation.  [@RFCxxxx]
+
+By 1989, the revisions to the basic Internet Protocol suite required
+reading dozens and dozens of documents.  The basic requirements for
+Internet hosts and gateways were consolidated into a few documents.
+[@RFC1022], [@RFC1023], @RFC1024]
+
+By 1992, the original network addressing and routing architecture was
+straining at the seams.  The problems were "the lack of a network
+class of a size which is appropriate for mid-sized organization[s]",
+growth of routing tables beyond available capacities, and the
+"eventual exhaustion of the 32-bit IP address space".  [@RFC1338] The
+proposed fix involved an extension of subnetting to "supernetting"
+small Class C addresses, deploying classless routing protocols, and
+generally deprecating the concept of "network address classes".  Each
+network address would be represented by a pair: an address and a mask.
+This proposal reserved the address 0.0.0.0 with mask 0.0.0.0 as the
+"default route" with special rules.  This was adopted in 1993 as
+Classless Inter-Domain Routing (CIDR) for Class C, and half of Class A
+(a quarter of the entire Internet address space) was reserved for
+future subnetting after deployment of more capable routing protocols.
+[@RFC1466], [@RFC1518], [@RFC1519]
+
+By 1995, the implementation of subnetting for "Class A" addresses was
+sufficiently buggy that the IANA began a global experiment by
+allocating 256 subnetted Class A addresses to *every* existing address
+space user, and encouraging them to be used to verify correct
+operation of their gateways and hosts.  [@RFC1797] Even in 1996, large
+parts of the Internet could not correctly subnet Class A addresses.
+[@RFC2036]
+
+The remaining 1/16th of the address space has remained reserved and
+unused in the 30 years since 1981.  [@RFC1054 section 4] This section
+is now called 240/4 in CIDR notation.
+
+One 256ths of the address space initially reserved for protocol
+functions was network 0.  The address 0.0.0.0 was reserved for use
+only as a source address by nodes that do not know their own address
+yet.  [@RFC1122, section 3.2.1.3] Addresses of the form 0.x.y.z were
+initially defined only as a source address for "node number x.y.z on
+THIS NETWORK" by nodes that do not yet know their network prefix yet.
+[@RFC1122, section 3.2.1.3] This definition was later repealed because
+the expected mechanism for learning their network prefix had turned
+out to be unworkable.  [@RFCxxxx] That repeal left 16 million
+addresses reserved for future use.
+
+The other 256th of the address space initially reserved for protocol
+functions was network 127.  The entire set of 16 million addresses of
+the form 127.x.y.z were reserved for "internal host loopback
+addresses" and should never appear as a source or destination address
+on a network outside of a single node.  [@RFC1122, Section 3.2.1.3]
+When IPv6 was designed in the 1990s, this was seen as excessive, and a
+single IPv6 loopback address was defined.  [@RFCxxxx] But in IPv4,
+this reservation has continued to the present day.  [@RFCxxxx]
 
 # Introduction
 
@@ -75,7 +182,11 @@ solutions is inadequate in their own way, and pure IPv6 superior,
 the need for IPv4 address space appears unslakable for the next
 20 years.
 
-Although a market has appeared for existing IPv4 allocations, and small amounts of address space returned to the global pools, demand for IPv4 addressing continues unabated. New edge and data center technologies are creating new demands, and internet-accessible servers will need to be dual stacked for a long time to come.
+Although a market has appeared for existing IPv4 allocations, and
+small amounts of address space returned to the global pools, demand
+for IPv4 addressing continues unabated. New edge and data center
+technologies are creating new demands, and internet-accessible servers
+will need to be dual stacked for a long time to come.
 
 In 2008 [@I.D.FULLER08], and 2010 [@I.D.WILSON10] first proposed that
 the 240/4 address space become usable - the first draft mandating no
