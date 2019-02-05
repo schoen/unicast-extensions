@@ -120,7 +120,7 @@ remained a tiny niche, in retrospect clearly not worth designating
 By 1989, the revisions to the basic Internet Protocol suite required
 reading dozens and dozens of documents.  The basic requirements for
 Internet hosts and gateways were consolidated into a few documents.
-[@!RFC1022], [@!RFC1023], [@!RFC1024]
+[@!RFC1022;@!RFC1023;@!RFC1024]
 
 By 1992, the original network addressing and routing architecture was
 straining at the seams.  The problems were "the lack of a network
@@ -219,21 +219,21 @@ allocations such as using /32 rather than /30 networks.
 # Address space
 
 {#fig-240}
-              +----------------------+----------------------------+
-              | Attribute            | Value                      |
-              +----------------------+----------------------------+
-              | Address Block        | 240.0.0.0/4                |
-              |                      | (except 255.255.255.255)   |
-              | Name                 | Ordinary Unicast Addresses |
-              | RFC                  | This Internet-Draft        |
-              | Allocation Date      | 2019                       |
-              | Termination Date     | N/A                        |
-              | Source               | True                       |
-              | Destination          | True                       |
-              | Forwardable          | True                       |
-              | Global               | True                       |
-              | Reserved-by-Protocol | False                      |
-              +----------------------+----------------------------+
+           +----------------------+----------------------------+
+           | Attribute            | Value                      |
+           +----------------------+----------------------------+
+           | Address Block        | 240.0.0.0/4                |
+           |                      | (except 255.255.255.255)   |
+           | Name                 | Ordinary Unicast Addresses |
+           | RFC                  | This Internet-Draft        |
+           | Allocation Date      | 2019                       |
+           | Termination Date     | N/A                        |
+           | Source               | True                       |
+           | Destination          | True                       |
+           | Forwardable          | True                       |
+           | Global               | True                       |
+           | Reserved-by-Protocol | False                      |
+           +----------------------+----------------------------+
 
 The broadcast address, 255.255.255.255, still must be treated
 specially in each case: it is illegal as a source IP address, it is
@@ -241,20 +241,20 @@ illegal as an network interface address, and it matches the local
 system when used as the destination address in a received datagram.
 
 {#fig-255}
-              +----------------------+----------------------------+
-              | Attribute            | Value                      |
-              +----------------------+----------------------------+
-              | Address Block        | 255.255.255.255/32         |
-              | Name                 | Broadcast Address          |
-              | RFC                  | This Internet-Draft        |
-              | Allocation Date      | 1981                       |
-              | Termination Date     | N/A                        |
-              | Source               | False                      |
-              | Destination          | False                      |
-              | Forwardable          | False                      |
-              | Global               | False                      |
-              | Reserved-by-Protocol | True                       |
-              +----------------------+----------------------------+
+          +----------------------+----------------------------+
+          | Attribute            | Value                      |
+          +----------------------+----------------------------+
+          | Address Block        | 255.255.255.255/32         |
+          | Name                 | Broadcast Address          |
+          | RFC                  | This Internet-Draft        |
+          | Allocation Date      | 1981                       |
+          | Termination Date     | N/A                        |
+          | Source               | False                      |
+          | Destination          | False                      |
+          | Forwardable          | False                      |
+          | Global               | False                      |
+          | Reserved-by-Protocol | True                       |
+          +----------------------+----------------------------+
 
 # Implementation status
 
