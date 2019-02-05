@@ -72,34 +72,34 @@ ARPAnet's 16-bit address space with IPv4's 32-bit address space.  The
 32-bit address space was clearly chosen as a compromise; its inability
 to address all the nodes that would likely want to use it was known
 from the start, but resource limitations in early routers discouraged
-the use of longer addresses.  [@!RFC760] The initial IP design
+the use of longer addresses.  @!RFC760 The initial IP design
 designated almost 7/8ths of the possible addresses as Unicast
 addresses.  These addresses identify individual nodes and routers, and
 can be used as source and destination addresses of packets designed to
 be forwarded with full global reachability, and/or for packets on
-local area networks. [@!RFC791] [@!RFC796] (The term "unicast" only came
+local area networks. @!RFC791; @!RFC796 (The term "unicast" only came
 into use when multicast was invented for the Internet protocol
 in 1985.  Initially ALL the existing non-reserved IP addresses were,
-by default, unicast addresses.  [@!RFC966])
+by default, unicast addresses.  @!RFC966)
 
 1/8th of the space was left as "reserved for future use", and a few
 other 256ths were reserved for simple protocol functions or for future
-use.  [@!RFC791, section 3.2;] [@!RFC796]
+use.  @!RFC791(#3.2) @!RFC796
 
-By 1984, Subnets were made part of the IP protocol.  [@!RFC917], [@!RFC922] Initially, subnets were only used "locally"; the global
+By 1984, Subnets were made part of the IP protocol.  @!RFC917, @!RFC922 Initially, subnets were only used "locally"; the global
 Internet routing infrastructure still only knew how to route to Class
 A, B, and C networks; local equipment in each such network would route
 locally to any local subnets.
 
-Also in 1984, Broadcast addresses were added to IPv4. [@!RFC919],
-[@!RFC922] This required reserving one IPv4 address within each and
+Also in 1984, Broadcast addresses were added to IPv4. @!RFC919,
+@!RFC922 This required reserving one IPv4 address within each and
 every network or subnet (the final address in that network or subnet,
 the "all-ones" host address).  The address 255.255.255.255 was also
 reserved to make it easier to broadcast on "a local hardware network"
 without knowing the details of those networks.  This makes broadcast a
 useful mechanism for discovering a node's own address on the network.
 
-The 1984 broadcast extension [@!RFC919] also reserved the initial
+The 1984 broadcast extension @!RFC919 also reserved the initial
 (zero) address in each network or subnet, for no particular reason,
 stating that "There is probably no reason for such addresses to appear
 anywhere" with a now-obsolete exception.  They documented a human
@@ -147,16 +147,16 @@ parts of the Internet could not correctly subnet Class A addresses.
 [@!RFC2036]
 
 The remaining 1/16th of the address space has remained reserved and
-unused in the 30 years since 1981.  [@!RFC1054 section 4] This section
+unused in the 30 years since 1981.  [@!RFC1054]#4 This section
 is now called 240/4 in CIDR notation.
 
 One 256ths of the address space initially reserved for protocol
 functions was network 0.  The address 0.0.0.0 was reserved for use
 only as a source address by nodes that do not know their own address
-yet.  [@!RFC1122, section 3.2.1.3] Addresses of the form 0.x.y.z were
+yet.  [@!RFC1122](#3.2.1.3) Addresses of the form 0.x.y.z were
 initially defined only as a source address for "node number x.y.z on
 THIS NETWORK" by nodes that do not yet know their network prefix yet.
-[@!RFC1122, section 3.2.1.3] This definition was later repealed because
+[@!RFC1122](#3.2.1.3) This definition was later repealed because
 the expected mechanism for learning their network prefix had turned
 out to be unworkable.  FIXME: @!RFCxxxx That repeal left 16 million
 addresses reserved for future use.
@@ -165,10 +165,11 @@ The other 256th of the address space initially reserved for protocol
 functions was network 127.  The entire set of 16 million addresses of
 the form 127.x.y.z were reserved for "internal host loopback
 addresses" and should never appear as a source or destination address
-on a network outside of a single node.  [@!RFC1122, Section 3.2.1.3]
+on a network outside of a single node.  [@!RFC1122](#3.2.1.3)
 When IPv6 was designed in the 1990s, this was seen as excessive, and a
 single IPv6 loopback address was defined.  FIXME: @!RFCxxxx But in IPv4,
 this reservation has continued to the present day.  FIXME: @!RFCxxxx
+
 
 # Introduction
 
