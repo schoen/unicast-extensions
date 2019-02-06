@@ -10,18 +10,19 @@ Intended status: Standards Track                        February 5, 2019
 Expires: August 9, 2019
 
 
-                   IPv4 Unicast Extension into 240/4
+                    The IPv4 240/4 Unicast Extension
                    draft-gilmore-taht-240-v4uniext-01
 
 Abstract
 
    The set of unicast addresses is the largest and most useful block of
    addresses in the Internet Protocol (IP).  Some portions of the IP
-   address space have been "reserved for future use" for decades.  The
-   future has arrived!  This memo reclassifies the address block
-   240.0.0.0/4 as globally routable unicast address space.  Most
-   implementations have already treated it as such for a decade, and the
-   remainder can and will be extended to do so.
+   address space have been "reserved for future use" for decades.
+
+   This memo reclassifies the address block 240.0.0.0/4 as globally
+   routable unicast address space.  Most implementations have already
+   treated it as such for a decade, and the remainder can and will be
+   extended to do so.
 
 Status of This Memo
 
@@ -49,7 +50,6 @@ Copyright Notice
    Provisions Relating to IETF Documents
    (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
 
 
 
@@ -58,6 +58,7 @@ Gilmore & Taeht          Expires August 9, 2019                 [Page 1]
 Internet-Draft                240-v4uniext                 February 2019
 
 
+   carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
    the Trust Legal Provisions and are provided without warranty as
@@ -67,21 +68,20 @@ Table of Contents
 
    1.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  History . . . . . . . . . . . . . . . . . . . . . . . . . . .   2
-   3.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   5
-   4.  Address space . . . . . . . . . . . . . . . . . . . . . . . .   6
-   5.  Implementation status . . . . . . . . . . . . . . . . . . . .   6
-   6.  Implementation guidelines . . . . . . . . . . . . . . . . . .   7
-     6.1.  Allow configuration . . . . . . . . . . . . . . . . . . .   7
-     6.2.  Repair IN_MULTICAST and limit IN_EXPERIMENTAL macros  . .   7
-     6.3.  Remove 240/4 from Martian Addresses and Bogon Lists . . .   8
-     6.4.  Enable Reverse DNS for 255.0.0.0/8  . . . . . . . . . . .   8
-   7.  Related Work  . . . . . . . . . . . . . . . . . . . . . . . .   8
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   9
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .   9
-     11.2.  Informative References . . . . . . . . . . . . . . . . .  11
+   3.  Address space . . . . . . . . . . . . . . . . . . . . . . . .   5
+   4.  Implementation status . . . . . . . . . . . . . . . . . . . .   6
+   5.  Implementation guidelines . . . . . . . . . . . . . . . . . .   7
+     5.1.  Allow configuration . . . . . . . . . . . . . . . . . . .   7
+     5.2.  Repair IN_MULTICAST and limit IN_EXPERIMENTAL macros  . .   7
+     5.3.  Remove 240/4 from Martian Addresses and Bogon Lists . . .   8
+     5.4.  Enable Reverse DNS for 255.0.0.0/8  . . . . . . . . . . .   8
+   6.  Related Work  . . . . . . . . . . . . . . . . . . . . . . . .   8
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   9.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   9
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .   9
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  11
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
 
 1.  Terminology
@@ -92,20 +92,20 @@ Table of Contents
 
 2.  History
 
-   In 1981, the Internet Protocol (IP version 4, IPv4) evolved as a
+   In 1981, the Internet Protocol (IP version 4, IPv4) landed as a
    replacement for the ARPAnet protocols.  The designers improved on
    ARPAnet's 16-bit address space with IPv4's 32-bit address space.  The
    32-bit address space was clearly chosen as a compromise; its
    inability to address all the nodes that would likely want to use it
    was known from the start, but resource limitations in early routers
-   discouraged the use of longer addresses.  @!RFC760 The initial IP
-   design designated almost 7/8ths of the possible addresses as Unicast
-   addresses.  These addresses identify individual nodes and routers,
-   and can be used as source and destination addresses of packets
-   designed to be forwarded with full global reachability, and/or for
-   packets on local area networks. @!RFC791; @!RFC796 (The term
-   "unicast" only came into use when multicast was invented for the
+   discouraged the use of longer addresses.  @!RFC760
 
+   The initial IP design designated almost 7/8ths of the possible
+   addresses as Unicast addresses.  These addresses identified
+   individual nodes and routers, and could be used as source and
+   destination addresses of packets designed to be forwarded with full
+   global reachability, and/or for packets on local area networks.
+   @!RFC791; @!RFC796 The term "unicast" only came into use when
 
 
 
@@ -114,54 +114,54 @@ Gilmore & Taeht          Expires August 9, 2019                 [Page 2]
 Internet-Draft                240-v4uniext                 February 2019
 
 
-   Internet protocol in 1985.  Initially ALL the existing non-reserved
-   IP addresses were, by default, unicast addresses.  @!RFC966)
+   multicast was invented for the Internet protocol in 1985.  Initially
+   ALL the existing non-reserved IP addresses were, by default, unicast
+   addresses.  @!RFC966
 
-   1/8th of the space was left as "reserved for future use", and a few
-   other 256ths were reserved for simple protocol functions or for
-   future use.  @!RFC791(#3.2) @!RFC796
+   1/8th of the 32 bit address space was left as "reserved for future
+   use", and a few other 256ths were reserved for simple protocol
+   functions or for future use.  @!RFC791(#3.2) @!RFC796
 
-   By 1984, Subnets were made part of the IP protocol.  @!RFC917,
-   @!RFC922 Initially, subnets were only used "locally"; the global
-   Internet routing infrastructure still only knew how to route to Class
-   A, B, and C networks; local equipment in each such network would
-   route locally to any local subnets.
+   By 1984, subnets were made part of the IP protocol.  @!RFC917,
+   @!RFC922
 
-   Also in 1984, Broadcast addresses were added to IPv4. @!RFC919,
+   Initially, subnets were only used "locally"; the global Internet
+   routing infrastructure still only knew how to route to Class A, B,
+   and C networks; local equipment in each such network would route
+   locally to any local subnets.
+
+   Also in 1984, broadcast addresses were added to IPv4. @!RFC919,
    @!RFC922 This required reserving one IPv4 address within each and
    every network or subnet (the final address in that network or subnet,
    the "all-ones" host address).  The address 255.255.255.255 was also
    reserved to make it easier to broadcast on "a local hardware network"
-   without knowing the details of those networks.  This makes broadcast
-   a useful mechanism for discovering a node's own address on the
-   network.
+   without knowing the details of those networks.  This made broadcast a
+   useful mechanism for discovering a node's own address on the network.
 
-   The 1984 broadcast extension @!RFC919 also reserved the initial
-   (zero) address in each network or subnet, for no particular reason,
+   The 1984 broadcast extension also reserved the initial (zero) address
+   in each network or subnet, for no particular reason, with @!RFC919
    stating that "There is probably no reason for such addresses to
-   appear anywhere" with a now-obsolete exception.  They documented a
+   appear anywhere" with a now-obsolete exception.  It documented a
    human writing convention of designating a "network number" with the
    zero address, such as 36.0.0.0.  This convention has confused
    subsequent protocol designers into thinking that the initial (all-
    zero) address in a network or subnet cannot be used as an ordinary
    unicast node address.
 
-   Later 1988 designers chose to allocate 1/16th of the total space
-   (half of the formerly reserved space) for Multicast use.  [RFC1054]
+   Later (1988) designers chose to allocate 1/16th of the total space
+   (half of the formerly reserved space) for multicast use.  [RFC1054]
    While multicast was a much better idea than the sole similar former
-   option (Broadcast), its use on anything besides local area networks
+   option (broadcast), its use on anything besides local area networks
    has remained a tiny niche, in retrospect clearly not worth
-   designating 1/16th of the entire address space.  This address space
-   is called 224/4 in Phil Karn's more modern CIDR notation.  FIXME:
-   @!RFCxxxx
+   designating 1/16th of the entire address space for.  This address
+   space is called 224/4 in Phil Karn's more modern CIDR [RFC4632]
+   notation.
 
    By 1989, the revisions to the basic Internet Protocol suite required
    reading dozens and dozens of documents.  The basic requirements for
    Internet hosts and gateways were consolidated into a few documents.
    [RFC1022][RFC1023][RFC1024]
 
-   By 1992, the original network addressing and routing architecture was
-   straining at the seams.  The problems were "the lack of a network
 
 
 
@@ -170,34 +170,36 @@ Gilmore & Taeht          Expires August 9, 2019                 [Page 3]
 Internet-Draft                240-v4uniext                 February 2019
 
 
+   By 1992, the original network addressing and routing architecture was
+   straining at the seams.  The problems were "the lack of a network
    class of a size which is appropriate for mid-sized organization[s]",
    growth of routing tables beyond available capacities, and the
-   "eventual exhaustion of the 32-bit IP address space".  [RFC1338] The
-   proposed fix involved an extension of subnetting to "supernetting"
-   small Class C addresses, deploying classless routing protocols, and
-   generally deprecating the concept of "network address classes".  Each
-   network address would be represented by a pair: an address and a
-   mask.  This proposal reserved the address 0.0.0.0 with mask 0.0.0.0
-   as the "default route" with special rules.  This was adopted in 1993
-   as Classless Inter-Domain Routing (CIDR) for Class C, and half of
-   Class A (a quarter of the entire Internet address space) was reserved
-   for future subnetting after deployment of more capable routing
-   protocols.  [RFC1466], [RFC1518], [RFC1519]
+   "eventual exhaustion of the 32-bit IP address space" as documented in
+   [RFC1338].  The proposed fix involved an extension of subnetting to
+   "supernetting" small Class C addresses, deploying classless routing
+   protocols, and generally deprecating the concept of "network address
+   classes".  Each network address would be represented by a pair: an
+   address and a mask.  This proposal reserved the address 0.0.0.0 with
+   mask 0.0.0.0 as the "default route" with special rules.  This was
+   adopted in 1993 as Classless Inter-Domain Routing (CIDR) for Class C,
+   and half of Class A (a quarter of the entire Internet address space)
+   was reserved for future subnetting after deployment of more capable
+   routing protocols.  [RFC1466], [RFC1518], [RFC1519]
 
    By 1995, the implementation of subnetting for "Class A" addresses was
    sufficiently buggy that the IANA began a global experiment by
    allocating 256 subnetted Class A addresses to _every_ existing
    address space user, and encouraging them to be used to verify correct
-   operation of their gateways and hosts.  [RFC1797] Even in 1996, large
-   parts of the Internet could not correctly subnet Class A addresses.
-   [RFC2036]
+   operation of their gateways and hosts.  [RFC1797] Even in 1996,
+   [RFC2036] described that large parts of the Internet could not
+   correctly subnet Class A addresses.
 
-   The remaining 1/16th of the address space has remained reserved and
-   unused in the 30 years since 1981.  [RFC1054]#4 This section is now
-   called 240/4 in CIDR notation.
+   The remaining 1/16th of the "EXPERIMENTAL" portion of the address
+   space has remained reserved and unused in the 38 years since 1981.
+   [RFC1054]#4 This portion is now called 240/4 in CIDR notation.
 
-   One 256ths of the address space initially reserved for protocol
-   functions was network 0.  The address 0.0.0.0 was reserved for use
+   1/256th of the address space initially reserved for protocol
+   functions was "network 0".  The address 0.0.0.0 was reserved for use
    only as a source address by nodes that do not know their own address
    yet.  [RFC1122](#3.2.1.3) Addresses of the form 0.x.y.z were
    initially defined only as a source address for "node number x.y.z on
@@ -212,11 +214,9 @@ Internet-Draft                240-v4uniext                 February 2019
    the form 127.x.y.z were reserved for "internal host loopback
    addresses" and should never appear as a source or destination address
    on a network outside of a single node.  [RFC1122](#3.2.1.3) When IPv6
-   was designed in the 1990s, this was seen as excessive, and a single
-   IPv6 loopback address was defined.  FIXME: @!RFCxxxx But in IPv4,
-   this reservation has continued to the present day.  FIXME: @!RFCxxxx
-
-
+   was designed in the 1990s, this was seen as excessive, and in
+   [RFC1884] the single IPv6 loopback address was defined.  But: in
+   IPv4, this reservation has continued to the present day.
 
 
 
@@ -225,8 +225,6 @@ Gilmore & Taeht          Expires August 9, 2019                 [Page 4]
 
 Internet-Draft                240-v4uniext                 February 2019
 
-
-3.  Introduction
 
    Much has changed since the 240/4 address range was first set aside as
    EXPERIMENTAL.
@@ -271,6 +269,8 @@ Internet-Draft                240-v4uniext                 February 2019
    to address other long standing problems in the IPv4 blocks in new
    allocations such as using /32 rather than /30 networks.
 
+3.  Address space
+
 
 
 
@@ -281,8 +281,6 @@ Gilmore & Taeht          Expires August 9, 2019                 [Page 5]
 
 Internet-Draft                240-v4uniext                 February 2019
 
-
-4.  Address space
 
           +----------------------+----------------------------+
           | Attribute            | Value                      |
@@ -324,12 +322,14 @@ Internet-Draft                240-v4uniext                 February 2019
 
                                  Figure 2
 
-5.  Implementation status
+4.  Implementation status
 
    As of the release of the first version of this draft, Apple OSX and
    Apple IOS have been confirmed to support the use of 240.0.0.0/4 as
    unicast, globally reachable address space.  Solaris, Linux, Android,
    and FreeBSD all treat it as such.  These operating systems have
+   supported 240/4 since 2008.  Four out of the top 5 open source IoT
+   stacks, also treat 240/4 as unicast, with a 3 line patch awaiting
 
 
 
@@ -338,8 +338,6 @@ Gilmore & Taeht          Expires August 9, 2019                 [Page 6]
 Internet-Draft                240-v4uniext                 February 2019
 
 
-   supported 240/4 since 2008.  Four out of the top 5 open source IoT
-   stacks, also treat 240/4 as unicast, with a 3 line patch awaiting
    submission for the last.  The [RFC6126] Babel routing protocol fully
    supports 240/4, and patches have been submitted to the BGP/OSPF/ISIS/
    etc capable routing daemon projects, "Bird", and "FRR".
@@ -348,12 +346,12 @@ Internet-Draft                240-v4uniext                 February 2019
    Microsoft Windows, however Windows developers are aware of the work
    required and are considering it for a future version.
 
-6.  Implementation guidelines
+5.  Implementation guidelines
 
    The following guidelines have been developed via [IPv4CLEANUP]
    project.
 
-6.1.  Allow configuration
+5.1.  Allow configuration
 
    In Linux - patches were accepted into Linux 4.20 and backported into
    OpenWrt to allow for the assignment of 240/4 addresses via the
@@ -368,7 +366,7 @@ Internet-Draft                240-v4uniext                 February 2019
    we have scanned has any limitations regarding usage of these
    addresses.
 
-6.2.  Repair IN_MULTICAST and limit IN_EXPERIMENTAL macros
+5.2.  Repair IN_MULTICAST and limit IN_EXPERIMENTAL macros
 
    One stack conflated an IN_MULTICAST check with the 240/4 address
    space.  e.g.
@@ -384,7 +382,9 @@ Internet-Draft                240-v4uniext                 February 2019
    userspace, some binary applications may have trouble reaching 240/4
    until recompiled.
 
-
+   The almost entirely unused IN_EXPERIMENTAL macro also has been
+   revised to check for 255.255.255.255 only as a backwards compatible
+   mechanism.
 
 
 
@@ -394,16 +394,12 @@ Gilmore & Taeht          Expires August 9, 2019                 [Page 7]
 Internet-Draft                240-v4uniext                 February 2019
 
 
-   The almost entirely unused IN_EXPERIMENTAL macro also has been
-   revised to check for 255.255.255.255 only as a backwards compatible
-   mechanism.
-
    Other network stacks and applications bury these checks deep in their
    libraries, however, searches for a key phrase of multicast usually
    turns up whatever code nearby that might need to be patched to fix
    it.
 
-6.3.  Remove 240/4 from Martian Addresses and Bogon Lists
+5.3.  Remove 240/4 from Martian Addresses and Bogon Lists
 
    [RFC2827] recommends that ISPs police their customers' traffic by
    dropping traffic entering their networks that is coming from a source
@@ -426,7 +422,7 @@ Internet-Draft                240-v4uniext                 February 2019
    Routing protocols MUST treat these as unicast, globally routable
    addresses.
 
-6.4.  Enable Reverse DNS for 255.0.0.0/8
+5.4.  Enable Reverse DNS for 255.0.0.0/8
 
    Common deployments of the BIND routing daemon (e.g.  Debian) map
    reverse DNS for 255. to a local empty domain and do not forward
@@ -434,7 +430,7 @@ Internet-Draft                240-v4uniext                 February 2019
    such a limit, with modern versions correctly intercepting
    255.255.255.255 only.
 
-7.  Related Work
+6.  Related Work
 
    The last attempts at making more IPv4 address space occurred in the
    2008-2010 timeframe, with proposals for making it pure public
@@ -443,6 +439,10 @@ Internet-Draft                240-v4uniext                 February 2019
    in the IETF, however the first step - making 240/4 actually work -
    was almost universally adopted in the field.
 
+   It is presently unknown if any organization is making use of 240/4.
+
+
+
 
 
 Gilmore & Taeht          Expires August 9, 2019                 [Page 8]
@@ -450,14 +450,12 @@ Gilmore & Taeht          Expires August 9, 2019                 [Page 8]
 Internet-Draft                240-v4uniext                 February 2019
 
 
-   It is presently unknown if any organization is making use of 240/4.
-
-8.  IANA Considerations
+7.  IANA Considerations
 
    IANA is directed to make the 240/4 address space available as reverse
-   dns space in in-addr.arpa.
+   DNS space in in-addr.arpa.
 
-9.  Security Considerations
+8.  Security Considerations
 
    Presently access to the 240/4 block is mostly assumed to be managed
    somewhere along the edge of the network, and wider availability
@@ -466,16 +464,16 @@ Internet-Draft                240-v4uniext                 February 2019
    but thought needs to be given to any additional security exposures to
    existing firewalled networks.
 
-10.  Acknowledgements
+9.  Acknowledgements
 
    Jason Ackley, Vint Cerf, Kevin Darbyshire-Bryant, Vince Fuller,
    Stephen Hemminger, Geoff Huston, Rob Landley, Elliot Lear, Dan
    Mahoney, and Paul Wouters all made contributions to this document,
    directly or indirectly.
 
-11.  References
+10.  References
 
-11.1.  Normative References
+10.1.  Normative References
 
    [CBR03]    Cheswick, W., Bellovin, S., and A. Rubin, "Firewalls and
               Internet Security: Repelling the Wily Hacker, Second
@@ -497,6 +495,8 @@ Internet-Draft                240-v4uniext                 February 2019
    [RFC1054]  Deering, S., "Host extensions for IP multicasting",
               RFC 1054, DOI 10.17487/RFC1054, May 1988,
               <https://www.rfc-editor.org/info/rfc1054>.
+
+
 
 
 
@@ -533,6 +533,10 @@ Internet-Draft                240-v4uniext                 February 2019
               Subnet Experiment", RFC 1797, DOI 10.17487/RFC1797, April
               1995, <https://www.rfc-editor.org/info/rfc1797>.
 
+   [RFC1884]  Hinden, R., Ed. and S. Deering, Ed., "IP Version 6
+              Addressing Architecture", RFC 1884, DOI 10.17487/RFC1884,
+              December 1995, <https://www.rfc-editor.org/info/rfc1884>.
+
    [RFC1918]  Rekhter, Y., Moskowitz, B., Karrenberg, D., de Groot, G.,
               and E. Lear, "Address Allocation for Private Internets",
               BCP 5, RFC 1918, DOI 10.17487/RFC1918, February 1996,
@@ -548,10 +552,6 @@ Internet-Draft                240-v4uniext                 February 2019
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-   [RFC2827]  Ferguson, P. and D. Senie, "Network Ingress Filtering:
-              Defeating Denial of Service Attacks which employ IP Source
-              Address Spoofing", BCP 38, RFC 2827, DOI 10.17487/RFC2827,
-              May 2000, <https://www.rfc-editor.org/info/rfc2827>.
 
 
 
@@ -561,6 +561,16 @@ Gilmore & Taeht          Expires August 9, 2019                [Page 10]
 
 Internet-Draft                240-v4uniext                 February 2019
 
+
+   [RFC2827]  Ferguson, P. and D. Senie, "Network Ingress Filtering:
+              Defeating Denial of Service Attacks which employ IP Source
+              Address Spoofing", BCP 38, RFC 2827, DOI 10.17487/RFC2827,
+              May 2000, <https://www.rfc-editor.org/info/rfc2827>.
+
+   [RFC4632]  Fuller, V. and T. Li, "Classless Inter-domain Routing
+              (CIDR): The Internet Address Assignment and Aggregation
+              Plan", BCP 122, RFC 4632, DOI 10.17487/RFC4632, August
+              2006, <https://www.rfc-editor.org/info/rfc4632>.
 
    [RFC6126]  Chroboczek, J., "The Babel Routing Protocol", RFC 6126,
               DOI 10.17487/RFC6126, April 2011,
@@ -581,7 +591,7 @@ Internet-Draft                240-v4uniext                 February 2019
               DOI 10.17487/RFC7289, June 2014,
               <https://www.rfc-editor.org/info/rfc7289>.
 
-11.2.  Informative References
+10.2.  Informative References
 
    [I.D.FULLER08]
               Fuller, V., Lear, E., and D. Meyer, "240 address space",
@@ -596,16 +606,6 @@ Internet-Draft                240-v4uniext                 February 2019
 
 Authors' Addresses
 
-   John Gilmore
-   Electronic Frontier Foundation
-   PO Box 170608-ietf-id
-   San Francisco, CA  94117
-   USA
-
-   Phone: +1 415 221 6524
-   Email: gnu@ietf-id.toad.com
-
-
 
 
 
@@ -618,6 +618,16 @@ Gilmore & Taeht          Expires August 9, 2019                [Page 11]
 Internet-Draft                240-v4uniext                 February 2019
 
 
+   John Gilmore
+   Electronic Frontier Foundation
+   PO Box 170608-ietf-id
+   San Francisco, CA  94117
+   USA
+
+   Phone: +1 415 221 6524
+   Email: gnu@ietf-id.toad.com
+
+
    David M. Taeht
    TekLibre
    20600 Aldercroft Heights Rd
@@ -626,16 +636,6 @@ Internet-Draft                240-v4uniext                 February 2019
 
    Phone: +1 831 205 9740
    Email: dave@taht.net
-
-
-
-
-
-
-
-
-
-
 
 
 
