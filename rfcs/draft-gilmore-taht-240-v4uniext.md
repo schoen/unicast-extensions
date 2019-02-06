@@ -135,7 +135,7 @@ uselessly consume all available network bandwidth until manually stopped.  The o
 implementation was upgraded in the subsequent 4.3 BSD release to meet the standards.  The problem has
 not recurred for decades, but a remnant of the gaffe exists in the
 prohibition on using the zero node address in a network or subnet.
-[@!RFC1122 (section FIXME)]
+[@!RFC1122] (section FIXME)]
 
 Later (1988) designers chose to allocate 1/16th of the total space
 (half of the formerly reserved space) for multicast use.  [@!RFC1054]
@@ -240,7 +240,7 @@ this talking about?
 # Unicast use of address space formerly reserved for future use
 
 The attributes of blocks of address space are described by the IANA and
-in IETF publications by structured, boxed tables; see [@RFCxxxx] FIXME.
+in IETF publications by structured, boxed tables; see @RFCxxxx FIXME.
 This document proposes replacing the former description tables of these
 blocks, with those included in this document.
 
