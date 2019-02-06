@@ -354,7 +354,7 @@ It is presently unknown if any organization is making use of 240/4.
 # IANA Considerations
 
 IANA is directed to make the 240/4 address space available as reverse
-dns space in in-addr.arpa.
+DNS space in in-addr.arpa.
 
 # Security Considerations
 
