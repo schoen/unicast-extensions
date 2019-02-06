@@ -1,5 +1,5 @@
 %%%
-title = "IPv4 Unicast Extension into 240/4"
+title = "The IPv4 240/4 Unicast Extension"
 abbrev = "240-v4uniext"
 updates = [2827, 3330, 6890, 8190]
 ipr = "trust200902"
@@ -52,11 +52,12 @@ organization = "TekLibre"
 
 The set of unicast addresses is the largest and most useful block of
 addresses in the Internet Protocol (IP).  Some portions of the IP address
-space have been "reserved for future use" for decades.  The future
-has arrived!  This memo reclassifies the address block 240.0.0.0/4 as
-globally routable unicast address space.  Most implementations have
-already treated it as such for a decade, and the remainder can and will
-be extended to do so.
+space have been "reserved for future use" for decades. 
+
+This memo reclassifies the address block 240.0.0.0/4 as globally
+routable unicast address space.  Most implementations have already
+treated it as such for a decade, and the remainder can and will be
+extended to do so.
  	
 {mainmatter}
 
