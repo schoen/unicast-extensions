@@ -52,7 +52,7 @@ organization = "TekLibre"
 
 The set of unicast addresses is the largest and most useful block of
 addresses in the Internet Protocol (IP).  Some portions of the IP address
-space have been "reserved for future use" for decades. 
+space have been "reserved for future use" for decades.  The future has arrived.
 
 This memo reclassifies the address block 240.0.0.0/4 as globally
 routable unicast address space.  Most implementations have already
@@ -67,33 +67,47 @@ The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **S
 
 # History
 
-In 1981, the Internet Protocol (IP version 4, IPv4) landed as a
-replacement for the ARPAnet protocols.  The designers improved on
+The Internet Protocol's addressing model started off simple and has evolved
+over 40 years.  This Internet-Draft briefly summarizes that evolution, and
+proposes that as the IP approaches the end of its design life, significant
+benefits to the Internet community can ensue from simplifying a few of
+the vestigial choices made during that evolution.
+
+The Internet Protocol (IP version 4, IPv4) was designed from scratch
+as a replacement for the ARPAnet protocols.  Rather than enforcing
+uniformity, it followed the "Catenet Model" of a concatenated network
+of diversely implemented underlying networks, connected by simple and
+relatively memoryless gateways. @IEN48 By the year 1981, IPv4 had landed
+as a simple and well-edited specification. @!RFC791
+
+The designers improved on
 ARPAnet's 16-bit address space with IPv4's 32-bit address space.  The
 32-bit address space was clearly chosen as a compromise; its inability
 to address all the nodes that would likely want to use it was known
 from the start, but resource limitations in early routers discouraged
-the use of longer addresses.  @!RFC760 
+the use of longer addresses.  @!RFC760  FIXME, we still don't have a good
+ref for this assertion.
 
 The initial IP design designated almost 7/8ths of the possible
 addresses as Unicast addresses.  These addresses identified individual
 nodes and routers, and could be used as source and destination addresses
 of packets designed to be forwarded with full global reachability,
-and/or for packets on local area networks. @!RFC791; @!RFC796 The
+and/or for packets on local area networks. @!RFC791; @!RFC796  (The
 term "unicast" only came into use when multicast was invented for the
 Internet protocol in 1985.  Initially ALL the existing non-reserved IP
-addresses were, by default, unicast addresses.  @!RFC966
+addresses were, by default, unicast addresses.  @!RFC966)
 
-1/8th of the 32 bit address space was left as "reserved for future
+1/8th of the 32-bit address space was left as "reserved for future
 use", and a few other 256ths were reserved for simple protocol
 functions or for future use.  @!RFC791(#3.2) @!RFC796
 
 By 1984, subnets were made part of the IP protocol.  @!RFC917, @!RFC922 
 
-Initially, subnets were only used "locally"; the global
+Initially, subnets were only used "locally".  The global
 Internet routing infrastructure still only knew how to route to Class
-A, B, and C networks; local equipment in each such network would route
-locally to any local subnets.
+A, B, and C networks.  Local equipment in each such network could route
+locally to any local subnets, such as multiple Ethernets on a university
+campus.
 
 Also in 1984, broadcast addresses were added to IPv4. @!RFC919,
 @!RFC922 This required reserving one IPv4 address within each and
@@ -104,14 +118,24 @@ without knowing the details of those networks.  This made broadcast a
 useful mechanism for discovering a node's own address on the network.
 
 The 1984 broadcast extension also reserved the initial (zero) address
-in each network or subnet, for no particular reason, with @!RFC919
+in each network or subnet, with @!RFC919
 stating that "There is probably no reason for such addresses to appear
-anywhere" with a now-obsolete exception.  It documented a human
+anywhere", with a now-obsolete exception.  It also, apparently by coincidence, documented a human
 writing convention of designating a "network number" with the zero
 address, such as 36.0.0.0.  This convention has confused subsequent
-protocol designers into thinking that the initial (all-zero) address
+protocol users into thinking that the initial (zero) address
 in a network or subnet cannot be used as an ordinary unicast node
 address.
+
+During that era, there was confusion in one popular IPv4 implementation, 4.2 BSD, which used
+the zero node address for broadcast, rather than the all-ones node
+address.  When these mismatched implementations tried to 
+interoperate on an Ethernet, it was easy to produce "broadcast storms" that would
+uselessly consume all available network bandwidth until manually stopped.  The offending
+implementation was upgraded in the subsequent 4.3 BSD release to meet the standards.  The problem has
+not recurred for decades, but a remnant of the gaffe exists in the
+prohibition on using the zero node address in a network or subnet.
+[@!RFC1122 (section FIXME)]
 
 Later (1988) designers chose to allocate 1/16th of the total space
 (half of the formerly reserved space) for multicast use.  [@!RFC1054]
@@ -132,7 +156,7 @@ class of a size which is appropriate for mid-sized organization[s]",
 growth of routing tables beyond available capacities, and the
 "eventual exhaustion of the 32-bit IP address space" as documented in
 [@!RFC1338]. The proposed fix involved an extension of subnetting to
-"supernetting" small Class C addresses, deploying classless routing
+"supernetting" multiple Class C networks, deploying classless routing
 protocols, and generally deprecating the concept of "network address
 classes".  Each network address would be represented by a pair: an
 address and a mask.  This proposal reserved the address 0.0.0.0 with
@@ -159,8 +183,7 @@ was "network 0".  The address 0.0.0.0 was reserved for use only as a
 source address by nodes that do not know their own address
 yet.  [@!RFC1122](#3.2.1.3) Addresses of the form 0.x.y.z were
 initially defined only as a source address for "node number x.y.z on
-THIS NETWORK" by nodes that do not yet know their network prefix
-yet.  [@!RFC1122](#3.2.1.3) This definition was later repealed because
+THIS NETWORK" by nodes that know their address on their local network, but do not yet know their network prefix.  [@!RFC1122](#3.2.1.3) This definition was later repealed because
 the expected mechanism for learning their network prefix had turned
 out to be unworkable.  FIXME: @!RFCxxxx That repeal left 16 million
 addresses reserved for future use.
@@ -171,17 +194,15 @@ the form 127.x.y.z were reserved for "internal host loopback
 addresses" and should never appear as a source or destination address
 on a network outside of a single node.  [@!RFC1122](#3.2.1.3) When
 IPv6 was designed in the 1990s, this was seen as excessive, and in
-[@!RFC1884] the single IPv6 loopback address was defined.  But: in
+[@!RFC1884] the single IPv6 loopback address was defined.  But in
 IPv4, this reservation has continued to the present day.
 
-Much has changed since the 240/4 address range was first set aside as EXPERIMENTAL.
-
-IPv4 address exhaustion happened, on schedule, in 2011. Demand for
+In 2011, IPv4 address exhaustion happened, on schedule. Demand for
 IPv4 and IPv6 to IPv4 translation technologies spiked, leveraging
 [@!RFC1918], with [@!RFC7289] CGNs, [@!RFC6333] DS-Lite, and
 [@!RFC6877] 464XLAT becoming widely adopted.  While each of these
-solutions is inadequate in their own way, and pure IPv6 superior, the
-need for IPv4 address space appears unslakable for the next 20 years.
+solutions is inadequate in their own way, and pure IPv6 is superior, the
+need for IPv4 address space appears unslakeable for the next 20 years.
 
 Although a market has appeared for existing IPv4 allocations, and
 small amounts of address space returned to the global pools, demand
@@ -189,22 +210,21 @@ for IPv4 addressing continues unabated. New edge and data center
 technologies are creating new demands, and internet-accessible servers
 will need to be dual stacked for a long time to come.
 
-In 2008 [@I.D.FULLER08], and 2010 [@I.D.WILSON10] first proposed that
-the 240/4 address space become usable - the first draft mandating no
-explicit use; the second, as "private" RFC1918-like addresses.
-
-It is now evident that despite the failure of either of these drafts
-to become Internet Standards, the network community followed the
-spirit of these draft recommendations to actually implement them in
-the 2008-2010 time-frame.
+In 2008 [@I.D.FULLER08], and 2010 [@I.D.WILSON10] first proposed that the
+240/4 address space become usable - the first draft mandating no explicit
+use; the second, as "private" RFC1918-like addresses.  Neither of these
+drafts became Internet Standards, yet the network community generally
+implemented them in major operating systems anyway.  Few people have
+noticed, since there was and still is no straightforward way to have
+such an IPv4 address block globally allocated for your network.
 
 Treating 240/4 as routable unicast is now a de facto standard, with
 support in all the major operating systems except Windows, and only a
 few edge cases left to fix.
 
-This memo requires implementer to make the changes necessary to
-receive, transmit, and forward packets that contain addresses in this
-block as if they were within any other unicast address block.
+This Internet-Draft proposes that all implementers should make the small changes
+required to receive, transmit, and forward packets that contain addresses
+in this block as if they were within any other unicast address block.
 
 It is envisioned that the utility of this block will grow over time.
 Some devices may never be able to use it as their IP implementations
@@ -214,9 +234,20 @@ Users are encouraged to treat 240/4 IPv4 allocations as a chance to
 improve IPv4 handling generally, to allow for more protocols than just
 UDP NAT and TCP to traverse it (such as UDP-Lite and SCTP) and to
 address other long standing problems in the IPv4 blocks in new
-allocations such as using /32 rather than /30 networks.
+allocations such as using /32 rather than /30 networks.  FIXME what is
+this talking about?
 
-# Address space
+# Unicast use of address space formerly reserved for future use
+
+The attributes of blocks of address space are described by the IANA and
+in IETF publications by structured, boxed tables; see [@RFCxxxx] FIXME.
+This document proposes replacing the former description tables of these
+blocks, with those included in this document.
+
+## Unicast use of Class-E address space
+
+These new Unicast addresses, 240.0.0.0 thru 255.255.255.254, replace
+the formerly reserved Class E address space.
 
 {#fig-240}
            +----------------------+----------------------------+
@@ -236,9 +267,13 @@ allocations such as using /32 rather than /30 networks.
            +----------------------+----------------------------+
 
 The broadcast address, 255.255.255.255, still must be treated
-specially in each case: it is illegal as a source IP address, it is
-illegal as an network interface address, and it matches the local
-system when used as the destination address in a received datagram.
+specially: it is invalid as a source IP address, it is
+invalid as a network interface address, it matches the local
+system when used as the destination address in a received datagram,
+and when used as the destination in a datagram FIXME packet sent
+by a node, it causes the packet to be broadcast on one of the 
+hardware networks directly accessible to the node.  This behavior
+is unchanged from previously specified behavior.
 
 {#fig-255}
           +----------------------+----------------------------+
@@ -250,11 +285,173 @@ system when used as the destination address in a received datagram.
           | Allocation Date      | 1981                       |
           | Termination Date     | N/A                        |
           | Source               | False                      |
+          | Destination          | True                       |
+          | Forwardable          | False                      |
+          | Global               | False                      |
+          | Reserved-by-Protocol | True                       |
+          +----------------------+----------------------------+
+
+## Unicast use of 0/8
+
+These new Unicast addresses, 0.0.0.1 thru 0.255.255.255, replace
+a portion of the address space formerly reserved for future use.
+
+{#fig-0}
+           +----------------------+----------------------------+
+           | Attribute            | Value                      |
+           +----------------------+----------------------------+
+           | Address Block        | 0.0.0.0/8                  |
+           |                      | (except 0.0.0.0)           |
+           | Name                 | Ordinary Unicast Addresses |
+           | RFC                  | This Internet-Draft        |
+           | Allocation Date      | 2019                       |
+           | Termination Date     | N/A                        |
+           | Source               | True                       |
+           | Destination          | True                       |
+           | Forwardable          | True                       |
+           | Global               | True                       |
+           | Reserved-by-Protocol | False                      |
+           +----------------------+----------------------------+
+
+The Unknown Local Address, 0.0.0.0, still must be treated specially:
+it is usable only as a source IP address, and only in nodes that
+do not know or have an IPv4 address on the network where the packet
+appears; it is invalid as a network interface address.  Typically,
+such an address is used when using a UDP-based protocol like BOOTP or
+DHCP to ask another node to supply this node with a usable address.
+This behavior is unchanged from previously specified behavior.
+
+{#fig-0000}
+          +----------------------+----------------------------+
+          | Attribute            | Value                      |
+          +----------------------+----------------------------+
+          | Address Block        | 0.0.0.0/32                 |
+          | Name                 | Unknown Local Address      |
+          | RFC                  | This Internet-Draft        |
+          | Allocation Date      | 1981                       |
+          | Termination Date     | N/A                        |
+          | Source               | True                       |
           | Destination          | False                      |
           | Forwardable          | False                      |
           | Global               | False                      |
           | Reserved-by-Protocol | True                       |
           +----------------------+----------------------------+
+
+# Unicast use of address space formerly reserved for other functions
+
+## Unicast use of 127/8
+
+These new Unicast addresses, 127.1.0.0 thru 127.255.255.255, replace
+more than 99% of the former reserved Loopback address space.
+
+{#fig-127-8}
+           +----------------------+----------------------------+
+           | Attribute            | Value                      |
+           +----------------------+----------------------------+
+           | Address Block        | 127.0.0.0/8                |
+           |                      | (except 127.0.0.0/16)      |
+           | Name                 | Ordinary Unicast Addresses |
+           | RFC                  | This Internet-Draft        |
+           | Allocation Date      | 2019                       |
+           | Termination Date     | N/A                        |
+           | Source               | True                       |
+           | Destination          | True                       |
+           | Forwardable          | True                       |
+           | Global               | True                       |
+           | Reserved-by-Protocol | False                      |
+           +----------------------+----------------------------+
+
+The Loopback Addresses, 127.0.0.0 through 127.0.255.255, still must be
+treated specially: they are usable only as a destination IP address;
+they are invalid as a network interface address; and when used as a
+destination address in a packet, the packet is received and consumed
+only by the current node.  Typically, such an address is used when
+communicating with another process on this particular node.  Multiple
+addresses are provided, and can be distinguished by recipient processes,
+to accommodate historical use patterns.  This behavior is unchanged
+from previously specified behavior, though it now only applies to 65,536
+addresses rather than to 16,777,216 addresses.
+
+{#fig-127-16}
+          +----------------------+----------------------------+
+          | Attribute            | Value                      |
+          +----------------------+----------------------------+
+          | Address Block        | 127.0.0.0/16               |
+          | Name                 | Loopback Addresses         |
+          | RFC                  | This Internet-Draft        |
+          | Allocation Date      | 1981                       |
+          | Termination Date     | N/A                        |
+          | Source               | False                      |
+          | Destination          | True                       |
+          | Forwardable          | False                      |
+          | Global               | False                      |
+          | Reserved-by-Protocol | True                       |
+          +----------------------+----------------------------+
+
+## Unicast use of former Class D address space
+
+These new Unicast addresses, 22x.0.0.0 thru 239.255.255.255, replace
+more than FIXME% of the address space formerly designated for Multicast
+use.
+
+{#fig-class-d-uni}
+           +----------------------+----------------------------+
+           | Attribute            | Value                      |
+           +----------------------+----------------------------+
+           | Address Block        | 22x.0.0.0/FIXME                |
+           | Name                 | Ordinary Unicast Addresses |
+           | RFC                  | This Internet-Draft        |
+           | Allocation Date      | 2019                       |
+           | Termination Date     | N/A                        |
+           | Source               | True                       |
+           | Destination          | True                       |
+           | Forwardable          | True                       |
+           | Global               | True                       |
+           | Reserved-by-Protocol | False                      |
+           +----------------------+----------------------------+
+
+The Multicast Addresses, 224.0.0.0 through 22x.255.255.255, still must be
+treated specially.  They are only usable as a destination address;
+they are invalid as a network interface address; and when used as a
+destination address in a packet, the packet is sent to zero or more
+attached networks by using lower level network multicast capabilities that
+allow it to be received by multiple nodes on those networks.
+Multiple
+addresses are provided, and can be distinguished by recipient processes,
+to accommodate historical use patterns.  This behavior is unchanged
+from previously specified behavior, though it now only applies to FIXME
+addresses rather than to 268,435,456 addresses.
+
+{#fig-class-d-multi}
+          +----------------------+----------------------------+
+          | Attribute            | Value                      |
+          +----------------------+----------------------------+
+          | Address Block        | FIXME 127.0.0.0/16               |
+          | Name                 | Multicast Addresses         |
+          | RFC                  | RFC xxx FIXME
+          | Allocation Date      | 1988                       |
+          | Termination Date     | N/A                        |
+          | Source               | False                      |
+          | Destination          | True                       |
+          | Forwardable          | True                      |
+          | Global               | True(*)                      |
+          | Reserved-by-Protocol | True                       |
+          +----------------------+----------------------------+
+(*)  check table for current multicast in older RFC.
+
+# Unicast use of formerly reserved per-network node addresses
+
+## Unicast use of the zero node address in each network or subnet
+
+FIXME
+
+## Unicast use of the all-ones node address in each point-to-point network
+
+FIXME
+
+# Discussion
+
+# Interoperation with unextended nodes
 
 # Implementation status
 
@@ -273,6 +470,8 @@ Microsoft Windows, however Windows developers are aware of the work
 required and are considering it for a future version.
 
 # Implementation guidelines
+
+LITTLE OF WHAT FOLLOWS BELONGS IN PROTOCOL REVISION INTERNET-DRAFT.
 
 The following guidelines have been developed via [@IPv4CLEANUP] project.
 
@@ -353,6 +552,7 @@ It is presently unknown if any organization is making use of 240/4.
 
 # IANA Considerations
 
+FIXME.
 IANA is directed to make the 240/4 address space available as reverse
 DNS space in in-addr.arpa.
 
@@ -368,7 +568,7 @@ firewalled networks.
 # Acknowledgements
 
 Jason Ackley, Vint Cerf, Kevin Darbyshire-Bryant, Vince Fuller,
-Stephen Hemminger, Geoff Huston, Rob Landley, Elliot Lear, Dan
+Stephen Hemminger, Geoff Huston, Rob Landley, Eliot Lear, Dan
 Mahoney, and Paul Wouters all made contributions to this document,
 directly or indirectly.
 
@@ -413,7 +613,7 @@ directly or indirectly.
 </address>
 </author>
 
-<author initials='E.' surname='Lear' fullname='Elliot Lear'></author>
+<author initials='E.' surname='Lear' fullname='Eliot Lear'></author>
 <author initials='D.' surname='Meyer' fullname='David Meyer'></author>
 <date year='2008' />
 </front>
@@ -423,9 +623,9 @@ directly or indirectly.
 <reference anchor='CBR03' target=''>
  <front>
  <title>Firewalls and Internet Security: Repelling the Wily Hacker, Second Edition</title>
-  <author initials='W.R.' surname='Cheswick' fullname='W.R. Cheswick'></author>
-  <author initials='S.M.' surname='Bellovin' fullname='S.M. Bellovin'></author>
-  <author initials='A.D.' surname='Rubin' fullname='A.D. Rubin'></author>
+  <author initials='W.R.' surname='Cheswick' fullname='Bill Cheswick'></author>
+  <author initials='S.M.' surname='Bellovin' fullname='Steve Bellovin'></author>
+  <author initials='A.D.' surname='Rubin' fullname='Avi Rubin'></author>
   <date year='2003' />
  </front>
  <seriesInfo name="Addison-Wesley" value='' />
