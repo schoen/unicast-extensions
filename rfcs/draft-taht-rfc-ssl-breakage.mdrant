@@ -1,0 +1,227 @@
+%%%
+title = "SSL considered harmful for old RFCS"
+abbrev = "rfc-ssl-breakage"
+updates = []
+ipr = "trust200902"
+area = "Internet"
+docname = "draft-taht-rfc-ssl-breakage-01"
+workgroup = "Network Working Group"
+submissiontype = "IETF"
+keyword = ["bug reports"]
+#date = 2019-01-30T00:00:00Z
+
+[seriesInfo]
+name = "Internet-Draft"
+value = "draft-taht-rfc-ssl-breakage"
+stream = "IETF"
+status = "standard"
+
+[[author]]
+initials = "D."
+surname = "Täht"
+fullname = "David M. Täht"
+#role = "editor"
+organization = "TekLibre"
+  [author.address]
+  email = "dave@taht.net"
+  phone = "+1 831 205 9740"
+  [author.address.postal]
+  street = "20600 Aldercroft Heights Rd"
+  city = "Los Gatos"
+  region = "CA"
+  code = "95033"
+  country = "USA"
+%%%
+
+.# Abstract
+
+The present SSL mechanism for retrieving RFCS fails with xml2rfc for
+all RFCS older than RFC1001. @!RFC907.
+
+This memo outlines various solutions to this problem.
+
+{mainmatter}
+
+# Terminology
+
+The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **SHOULD**, **SHOULD NOT**, **RECOMMENDED**, **MAY**, and **OPTIONAL**, when they appear in this document, are to be interpreted as described in [@!RFC2119].
+
+# History
+
+In the beginning RFCs were lovingly hand crafted on a typewriter,
+polished, and then replicated via copier or hand cranked mimeograph
+machine, and distributed via a service known as "postal mail", which
+was a physical transport layer popular at the time.
+
+Earlier attempts had used cuniform and clay tablets, and baking time
+between revisions proved to be problematic. Early adoption of the
+typewriter and mimeograph machine were key to the success of the early
+RFC process.
+
+This process had some serious limitations. Notably, typewriter
+"balls", (a physical device that switched between characters, then
+called "letters") were limited in storage, and changing out one ball
+for another took time and money that most graduate students lacked. Ink,
+too, was a precious resource, and transmission required the purchase
+of a stamp.
+
+Over time, as the Internet was bootstrapped, creation of RFCs moved to
+plain textual files and centralized file storage available via the
+"ftp" program, with revisions being distributed by electronic mail.
+
+One key feature of a typewriter was not replicated until much later.
+
+Typewriters had the concept of a "backspace" and typing over the
+character to form a more complex one to form more complex glyphs. One
+such is the "umlaut", popular in many languages as an indication of
+"death metal". It was also commonly used to supply _boldface_
+characters for emphasis. However, the Internet's early email and early
+electronic text formats were incapable of representing a backspace
+properly. A 20+ year long standardization process followed, where more
+advanced character sets went through a long period of missteps and
+standardization before they could be used properly.
+
+Most recently, attempts to remove certain concepts from the language,
+notably the term "master/slave" as a means to describe the interaction
+of a controller and controlled device, and the elimination of statues
+and language regarding US confederate generals, have taken place.
+
+Furthermore some information itself has become very hard to
+access.
+
+In particular, early IETF RFCs are not currently accessible, due to a
+mis-designed certificate and set of urls for the relevant IETF
+website.
+
+Accesses to older RFCs are presently failing with:
+
+```
+Parsing file draft-taht-ssl-breakage.xml
+ERROR: Unable to parse the XML document: draft-taht-ssl-breakage.xml
+ draft-taht-ssl-breakage.xml: Line 136: Unable to resolve external request: "https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.907.xml"
+make: *** [Makefile:15: draft-taht-ssl-breakage.txt] Error 1
+```
+
+xml2rfc exits with an exit code of 2 - "success" and
+does not report any further errors in the document.
+
+This memo outlines several solutions to this problem.
+
+# Problem scope
+
+The current xml2rfc error includes, but is not limited to:
+
+A full search SHOULD performed across the entire RFC range
+to identify all RFCs with this problem.
+
+# Possible solutions
+
+## Stop using SSL to transport IETF documents
+
+SSL provides both authentication, and encryption. Authentication of
+standard documents is a good idea, however SSL on the transport layer
+alone does not provide such. IETF Documents *SHOULD* additionally be
+cryptographically signed at the source to prevent meddling by bad
+actors.
+
+Encryption, however, of standards documents, along the path, seems
+redundant. A standard *SHOULD* be globally readable at all times.
+
+Eliminating SSL as a transport and using cryptographic signatures only
+in the document would eliminate protocol revision problems going
+forward. A suitable hash (SHA256 or blake) MUST be used for such.
+
+## Stop requiring full SSL compliance to access IETF documents
+
+An option to xml2rfc could be added to temporarily disable
+full SSL authentication when an author is desparate to finish an
+RFC in time for a deadline. Alternatively, IETF servers could
+relax their SSL requirements for the week before a meeting, and
+lock it down again once the suitable administrators are on-site
+and readily available.
+
+A suggestion for the former solution is to add a --no-check-certificate
+option to xml2rfc, much like the wget and curl utilities have.
+
+## Fix the SSL certificate itself
+
+The actual error that xml2rfc has today is not available in the
+current version. xml2rfc 1.7 on the other hand, fails with a
+more informative error message.
+
+Clearly indicating that the access attempt failed due to a CNAME not
+being also recognised by the actual cert itself.
+
+https://xml2rfc.ietf.org/public/rfc/bibxml/ is no a valid url
+for this certificate.
+
+However, as this older domain is a CNAME, and often not protected by
+DNSSEC, it is possible that it too could be interfered with en-route
+and redirected to a site containing false RFCs, fake news or endless
+images of dancing cats.
+
+## Fix the references to the older IETF site in the older RFCs
+
+Newer RFCs, such as [@!RFC1149], are unaffected. This appears to be
+because the website for storing RFCs was later standardized as "".
+
+Something like "sed -i s/@https://xml2rfc.ietf.org/public/rfc/bibxml@" SHOULD be applied to these older RFCs to make them compliant with the current certificate.
+
+# Conclusions
+
+Moving forward, all RFCs should be thoroughly tested by a document
+more elaborate than this one, to ensure that they can still be
+accessed for historical purposes.
+
+Furthermore, an online "bug tracker" *MUST* be made readily available
+so future problems with xml2rfc can be easily documented and fixed.
+
+xml2rfc SHOULD implement a non-ssl fallback mechanism, and MUST
+incorporate a better error message when a SSL related error occurs.
+
+xml2rfc SHOULD also incorporate a -k option to attempt further
+processing even when an individual fetch fails.
+
+# Related Work
+
+Any new internet draft that attempts to use older or obsolete RFCs as
+talking points.
+
+# IANA Considerations
+
+The IANA is asked to ensure their documents, also, remain eternally
+accessible.
+
+# Security Considerations
+
+Dropping SSL from the requirements for RFC transport may have unknown
+security implications. As data in flight can be modified, bad actors
+might substitute *SHOULD* for *MUST* or *MUST* for *SHOULD*, or add
+additional material not originally intended by the original authors,
+such as advertising. 
+
+The addition of a cryptographic signature to IETF documents should be
+considered nearly adaquate.
+
+# Acknowledgements
+
+The ghosts of Mark Twain, George Carlin, Bill Hicks, and Robin
+Williams had significant input into this document.
+
+Additional inspiration came from Bushmill's whiskey and the drug
+legalization effort in the United States.
+
+{backmatter}
+
+<reference anchor='IPv4CLEANUP' target='https://github.com/dtaht/ipv4-cleanup'>
+<front>
+<title>IPv4 cleanup project</title>
+<author initials='D.' surname='Taht' fullname='Dave Taht'>
+<address>
+<email>dave@taht.net</email>
+</address>
+</author>
+<date year='2019' />
+</front>
+</reference>
+
