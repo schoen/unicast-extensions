@@ -398,7 +398,7 @@ use.
            +----------------------+----------------------------+
            | Attribute            | Value                      |
            +----------------------+----------------------------+
-           | Address Block        | 22x.0.0.0/FIXME                |
+           | Address Block        | 22x.0.0.0/FIXME            |
            | Name                 | Ordinary Unicast Addresses |
            | RFC                  | This Internet-Draft        |
            | Allocation Date      | 2019                       |
@@ -426,15 +426,15 @@ addresses rather than to 268,435,456 addresses.
           +----------------------+----------------------------+
           | Attribute            | Value                      |
           +----------------------+----------------------------+
-          | Address Block        | FIXME 127.0.0.0/16               |
-          | Name                 | Multicast Addresses         |
-          | RFC                  | RFC xxx FIXME
+          | Address Block        | FIXME 127.0.0.0/16         |
+          | Name                 | Multicast Addresses        |
+          | RFC                  | RFC xxx FIXME              |
           | Allocation Date      | 1988                       |
           | Termination Date     | N/A                        |
           | Source               | False                      |
           | Destination          | True                       |
-          | Forwardable          | True                      |
-          | Global               | True(*)                      |
+          | Forwardable          | True                       |
+          | Global               | True(*)                    |
           | Reserved-by-Protocol | True                       |
           +----------------------+----------------------------+
 (*)  check table for current multicast in older RFC.
