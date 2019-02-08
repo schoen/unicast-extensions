@@ -78,30 +78,30 @@ as a replacement for the ARPAnet protocols.  Rather than enforcing
 uniformity, it followed the "Catenet Model" of a concatenated network
 of diversely implemented underlying networks, connected by simple and
 relatively memoryless gateways. @IEN48 By the year 1981, IPv4 had landed
-as a simple and well-edited specification. @!RFC791
+as a simple and well-edited specification. [@!RFC0791]
 
 The designers improved on
 ARPAnet's 16-bit address space with IPv4's 32-bit address space.  The
 32-bit address space was clearly chosen as a compromise; its inability
 to address all the nodes that would likely want to use it was known
 from the start, but resource limitations in early routers discouraged
-the use of longer addresses.  @!RFC760  FIXME, we still don't have a good
+the use of longer addresses. [@!RFC0760]  FIXME, we still don't have a good
 ref for this assertion.
 
 The initial IP design designated almost 7/8ths of the possible
 addresses as Unicast addresses.  These addresses identified individual
 nodes and routers, and could be used as source and destination addresses
 of packets designed to be forwarded with full global reachability,
-and/or for packets on local area networks. @!RFC791; @!RFC796  (The
+and/or for packets on local area networks. [@!RFC0791; [@!RFC0796]  (The
 term "unicast" only came into use when multicast was invented for the
 Internet protocol in 1985.  Initially ALL the existing non-reserved IP
-addresses were, by default, unicast addresses.  @!RFC966)
+addresses were, by default, unicast addresses.  @!RFC0966)
 
 1/8th of the 32-bit address space was left as "reserved for future
 use", and a few other 256ths were reserved for simple protocol
-functions or for future use.  @!RFC791(#3.2) @!RFC796
+functions or for future use.  [@!RFC0791](#3.2) [@!RFC0796]
 
-By 1984, subnets were made part of the IP protocol.  @!RFC917, @!RFC922 
+By 1984, subnets were made part of the IP protocol.  [@!RFC0917], [@!RFC0922] 
 
 Initially, subnets were only used "locally".  The global
 Internet routing infrastructure still only knew how to route to Class
@@ -109,8 +109,8 @@ A, B, and C networks.  Local equipment in each such network could route
 locally to any local subnets, such as multiple Ethernets on a university
 campus.
 
-Also in 1984, broadcast addresses were added to IPv4. @!RFC919,
-@!RFC922 This required reserving one IPv4 address within each and
+Also in 1984, broadcast addresses were added to IPv4. [@!RFC0919],
+[@!RFC0922] This required reserving one IPv4 address within each and
 every network or subnet (the final address in that network or subnet,
 the "all-ones" host address).  The address 255.255.255.255 was also
 reserved to make it easier to broadcast on "a local hardware network"
@@ -118,7 +118,7 @@ without knowing the details of those networks.  This made broadcast a
 useful mechanism for discovering a node's own address on the network.
 
 The 1984 broadcast extension also reserved the initial (zero) address
-in each network or subnet, with @!RFC919
+in each network or subnet, with [@!RFC0919]
 stating that "There is probably no reason for such addresses to appear
 anywhere", with a now-obsolete exception.  It also, apparently by coincidence, documented a human
 writing convention of designating a "network number" with the zero
