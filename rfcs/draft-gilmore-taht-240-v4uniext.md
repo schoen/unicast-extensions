@@ -5,7 +5,7 @@ updates = [2827, 3330, 6890, 8190]
 ipr = "trust200902"
 area = "Internet"
 docname = "draft-gilmore-taht-240-v4uniext"
-workgroup = "Network Working Group"
+workgroup = "Internet Area Working Group"
 submissiontype = "IETF"
 keyword = [""]
 #date = 2019-01-30T00:00:00Z
@@ -95,7 +95,7 @@ of packets designed to be forwarded with full global reachability,
 and/or for packets on local area networks. [@!RFC0791; [@!RFC0796]  (The
 term "unicast" only came into use when multicast was invented for the
 Internet protocol in 1985.  Initially ALL the existing non-reserved IP
-addresses were, by default, unicast addresses.  @!RFC0966)
+addresses were, by default, unicast addresses.  [@!RFC0966]
 
 1/8th of the 32-bit address space was left as "reserved for future
 use", and a few other 256ths were reserved for simple protocol
@@ -232,7 +232,7 @@ have no update mechanism.
 
 Users are encouraged to treat 240/4 IPv4 allocations as a chance to
 improve IPv4 handling generally, to allow for more protocols than just
-UDP NAT and TCP to traverse it (such as UDP-Lite and SCTP) and to
+UDP NAT and TCP to traverse it (such as UDP-Lite) and to
 address other long standing problems in the IPv4 blocks in new
 allocations such as using /32 rather than /30 networks.  FIXME what is
 this talking about?
