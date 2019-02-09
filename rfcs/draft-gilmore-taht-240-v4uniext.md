@@ -213,13 +213,14 @@ for IPv4 addressing continues unabated. New edge and data center
 technologies are creating new demands, and internet-accessible servers
 will need to be dual stacked for a long time to come.
 
-In 2008 [@I.D.FULLER08], and 2010 [@I.D.WILSON10] first proposed that the
-240/4 address space become usable - the first draft mandating no explicit
-use; the second, as "private" RFC1918-like addresses.  Neither of these
-drafts became Internet Standards, yet the network community generally
-implemented them in major operating systems anyway.  Few people have
-noticed, since there was and still is no straightforward way to have
-such an IPv4 address block globally allocated for your network.
+In 2008 [@I-D.fuller-240space], and 2010 [@I-D.wilson-class-e] first
+proposed that the 240/4 address space become usable - the first draft
+mandating no explicit use; the second, as "private" RFC1918-like
+addresses.  Neither of these drafts became Internet Standards, yet the
+network community generally implemented them in major operating
+systems anyway.  Few people have noticed, since there was and still is
+no straightforward way to have such an IPv4 address block globally
+allocated for your network.
 
 Treating 240/4 as routable unicast is now a de facto standard, with
 support in all the major operating systems except Windows, and only a
@@ -547,8 +548,8 @@ Common deployments of the BIND routing daemon (e.g. Debian) map reverse DNS for 
 
 The last attempts at making more IPv4 address space occurred in the
 2008-2010 timeframe, with proposals for making it pure public routable
-unicast [@I.D.FULLER08], or routable, but private, RFC1918 style
-address space [@I.D.WILSON10]. Neither proposal gained traction in the
+unicast [@I-D.fuller-240space], or routable, but private, RFC1918 style
+address space [@I-D.wilson-class-e]. Neither proposal gained traction in the
 IETF, however the first step - making 240/4 actually work - was almost
 universally adopted in the field.
 
@@ -587,39 +588,6 @@ document, directly or indirectly.
 </address>
 </author>
 <date year='2019' />
-</front>
-</reference>
-
-<reference anchor='I.D.WILSON10' target='https://tools.ietf.org/id/draft-wilson-class-e-02'>
-<front>
-<title>Redesignation of 240/4 from "Future Use" to "Private Use"</title>
-<author initials='G.' surname='Huston' fullname='Geoff Huston'>
-<address>
-<email>gih@apnic.net</email>
-</address>
-</author>
-<author initials='G.' surname='Michaelson' fullname='George Michaelson'>
-<email>ggm@apnic.net</email>
-</author>
-<author initials='P.' surname='Wilson' fullname='Paul Wilson'>
-<email>pwilson@apnic.net</email>
-</author>
-<date year='2010' />
-</front>
-</reference>
-
-<reference anchor='I.D.FULLER08' target='https://tools.ietf.org/id/draft-fuller-240space-02.txt'>
-<front>
-<title>240 address space</title>
-<author initials='V.' surname='Fuller' fullname='Vince Fuller'>
-<address>
-<email>vince.fuller@gmail.com </email>
-</address>
-</author>
-
-<author initials='E.' surname='Lear' fullname='Eliot Lear'></author>
-<author initials='D.' surname='Meyer' fullname='David Meyer'></author>
-<date year='2008' />
 </front>
 </reference>
 
