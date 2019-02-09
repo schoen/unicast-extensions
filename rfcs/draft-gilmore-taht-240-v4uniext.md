@@ -1,7 +1,7 @@
 %%%
 title = "The IPv4 240/4 Unicast Extension"
 abbrev = "240-v4uniext"
-updates = [2827, 3330, 6890, 8190]
+updates = [2827, 3330, 6890]
 ipr = "trust200902"
 area = "Internet"
 docname = "draft-gilmore-taht-240-v4uniext"
@@ -187,7 +187,7 @@ yet.  [@!RFC1122](#3.2.1.3) Addresses of the form 0.x.y.z were
 initially defined only as a source address for "node number x.y.z on
 THIS NETWORK" by nodes that know their address on their local network, but do not yet know their network prefix.  [@!RFC1122](#3.2.1.3) This definition was later repealed because
 the expected mechanism for learning their network prefix had turned
-out to be unworkable.  FIXME: @!RFCxxxx That repeal left 16 million
+out to be unworkable.  FIXME: [@!RFC0903], [@!RFC0951] ??  That repeal left 16 million
 addresses reserved for future use.
 
 The other 1/256th of the address space initially reserved for protocol
@@ -245,14 +245,15 @@ this talking about?
 # Unicast use of address space formerly reserved for future use
 
 The attributes of blocks of address space are described by the IANA and
-in IETF publications by structured, boxed tables; see @RFCxxxx FIXME.
+in IETF publications by structured, boxed tables; see [@!RFC6890].
 This document proposes replacing the former description tables of these
 blocks, with those included in this document.
 
 ## Unicast use of Class-E address space
 
-These new Unicast addresses, 240.0.0.0 through 255.255.255.254, replace
-the formerly reserved Class E address space.
+These new Unicast addresses, 240.0.0.0 through 255.255.255.254,
+replace the formerly reserved (by [@!RFC1112]) Class E address space,
+and updates [@!RFC6890], table 15.
 
 {#fig-240}
            +----------------------+----------------------------+
@@ -272,22 +273,21 @@ the formerly reserved Class E address space.
            +----------------------+----------------------------+
 
 The broadcast address, 255.255.255.255, still must be treated
-specially: it is invalid as a source IP address, it is
-invalid as a network interface address, it matches the local
-system when used as the destination address in a received datagram,
-and when used as the destination in a datagram FIXME packet sent
-by a node, it causes the packet to be broadcast on one of the 
-hardware networks directly accessible to the node.  This behavior
-is unchanged from previously specified behavior.
+specially: it is invalid as a source IP address, and it is invalid as
+a network interface address. When used as the destination in a
+datagram sent by a node, it causes the packet to be broadcast on one
+of the hardware networks directly accessible to the node.  This
+behavior is unchanged from previously specified behavior in
+[@!RFC6890], table 16, e.g.:
 
 {#fig-255}
           +----------------------+----------------------------+
           | Attribute            | Value                      |
           +----------------------+----------------------------+
           | Address Block        | 255.255.255.255/32         |
-          | Name                 | Broadcast Address          |
-          | RFC                  | This Internet-Draft        |
-          | Allocation Date      | 1981                       |
+          | Name                 | Limited Broadcast          |
+          | RFC                  | [@!RFC0919]                |
+          | Allocation Date      | 1984                       |
           | Termination Date     | N/A                        |
           | Source               | False                      |
           | Destination          | True                       |
@@ -298,8 +298,9 @@ is unchanged from previously specified behavior.
 
 ## Unicast use of 0/8
 
-These new Unicast addresses, 0.0.0.1 thru 0.255.255.255, replace
-a portion of the address space formerly reserved for future use.
+These new Unicast addresses, 0.0.0.1 thru 0.255.255.255, replace the
+obsolete "This host on this network" concept, replacing table 1 of
+[@!RFC6890].
 
 {#fig-0}
            +----------------------+----------------------------+
@@ -347,7 +348,8 @@ This behavior is unchanged from previously specified behavior.
 ## Unicast use of 127/8
 
 These new Unicast addresses, 127.1.0.0 thru 127.255.255.255, replace
-more than 99% of the former reserved Loopback address space.
+more than 99% of the former reserved Loopback address space, and
+table 4 of [@!RFC6890].
 
 {#fig-127-8}
            +----------------------+----------------------------+
@@ -393,10 +395,10 @@ addresses rather than to 16,777,216 addresses.
           | Reserved-by-Protocol | True                       |
           +----------------------+----------------------------+
 
-## Unicast use of former Class D address space
+## Unicast re-use of former Class D (multicast) address space
 
 These new Unicast addresses, 225.0.0.0 thru 231.255.255.255, replace
-more than FIXME% of the address space formerly designated for Multicast
+more than 40% of the address space formerly designated for Multicast
 use.
 
 {#fig-class-d-uni}
@@ -431,18 +433,20 @@ applies to FIXME addresses rather than to 268,435,456 addresses.
           +----------------------+----------------------------+
           | Attribute            | Value                      |
           +----------------------+----------------------------+
-          | Address Block        | FIXME 224.0.0.0/8          |
-          | Name                 | Multicast Addresses        |
-          | RFC                  | RFC xxx FIXME              |
-          | Allocation Date      | 1988                       |
+          | Address Block        | 224.0.0.0/8                |
+          | Name                 | Multicast Addreses         |
+          | RFC                  | [@!RFC1112]                |
+          | Allocation Date      | 1989                       |
           | Termination Date     | N/A                        |
-          | Source               | False                      |
+          | Source               | True                       |
           | Destination          | True                       |
           | Forwardable          | True                       |
-          | Global               | True(*)                    |
+          | Global               | True                       |
           | Reserved-by-Protocol | True                       |
           +----------------------+----------------------------+
-(*)  check table for current multicast in older RFC.
+
+Multiple other multicast address spaces have fallen into disuse,
+this memo does not currently address their re-use.
 
 # Unicast use of formerly reserved per-network node addresses
 
@@ -498,13 +502,13 @@ checking for 240/4 and thus "just work". No open source application we have scan
 One stack conflated an IN\_MULTICAST check with the 240/4 address space.
 e.g. 
 
-```
+``` c
 #define IN_MULTICAST(addr) (((addr & ntohl(0xfe000000)) == ntohl(0xfe000000)))
 ```
 
 where a correct check is:
 
-```
+``` c
 #define IN_MULTICAST(addr) (((addr & ntohl(0xff000000)) == ntohl(0xfe000000)))
 ```
 
