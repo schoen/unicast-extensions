@@ -286,7 +286,7 @@ behavior is unchanged from previously specified behavior in
           +----------------------+----------------------------+
           | Address Block        | 255.255.255.255/32         |
           | Name                 | Limited Broadcast          |
-          | RFC                  | [@!RFC0919]                |
+          | RFC                  | RFC919                     |
           | Allocation Date      | 1984                       |
           | Termination Date     | N/A                        |
           | Source               | False                      |
@@ -434,8 +434,8 @@ applies to FIXME addresses rather than to 268,435,456 addresses.
           | Attribute            | Value                      |
           +----------------------+----------------------------+
           | Address Block        | 224.0.0.0/8                |
-          | Name                 | Multicast Addreses         |
-          | RFC                  | [@!RFC1112]                |
+          | Name                 | Multicast Addresses        |
+          | RFC                  | RFC1112                    |
           | Allocation Date      | 1989                       |
           | Termination Date     | N/A                        |
           | Source               | True                       |
@@ -593,6 +593,7 @@ document, directly or indirectly.
 </author>
 <date year='2019' />
 </front>
+<format type='HTML' target='https://github.com/dtaht/ipv4-cleanup' />
 </reference>
 
 
