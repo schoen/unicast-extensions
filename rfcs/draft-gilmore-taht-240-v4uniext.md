@@ -67,11 +67,12 @@ The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **S
 
 # History
 
-The Internet Protocol's addressing model started off simple and has evolved
-over 40 years.  This Internet-Draft briefly summarizes that evolution, and
-proposes that as the IP approaches the end of its design life, significant
-benefits to the Internet community can ensue from simplifying a few of
-the vestigial choices made during that evolution.
+The Internet Protocol version 4 addressing model started off simple
+and has evolved over 40 years.  This Internet-Draft briefly summarizes
+that evolution, and proposes that as IPv4 approaches the end of its
+design life, significant benefits to the Internet community can ensue
+from simplifying a few of the vestigial choices made during that
+evolution.
 
 The Internet Protocol (IP version 4, IPv4) was designed from scratch
 as a replacement for the ARPAnet protocols.  Rather than enforcing
@@ -92,7 +93,7 @@ The initial IP design designated almost 7/8ths of the possible
 addresses as Unicast addresses.  These addresses identified individual
 nodes and routers, and could be used as source and destination addresses
 of packets designed to be forwarded with full global reachability,
-and/or for packets on local area networks. [@!RFC0791; [@!RFC0796]  (The
+and/or for packets on local area networks. [@!RFC0791; @!RFC0796]  (The
 term "unicast" only came into use when multicast was invented for the
 Internet protocol in 1985.  Initially ALL the existing non-reserved IP
 addresses were, by default, unicast addresses.  [@!RFC0966]
@@ -118,24 +119,25 @@ without knowing the details of those networks.  This made broadcast a
 useful mechanism for discovering a node's own address on the network.
 
 The 1984 broadcast extension also reserved the initial (zero) address
-in each network or subnet, with [@!RFC0919]
-stating that "There is probably no reason for such addresses to appear
-anywhere", with a now-obsolete exception.  It also, apparently by coincidence, documented a human
-writing convention of designating a "network number" with the zero
-address, such as 36.0.0.0.  This convention has confused subsequent
-protocol users into thinking that the initial (zero) address
-in a network or subnet cannot be used as an ordinary unicast node
-address.
+in each network or subnet, with [@!RFC0919] stating that "There is
+probably no reason for such addresses to appear anywhere", with a
+now-obsolete exception.  It also, apparently by coincidence,
+documented a human writing convention of designating a "network
+number" with the zero address, such as 36.0.0.0.  This convention has
+confused subsequent protocol users into thinking that the initial
+(zero) address in a network or subnet cannot be used as an ordinary
+unicast node address.
 
-During that era, there was confusion in one popular IPv4 implementation, 4.2 BSD, which used
-the zero node address for broadcast, rather than the all-ones node
-address.  When these mismatched implementations tried to 
-interoperate on an Ethernet, it was easy to produce "broadcast storms" that would
-uselessly consume all available network bandwidth until manually stopped.  The offending
-implementation was upgraded in the subsequent 4.3 BSD release to meet the standards.  The problem has
-not recurred for decades, but a remnant of the gaffe exists in the
-prohibition on using the zero node address in a network or subnet.
-[@!RFC1122] (section FIXME)]
+During that era, there was confusion in one popular IPv4
+implementation, 4.2 BSD, which used the zero node address for
+broadcast, rather than the all-ones node address.  When these
+mismatched implementations tried to interoperate on an Ethernet, it
+was easy to produce "broadcast storms" that would uselessly consume
+all available network bandwidth until manually stopped.  The offending
+implementation was upgraded in the subsequent 4.3 BSD release to meet
+the standards.  The problem has not recurred for decades, but a
+remnant of the gaffe exists in the prohibition on using the zero node
+address in a network or subnet.  [@!RFC1122] (section FIXME)
 
 Later (1988) designers chose to allocate 1/16th of the total space
 (half of the formerly reserved space) for multicast use.  [@!RFC1054]
@@ -147,8 +149,8 @@ has remained a tiny niche, in retrospect clearly not worth designating
 
 By 1989, the revisions to the basic Internet Protocol suite required
 reading dozens and dozens of documents.  The basic requirements for
-Internet hosts and gateways were consolidated into a few documents.
-[@!RFC1022;@!RFC1023;@!RFC1024]
+Internet hosts and gateways were then consolidated into
+[@!RFC1022;@!RFC1023;@!RFC1024].
 
 By 1992, the original network addressing and routing architecture was
 straining at the seams.  The problems were "the lack of a network
@@ -158,7 +160,7 @@ growth of routing tables beyond available capacities, and the
 [@!RFC1338]. The proposed fix involved an extension of subnetting to
 "supernetting" multiple Class C networks, deploying classless routing
 protocols, and generally deprecating the concept of "network address
-classes".  Each network address would be represented by a pair: an
+classes".  Each network address would be represented by a "pair": an
 address and a mask.  This proposal reserved the address 0.0.0.0 with
 mask 0.0.0.0 as the "default route" with special rules.  This was
 adopted in 1993 as Classless Inter-Domain Routing (CIDR) for Class C,
@@ -166,11 +168,11 @@ and half of Class A (a quarter of the entire Internet address space)
 was reserved for future subnetting after deployment of more capable
 routing protocols.  [@!RFC1466], [@!RFC1518], [@!RFC1519]
 
-By 1995, the implementation of subnetting for "Class A" addresses was
+By 1995, the implementation of subnetting for "Class A" addresses proved
 sufficiently buggy that the IANA began a global experiment by
 allocating 256 subnetted Class A addresses to *every* existing address
 space user, and encouraging them to be used to verify correct
-operation of their gateways and hosts.  [@!RFC1797] Even in 1996,
+operation of their gateways and hosts, in [@!RFC1797]. Even in 1996,
 [@!RFC2036] described that large parts of the Internet could not
 correctly subnet Class A addresses.
 
@@ -188,14 +190,15 @@ the expected mechanism for learning their network prefix had turned
 out to be unworkable.  FIXME: @!RFCxxxx That repeal left 16 million
 addresses reserved for future use.
 
-The other 256th of the address space initially reserved for protocol
+The other 1/256th of the address space initially reserved for protocol
 functions was network 127.  The entire set of 16 million addresses of
-the form 127.x.y.z were reserved for "internal host loopback
-addresses" and should never appear as a source or destination address
-on a network outside of a single node.  [@!RFC1122](#3.2.1.3) When
-IPv6 was designed in the 1990s, this was seen as excessive, and in
-[@!RFC1884] the single IPv6 loopback address was defined.  But in
-IPv4, this reservation has continued to the present day.
+the form 127.x.y.z were reserved in [@!RFC1122](#3.2.1.3) for
+"internal host loopback addresses" and "should never appear as a
+source or destination address on a network outside of a single
+node". When IPv6 was designed in the 1990s, this was seen as
+excessive, and in [@!RFC1884] the single IPv6 loopback address was
+defined.  But in IPv4, this reservation has continued to the present
+day.
 
 In 2011, IPv4 address exhaustion happened, on schedule. Demand for
 IPv4 and IPv6 to IPv4 translation technologies spiked, leveraging
@@ -222,9 +225,10 @@ Treating 240/4 as routable unicast is now a de facto standard, with
 support in all the major operating systems except Windows, and only a
 few edge cases left to fix.
 
-This Internet-Draft proposes that all implementers should make the small changes
-required to receive, transmit, and forward packets that contain addresses
-in this block as if they were within any other unicast address block.
+This Internet-Draft proposes that all implementers should make the
+small changes required to receive, transmit, and forward packets that
+contain addresses in this block as if they were within any other
+unicast address block.
 
 It is envisioned that the utility of this block will grow over time.
 Some devices may never be able to use it as their IP implementations
@@ -246,7 +250,7 @@ blocks, with those included in this document.
 
 ## Unicast use of Class-E address space
 
-These new Unicast addresses, 240.0.0.0 thru 255.255.255.254, replace
+These new Unicast addresses, 240.0.0.0 through 255.255.255.254, replace
 the formerly reserved Class E address space.
 
 {#fig-240}
@@ -390,7 +394,7 @@ addresses rather than to 16,777,216 addresses.
 
 ## Unicast use of former Class D address space
 
-These new Unicast addresses, 22x.0.0.0 thru 239.255.255.255, replace
+These new Unicast addresses, 225.0.0.0 thru 231.255.255.255, replace
 more than FIXME% of the address space formerly designated for Multicast
 use.
 
@@ -398,7 +402,7 @@ use.
            +----------------------+----------------------------+
            | Attribute            | Value                      |
            +----------------------+----------------------------+
-           | Address Block        | 22x.0.0.0/FIXME            |
+           | Address Block        | 225.0.0.0/8 - 231.0.0.0/8  |
            | Name                 | Ordinary Unicast Addresses |
            | RFC                  | This Internet-Draft        |
            | Allocation Date      | 2019                       |
@@ -410,23 +414,23 @@ use.
            | Reserved-by-Protocol | False                      |
            +----------------------+----------------------------+
 
-The Multicast Addresses, 224.0.0.0 through 22x.255.255.255, still must be
-treated specially.  They are only usable as a destination address;
+The Multicast Addresses, 224.0.0.0 through 224.255.255.255, still must
+be treated specially.  They are only usable as a destination address;
 they are invalid as a network interface address; and when used as a
 destination address in a packet, the packet is sent to zero or more
-attached networks by using lower level network multicast capabilities that
-allow it to be received by multiple nodes on those networks.
-Multiple
-addresses are provided, and can be distinguished by recipient processes,
-to accommodate historical use patterns.  This behavior is unchanged
-from previously specified behavior, though it now only applies to FIXME
-addresses rather than to 268,435,456 addresses.
+attached networks by using lower level network multicast capabilities
+that allow it to be received by multiple nodes on those networks.
+
+Multiple addresses are provided, and can be distinguished by recipient
+processes, to accommodate historical use patterns.  This behavior is
+unchanged from previously specified behavior, though it now only
+applies to FIXME addresses rather than to 268,435,456 addresses.
 
 {#fig-class-d-multi}
           +----------------------+----------------------------+
           | Attribute            | Value                      |
           +----------------------+----------------------------+
-          | Address Block        | FIXME 127.0.0.0/16         |
+          | Address Block        | FIXME 224.0.0.0/8          |
           | Name                 | Multicast Addresses        |
           | RFC                  | RFC xxx FIXME              |
           | Allocation Date      | 1988                       |
@@ -567,10 +571,10 @@ firewalled networks.
 
 # Acknowledgements
 
-Jason Ackley, Vint Cerf, Kevin Darbyshire-Bryant, Vince Fuller,
-Stephen Hemminger, Geoff Huston, Rob Landley, Eliot Lear, Dan
-Mahoney, and Paul Wouters all made contributions to this document,
-directly or indirectly.
+Jason Ackley, Brian Carpenter, Vint Cerf, Kevin Darbyshire-Bryant,
+Vince Fuller, Stephen Hemminger, Geoff Huston, Rob Landley, Eliot
+Lear, Dan Mahoney, and Paul Wouters all made contributions to this
+document, directly or indirectly.
 
 {backmatter}
 
