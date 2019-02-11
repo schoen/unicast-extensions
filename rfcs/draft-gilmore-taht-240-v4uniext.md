@@ -601,7 +601,7 @@ document, directly or indirectly.
  <front>
  <title>Firewalls and Internet Security: Repelling the Wily Hacker, Second Edition</title>
   <author initials='W.R.' surname='Cheswick' fullname='Bill Cheswick'></author>
-  <author initials='S.M.' surname='Bellovin' fullname='Steve Bellovin'></author>
+$  <author initials='S.M.' surname='Bellovin' fullname='Steve Bellovin'></author>
   <author initials='A.D.' surname='Rubin' fullname='Avi Rubin'></author>
   <date year='2003' />
  </front>
