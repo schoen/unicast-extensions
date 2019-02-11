@@ -78,7 +78,7 @@ The Internet Protocol (IP version 4, IPv4) was designed from scratch
 as a replacement for the ARPAnet protocols.  Rather than enforcing
 uniformity, it followed the "Catenet Model" of a concatenated network
 of diversely implemented underlying networks, connected by simple and
-relatively memoryless gateways. @IEN48 By the year 1981, IPv4 had landed
+relatively memoryless gateways. [@IEN48] By the year 1981, IPv4 had landed
 as a simple and well-edited specification. [@!RFC0791]
 
 The designers improved on
@@ -606,5 +606,14 @@ document, directly or indirectly.
   <date year='2003' />
  </front>
  <seriesInfo name="Addison-Wesley" value='' />
+ </reference>
+
+
+<reference anchor='IEN48' target='http://www.postel.org/ien/pdf/ien048.pdf'>
+ <front>
+ <title>The CATENET MODEL FOR INTERNETWORKING</title>
+  <author initials='V.' surname='Cerf' fullname='Vint Cerf'></author>
+  <date year='1978' />
+ </front>
  </reference>
 
