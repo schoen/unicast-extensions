@@ -6,7 +6,7 @@ Internet Area Working Group                                   J. Gilmore
 Internet-Draft                            Electronic Frontier Foundation
 Updates: 2827, 3330, 6890 (if approved)                         D. Taeht
 Intended status: Standards Track                                TekLibre
-Expires: August 12, 2019                                February 8, 2019
+Expires: August 16, 2019                               February 12, 2019
 
 
                     The IPv4 240/4 Unicast Extension
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 12, 2019.
+   This Internet-Draft will expire on August 16, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Gilmore & Taeht          Expires August 12, 2019                [Page 1]
+Gilmore & Taeht          Expires August 16, 2019                [Page 1]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -96,6 +96,7 @@ Table of Contents
    14. References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
      14.1.  Normative References . . . . . . . . . . . . . . . . . .  14
      14.2.  Informative References . . . . . . . . . . . . . . . . .  17
+     14.3.  URIs . . . . . . . . . . . . . . . . . . . . . . . . . .  18
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  18
 
 1.  Terminology
@@ -108,8 +109,7 @@ Table of Contents
 
 
 
-
-Gilmore & Taeht          Expires August 12, 2019                [Page 2]
+Gilmore & Taeht          Expires August 16, 2019                [Page 2]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -127,22 +127,25 @@ Internet-Draft                240-v4uniext                 February 2019
    as a replacement for the ARPAnet protocols.  Rather than enforcing
    uniformity, it followed the "Catenet Model" of a concatenated network
    of diversely implemented underlying networks, connected by simple and
-   relatively memoryless gateways. @IEN48 By the year 1981, IPv4 had
-   landed as a simple and well-edited specification.  [RFC0791]
+   relatively memoryless gateways.  [IEN48] By the year 1981, IPv4 had
+   landed as a simple and well-edited specification.  [RFC0791],
+   [RFC0792].
 
    The designers improved on ARPAnet's 16-bit address space with IPv4's
    32-bit address space.  The 32-bit address space was clearly chosen as
    a compromise; its inability to address all the nodes that would
    likely want to use it was known from the start, but resource
    limitations in early routers discouraged the use of longer addresses.
-   [RFC0760]  FIXME, we still don't have a good ref for this assertion.
+   [RFC0760] FIXME, we still don't have a good ref for this assertion.
+   (ed: https://www.rfc-editor.org/ien/scanned/ien122.pdf [1] is a
+   start...)
 
    The initial IP design designated almost 7/8ths of the possible
    addresses as Unicast addresses.  These addresses identified
    individual nodes and routers, and could be used as source and
    destination addresses of packets designed to be forwarded with full
    global reachability, and/or for packets on local area networks.
-   [RFC0791][RFC0796]  (The term "unicast" only came into use when
+   [RFC0791][RFC0796] (The term "unicast" only came into use when
    multicast was invented for the Internet protocol in 1985.  Initially
    ALL the existing non-reserved IP addresses were, by default, unicast
    addresses.  [RFC0966]
@@ -160,16 +163,15 @@ Internet-Draft                240-v4uniext                 February 2019
    locally to any local subnets, such as multiple Ethernets on a
    university campus.
 
-   Also in 1984, broadcast addresses were added to IPv4.  [RFC0919],
-   [RFC0922] This required reserving one IPv4 address within each and
 
 
-
-Gilmore & Taeht          Expires August 12, 2019                [Page 3]
+Gilmore & Taeht          Expires August 16, 2019                [Page 3]
 
 Internet-Draft                240-v4uniext                 February 2019
 
 
+   Also in 1984, broadcast addresses were added to IPv4.  [RFC0919],
+   [RFC0922] This required reserving one IPv4 address within each and
    every network or subnet (the final address in that network or subnet,
    the "all-ones" host address).  The address 255.255.255.255 was also
    reserved to make it easier to broadcast on "a local hardware network"
@@ -216,16 +218,16 @@ Internet-Draft                240-v4uniext                 February 2019
    straining at the seams.  The problems were "the lack of a network
    class of a size which is appropriate for mid-sized organization[s]",
    growth of routing tables beyond available capacities, and the
-   "eventual exhaustion of the 32-bit IP address space" as documented in
-   [RFC1338].  The proposed fix involved an extension of subnetting to
 
 
 
-Gilmore & Taeht          Expires August 12, 2019                [Page 4]
+Gilmore & Taeht          Expires August 16, 2019                [Page 4]
 
 Internet-Draft                240-v4uniext                 February 2019
 
 
+   "eventual exhaustion of the 32-bit IP address space" as documented in
+   [RFC1338].  The proposed fix involved an extension of subnetting to
    "supernetting" multiple Class C networks, deploying classless routing
    protocols, and generally deprecating the concept of "network address
    classes".  Each network address would be represented by a "pair": an
@@ -256,9 +258,9 @@ Internet-Draft                240-v4uniext                 February 2019
    THIS NETWORK" by nodes that know their address on their local
    network, but do not yet know their network prefix.
    [RFC1122](#3.2.1.3) This definition was later repealed because the
-   expected mechanism for learning their network prefix had turned out
-   to be unworkable.  FIXME: [RFC0903], [RFC0951] ??  That repeal left
-   16 million addresses reserved for future use.
+   expected ICMP-based [RFC0792] mechanism for learning their network
+   prefix had turned out to be unworkable.  [RFC0903], [RFC0951].  That
+   repeal left 16 million addresses reserved for future use.
 
    The other 1/256th of the address space initially reserved for
    protocol functions was network 127.  The entire set of 16 million
@@ -272,16 +274,15 @@ Internet-Draft                240-v4uniext                 February 2019
    In 2011, IPv4 address exhaustion happened, on schedule.  Demand for
    IPv4 and IPv6 to IPv4 translation technologies spiked, leveraging
    [RFC1918], with [RFC7289] CGNs, [RFC6333] DS-Lite, and [RFC6877]
-   464XLAT becoming widely adopted.  While each of these solutions is
 
 
 
-
-Gilmore & Taeht          Expires August 12, 2019                [Page 5]
+Gilmore & Taeht          Expires August 16, 2019                [Page 5]
 
 Internet-Draft                240-v4uniext                 February 2019
 
 
+   464XLAT becoming widely adopted.  While each of these solutions is
    inadequate in their own way, and pure IPv6 is superior, the need for
    IPv4 address space appears unslakeable for the next 20 years.
 
@@ -332,8 +333,7 @@ Internet-Draft                240-v4uniext                 February 2019
 
 
 
-
-Gilmore & Taeht          Expires August 12, 2019                [Page 6]
+Gilmore & Taeht          Expires August 16, 2019                [Page 6]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -375,7 +375,7 @@ Internet-Draft                240-v4uniext                 February 2019
          +----------------------+----------------------------+
          | Address Block        | 255.255.255.255/32         |
          | Name                 | Limited Broadcast          |
-         | RFC                  | [@!RFC0919]                |
+         | RFC                  | RFC919                     |
          | Allocation Date      | 1984                       |
          | Termination Date     | N/A                        |
          | Source               | False                      |
@@ -389,7 +389,7 @@ Internet-Draft                240-v4uniext                 February 2019
 
 
 
-Gilmore & Taeht          Expires August 12, 2019                [Page 7]
+Gilmore & Taeht          Expires August 16, 2019                [Page 7]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -445,7 +445,7 @@ Internet-Draft                240-v4uniext                 February 2019
 
 
 
-Gilmore & Taeht          Expires August 12, 2019                [Page 8]
+Gilmore & Taeht          Expires August 16, 2019                [Page 8]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -501,7 +501,7 @@ Internet-Draft                240-v4uniext                 February 2019
 
 
 
-Gilmore & Taeht          Expires August 12, 2019                [Page 9]
+Gilmore & Taeht          Expires August 16, 2019                [Page 9]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -557,7 +557,7 @@ Internet-Draft                240-v4uniext                 February 2019
 
 
 
-Gilmore & Taeht          Expires August 12, 2019               [Page 10]
+Gilmore & Taeht          Expires August 16, 2019               [Page 10]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -572,8 +572,8 @@ Internet-Draft                240-v4uniext                 February 2019
          | Attribute            | Value                      |
          +----------------------+----------------------------+
          | Address Block        | 224.0.0.0/8                |
-         | Name                 | Multicast Addreses         |
-         | RFC                  | [@!RFC1112]                |
+         | Name                 | Multicast Addresses        |
+         | RFC                  | RFC1112                    |
          | Allocation Date      | 1989                       |
          | Termination Date     | N/A                        |
          | Source               | True                       |
@@ -613,7 +613,7 @@ Internet-Draft                240-v4uniext                 February 2019
 
 
 
-Gilmore & Taeht          Expires August 12, 2019               [Page 11]
+Gilmore & Taeht          Expires August 16, 2019               [Page 11]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -669,7 +669,7 @@ Internet-Draft                240-v4uniext                 February 2019
 
 
 
-Gilmore & Taeht          Expires August 12, 2019               [Page 12]
+Gilmore & Taeht          Expires August 16, 2019               [Page 12]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -725,7 +725,7 @@ Internet-Draft                240-v4uniext                 February 2019
 
 
 
-Gilmore & Taeht          Expires August 12, 2019               [Page 13]
+Gilmore & Taeht          Expires August 16, 2019               [Page 13]
 
 Internet-Draft                240-v4uniext                 February 2019
 
@@ -769,22 +769,27 @@ Internet-Draft                240-v4uniext                 February 2019
               DOI 10.17487/RFC0791, September 1981,
               <https://www.rfc-editor.org/info/rfc791>.
 
+   [RFC0792]  Postel, J., "Internet Control Message Protocol", STD 5,
+              RFC 792, DOI 10.17487/RFC0792, September 1981,
+              <https://www.rfc-editor.org/info/rfc792>.
+
    [RFC0796]  Postel, J., "Address mappings", RFC 796,
               DOI 10.17487/RFC0796, September 1981,
               <https://www.rfc-editor.org/info/rfc796>.
+
+
+
+
+
+Gilmore & Taeht          Expires August 16, 2019               [Page 14]
+
+Internet-Draft                240-v4uniext                 February 2019
+
 
    [RFC0903]  Finlayson, R., Mann, T., Mogul, J., and M. Theimer, "A
               Reverse Address Resolution Protocol", STD 38, RFC 903,
               DOI 10.17487/RFC0903, June 1984,
               <https://www.rfc-editor.org/info/rfc903>.
-
-
-
-
-Gilmore & Taeht          Expires August 12, 2019               [Page 14]
-
-Internet-Draft                240-v4uniext                 February 2019
-
 
    [RFC0917]  Mogul, J., "Internet subnets", RFC 917,
               DOI 10.17487/RFC0917, October 1984,
@@ -829,18 +834,18 @@ Internet-Draft                240-v4uniext                 February 2019
               RFC 1112, DOI 10.17487/RFC1112, August 1989,
               <https://www.rfc-editor.org/info/rfc1112>.
 
+
+
+
+Gilmore & Taeht          Expires August 16, 2019               [Page 15]
+
+Internet-Draft                240-v4uniext                 February 2019
+
+
    [RFC1122]  Braden, R., Ed., "Requirements for Internet Hosts -
               Communication Layers", STD 3, RFC 1122,
               DOI 10.17487/RFC1122, October 1989,
               <https://www.rfc-editor.org/info/rfc1122>.
-
-
-
-
-Gilmore & Taeht          Expires August 12, 2019               [Page 15]
-
-Internet-Draft                240-v4uniext                 February 2019
-
 
    [RFC1338]  Fuller, V., Li, T., Yu, J., and K. Varadhan,
               "Supernetting: an Address Assignment and Aggregation
@@ -883,20 +888,20 @@ Internet-Draft                240-v4uniext                 February 2019
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+
+
+
+
+
+Gilmore & Taeht          Expires August 16, 2019               [Page 16]
+
+Internet-Draft                240-v4uniext                 February 2019
+
+
    [RFC2827]  Ferguson, P. and D. Senie, "Network Ingress Filtering:
               Defeating Denial of Service Attacks which employ IP Source
               Address Spoofing", BCP 38, RFC 2827, DOI 10.17487/RFC2827,
               May 2000, <https://www.rfc-editor.org/info/rfc2827>.
-
-
-
-
-
-
-Gilmore & Taeht          Expires August 12, 2019               [Page 16]
-
-Internet-Draft                240-v4uniext                 February 2019
-
 
    [RFC4632]  Fuller, V. and T. Li, "Classless Inter-domain Routing
               (CIDR): The Internet Address Assignment and Aggregation
@@ -939,20 +944,22 @@ Internet-Draft                240-v4uniext                 February 2019
               of 240/4 from "Future Use" to "Private Use"", draft-
               wilson-class-e-02 (work in progress), September 2008.
 
-   [IPv4CLEANUP]
-              Taht, D., "IPv4 cleanup project", 2019.
+   [IEN48]    Cerf, V., "The CATENET MODEL FOR INTERNETWORKING", 1978.
 
 
 
 
-
-
-
-
-Gilmore & Taeht          Expires August 12, 2019               [Page 17]
+Gilmore & Taeht          Expires August 16, 2019               [Page 17]
 
 Internet-Draft                240-v4uniext                 February 2019
 
+
+   [IPv4CLEANUP]
+              Taht, D., "IPv4 cleanup project", 2019.
+
+14.3.  URIs
+
+   [1] https://www.rfc-editor.org/ien/scanned/ien122.pdf
 
 Authors' Addresses
 
@@ -998,11 +1005,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-Gilmore & Taeht          Expires August 12, 2019               [Page 18]
+Gilmore & Taeht          Expires August 16, 2019               [Page 18]
