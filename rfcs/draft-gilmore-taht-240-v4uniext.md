@@ -79,15 +79,14 @@ as a replacement for the ARPAnet protocols.  Rather than enforcing
 uniformity, it followed the "Catenet Model" of a concatenated network
 of diversely implemented underlying networks, connected by simple and
 relatively memoryless gateways. [@IEN48] By the year 1981, IPv4 had landed
-as a simple and well-edited specification. [@!RFC0791]
+as a simple and well-edited specification. [@!RFC0791], [@!RFC0792].
 
-The designers improved on
-ARPAnet's 16-bit address space with IPv4's 32-bit address space.  The
-32-bit address space was clearly chosen as a compromise; its inability
-to address all the nodes that would likely want to use it was known
-from the start, but resource limitations in early routers discouraged
-the use of longer addresses. [@!RFC0760]  FIXME, we still don't have a good
-ref for this assertion.
+The designers improved on ARPAnet's 16-bit address space with IPv4's
+32-bit address space.  The 32-bit address space was clearly chosen as
+a compromise; its inability to address all the nodes that would likely
+want to use it was known from the start, but resource limitations in
+early routers discouraged the use of longer addresses. [@!RFC0760]
+FIXME, we still don't have a good ref for this assertion. (ed: https://www.rfc-editor.org/ien/scanned/ien122.pdf is a start...)
 
 The initial IP design designated almost 7/8ths of the possible
 addresses as Unicast addresses.  These addresses identified individual
@@ -185,10 +184,12 @@ was "network 0".  The address 0.0.0.0 was reserved for use only as a
 source address by nodes that do not know their own address
 yet.  [@!RFC1122](#3.2.1.3) Addresses of the form 0.x.y.z were
 initially defined only as a source address for "node number x.y.z on
-THIS NETWORK" by nodes that know their address on their local network, but do not yet know their network prefix.  [@!RFC1122](#3.2.1.3) This definition was later repealed because
-the expected mechanism for learning their network prefix had turned
-out to be unworkable.  FIXME: [@!RFC0903], [@!RFC0951] ??  That repeal left 16 million
-addresses reserved for future use.
+THIS NETWORK" by nodes that know their address on their local network,
+but do not yet know their network prefix.  [@!RFC1122](#3.2.1.3) This
+definition was later repealed because the expected ICMP-based
+[@!RFC792] mechanism for learning their network prefix had turned out
+to be unworkable. [@!RFC0903], [@!RFC0951]. That repeal left 16
+million addresses reserved for future use.
 
 The other 1/256th of the address space initially reserved for protocol
 functions was network 127.  The entire set of 16 million addresses of
