@@ -1,5 +1,5 @@
 %%%
-title = "Converting some IPv4 multicast allocations to unicast"
+title = "Converting Additional IPv4 multicast allocations to unicast"
 abbrev = "224-v4uniext"
 updates = [2827, 3330, 6890]
 ipr = "trust200902"
@@ -110,11 +110,32 @@ reprogrammed, but leaving them a /16 seems polite? (Heck a /24 would
 probably be plenty, but a /16 means you don't have to update the NTP
 RFC...)
 
-In [@!RFC5771] IANA was directed.
+In [@!RFC5771] IANA was directed to re-evaluate the multicast allocations
+periodically.
 
 GLOP Addressing [@!RFC3180], 
 
 Even the largest multicast block is only 5% allocated.
+https://www.iana.org/assignments/multicast-addresses/multicast-addresses.xhtml
+
+## The multicast mess
+
+224.5 and up have no reservations
+224.252/14 – DIS transient groups
+https://tools.ietf.org/html/rfc5771  Asked 
+225/-231/8 Reserved for future use
+232/8 - Source-Specific Multicast Block
+233.0.0.0-233.251.255.255	GLOP Block	[RFC3180]
+233.252.0.0/24 – MCAST-TEST-NET
+233.252/14 AD-HOC Block III
+234.0.0.0-234. 255.255.255	Unicast-Prefix-based IPv4 Multicast Addresses	[RFC6034]
+235.0.0.0-238.255.255.255	Reserved	[IANA]			
+239/8 reserved for the mbone (obsolete for 12 years)
+https://tools.ietf.org/html/rfc2365
+
+https://tools.ietf.org/html/rfc3180
+
+https://tools.ietf.org/html/rfc4607 SSM
 
 # Implementation guidelines
 
