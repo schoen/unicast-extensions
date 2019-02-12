@@ -187,7 +187,7 @@ initially defined only as a source address for "node number x.y.z on
 THIS NETWORK" by nodes that know their address on their local network,
 but do not yet know their network prefix.  [@!RFC1122](#3.2.1.3) This
 definition was later repealed because the expected ICMP-based
-[@!RFC792] mechanism for learning their network prefix had turned out
+[@!RFC0792] mechanism for learning their network prefix had turned out
 to be unworkable. [@!RFC0903], [@!RFC0951]. That repeal left 16
 million addresses reserved for future use.
 
