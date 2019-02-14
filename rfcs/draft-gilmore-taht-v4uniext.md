@@ -113,8 +113,8 @@ as a source address by nodes that do not know their own address yet in
 [@!RFC1122](#3.2.1.3). Addresses of the form 0.x.y.z were initially
 defined only as a source address for "node number x.y.z on THIS
 NETWORK" by nodes that know their address on their local network, but
-do not yet know their network prefix. [!@RFC0972] (pg 19) This
-definition as later repealed in [@RFC1122)(#3.2.2.7) because the
+do not yet know their network prefix. [@RFC0972] (pg 19) This
+definition as later repealed in [@RFC1122] (#3.2.2.7) because the
 expected ICMP-based mechanism for learning their network prefix had
 turned out to be unworkable. [@!RFC0903], [@!RFC0951]. That repeal
 left 16 million addresses in 0.0.0.0/8 reserved for future use.
