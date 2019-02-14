@@ -74,10 +74,10 @@ from simplifying a few of the vestigial choices made during that
 evolution.
 
 The Internet Protocol (IP version 4, IPv4) was designed from scratch
-as a replacement for the ARPAnet protocols.  Rather than enforcing
-uniformity, it followed the "Catenet Model" [@IEN48] of a concatenated
-network of diversely implemented underlying networks, connected by
-simple and relatively memoryless gateways.
+as a replacement for the ARPAnet [@RFC6529] protocols.  Rather than
+enforcing uniformity, it followed the "Catenet Model" [@IEN48] of a
+concatenated network of diversely implemented underlying networks,
+connected by simple and relatively memoryless gateways.
 
 ## Arpanet -> IPv4
 
