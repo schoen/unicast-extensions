@@ -167,8 +167,8 @@ confused subsequent protocol users into thinking that the initial
 (zero) address in a network or subnet cannot be used as an ordinary
 unicast node address.
 
-Before those standard were finalized, one popular IPv4 implementation,
-4.2 BSD used the zero node address for broadcast, rather than the
+Before those standards were finalized, one popular IPv4 implementation,
+4.2 BSD, used the zero node address for broadcast, rather than the
 all-ones node address.  When these mismatched implementations tried to
 interoperate on an Ethernet, it was easy to produce "broadcast storms"
 that would consume all available network bandwidth until manually
@@ -200,7 +200,7 @@ straining at the seams.  The problems were "the lack of a network
 class of a size which is appropriate for mid-sized organization[s]",
 growth of routing tables beyond available capacities, and the
 "eventual exhaustion of the 32-bit IP address space" as documented in
-[@RFC1338]. After a convincing extrapolation that class-B space would
+[@RFC1338]. After a convincing extrapolation that Class-B space would
 be exhausted by mid-1994 [@IETF-13], the ROAD working group was
 formed.
 
