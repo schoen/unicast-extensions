@@ -4,9 +4,9 @@
 
 Internet Area Working Group                                   J. Gilmore
 Internet-Draft                            Electronic Frontier Foundation
-Updates: 2827, 3330, 6890 (if approved)                         D. Taeht
-Intended status: Standards Track                                TekLibre
-Expires: August 17, 2019                               February 13, 2019
+Updates: 2827, 6890 (if approved)                               D. Taeht
+Intended status: Best Current Practice                          TekLibre
+Expires: August 19, 2019                               February 15, 2019
 
 
                         IPv4 Unicast Extensions
@@ -19,8 +19,8 @@ Abstract
    address space have been "reserved for future use" for decades.  The
    future has arrived.
 
-   This memo reclassifies multiple underused address blocks as globally
-   routable unicast address space.
+   This memo updates [RFC6890], reclassifying multiple underused address
+   blocks as globally routable unicast address space.
 
 Status of This Memo
 
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 17, 2019.
+   This Internet-Draft will expire on August 19, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Gilmore & Taeht          Expires August 17, 2019                [Page 1]
+Gilmore & Taeht          Expires August 19, 2019                [Page 1]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -92,13 +92,14 @@ Table of Contents
      6.4.  Enable Reverse DNS for 255.0.0.0/8  . . . . . . . . . . .  14
    7.  Implementation status . . . . . . . . . . . . . . . . . . . .  14
    8.  Related Work  . . . . . . . . . . . . . . . . . . . . . . . .  14
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  14
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
    10. Security Considerations . . . . . . . . . . . . . . . . . . .  15
-   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  15
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  15
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  18
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  19
+   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  16
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  16
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  16
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  16
+     12.3.  URIs . . . . . . . . . . . . . . . . . . . . . . . . . .  20
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
 
 1.  Terminology
 
@@ -108,8 +109,7 @@ Table of Contents
 
 
 
-
-Gilmore & Taeht          Expires August 17, 2019                [Page 2]
+Gilmore & Taeht          Expires August 19, 2019                [Page 2]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -151,51 +151,52 @@ Internet-Draft                v4unicast-ext                February 2019
    [RFC0791][RFC0796] The term "unicast" only came into use when
    multicast was invented for the Internet protocol in 1985.  Initially
    ALL the existing non-reserved IP addresses were, by default, unicast
-   addresses.  [RFC0966]
+   addresses in [RFC0966].
 
    1/8th of the 32-bit address space was left as "reserved for future
    use", and a few other 256ths were reserved for simple protocol
-   functions or for future use.  [RFC0791](#3.2) [RFC0796]
+   functions or for future use in [RFC0791] (section 3.2) and [RFC0796]
 
    1/256th of the address space initially reserved for protocol
    functions was "network 0". "0" was originally an ARPAnet network
    address for control messages.  The IPv4 address 0.0.0.0 was reserved
    for use only as a source address by nodes that do not know their own
-   address yet in [RFC1122](#3.2.1.3).  Addresses of the form 0.x.y.z
+   address yet in [RFC1122] (section 3.2.1.3).  Addresses of the form
 
 
 
-Gilmore & Taeht          Expires August 17, 2019                [Page 3]
+Gilmore & Taeht          Expires August 19, 2019                [Page 3]
 
 Internet-Draft                v4unicast-ext                February 2019
 
 
-   were initially defined only as a source address for "node number
-   x.y.z on THIS NETWORK" by nodes that know their address on their
-   local network, but do not yet know their network prefix.  [RFC0972]
-   (pg 19) This definition as later repealed in [RFC1122] (#3.2.2.7)
-   because the expected ICMP-based mechanism for learning their network
-   prefix had turned out to be unworkable.  [RFC0903], [RFC0951].  That
-   repeal left 16 million addresses in 0.0.0.0/8 reserved for future
-   use.
+   0.x.y.z were initially defined only as a source address for "node
+   number x.y.z on THIS NETWORK" by nodes that know their address on
+   their local network, but do not yet know their network prefix in
+   [RFC0972] (pg 19).  This requirement was later repealed in [RFC1122]
+   (section 3.2.2.7) because the expected ICMP-based mechanism for
+   learning the network prefix had turned out to be unworkable and had
+   been replaced by [RFC0903], and BOOTP ([RFC0951]).  That repeal left
+   16 million addresses in 0.0.0.0/8 reserved for future use.
 
    The other 1/256th of the address space initially reserved for
    protocol functions was network 127.  The entire set of 16 million
-   addresses of the form 127.x.y.z were reserved in [RFC1122](#3.2.1.3)
-   for "internal host loopback addresses" and "should never appear as a
-   source or destination address on a network outside of a single node".
-   When IPv6 was designed in the 1990s, this was seen as excessive.  In
-   [RFC1884] the single IPv6 loopback address was defined, but in IPv4,
-   this reservation has continued to the present day.
+   addresses of the form 127.x.y.z were reserved in [RFC1122](section
+   3.2.1.3) for "internal host loopback addresses" and "should never
+   appear as a source or destination address on a network outside of a
+   single node".  When IPv6 was designed in the 1990s, this was seen as
+   excessive.  In [RFC1884] the single IPv6 loopback address was
+   defined, but in IPv4, this reservation has continued to the present
+   day.
 
    The remaining 1/16th of the "EXPERIMENTAL" portion of the address
-   space has remained reserved and unused [RFC1054] #4 in the 38 years
-   since 1981.  This portion is now called 240/4 in CIDR notation and
-   contains 268,435,455 addresses.
+   space has remained reserved and unused [RFC1112] (section 4) in the
+   38 years since 1981.  This portion is now called 240/4 in CIDR
+   notation and contains 268,435,455 addresses.
 
 2.2.  Subnetting and broadcast extensions
 
-   By 1984, subnets were made part of the IP protocol by [RFC0917], and
+   In 1984, subnets were made part of the IP protocol by [RFC0917] and
    [RFC0922].
 
    Initially, subnets were only used "locally".  The global Internet
@@ -204,47 +205,48 @@ Internet-Draft                v4unicast-ext                February 2019
    locally to any local subnets, such as multiple Ethernets on a
    university campus.
 
-   Also in 1984, broadcast addresses were added to IPv4.  [RFC0919],
-   [RFC0922] This required reserving one IPv4 address within each and
-   every network or subnet (the final address in that network or subnet,
-   the "all-ones" host address).  The address 255.255.255.255 was also
-   reserved to make it easier to broadcast on "a local hardware network"
-   without knowing the details of those networks.  This made broadcast a
-   useful mechanism for discovering a node's own address on the network.
+   Also in 1984, broadcast addresses were added to IPv4 by [RFC0919],
+   and [RFC0922].  This required reserving one IPv4 address within each
+   and every network or subnet (the final address in that network or
+   subnet, the "all-ones" host address).  The address 255.255.255.255
+   was also reserved to make it easier to broadcast on "a local hardware
+   network" without knowing the details of those networks.  This made
+   broadcast a useful mechanism for discovering a node's own address on
+   the network.
 
    The 1984 broadcast extension also reserved the initial (zero) address
    in each network or subnet, with [RFC0919] stating that "There is
    probably no reason for such addresses to appear anywhere", with a
    now-obsolete exception.  It also, apparently by coincidence,
-   documented a human writing convention of designating a "network
-   number" with the zero address, such as 36.0.0.0.  This convention has
 
 
 
-Gilmore & Taeht          Expires August 17, 2019                [Page 4]
+Gilmore & Taeht          Expires August 19, 2019                [Page 4]
 
 Internet-Draft                v4unicast-ext                February 2019
 
 
+   documented a human writing convention of designating a "network
+   number" with the zero address, such as 36.0.0.0.  This convention has
    confused subsequent protocol users into thinking that the initial
    (zero) address in a network or subnet cannot be used as an ordinary
    unicast node address.
 
-   During that era, there was confusion in one popular IPv4
-   implementation, 4.2 BSD, which used the zero node address for
-   broadcast, rather than the all-ones node address.  When these
-   mismatched implementations tried to interoperate on an Ethernet, it
-   was easy to produce "broadcast storms" that would consume all
-   available network bandwidth until manually stopped.  The offending
-   implementation was upgraded in the subsequent 4.3 BSD release to meet
-   the standards.  The problem has not recurred for decades, but a
-   remnant of the gaffe exists in the prohibition on using the zero node
-   address in a network or subnet.  [RFC1122] (section 3.2.2.7)
+   Before those standard were finalized, one popular IPv4
+   implementation, 4.2 BSD used the zero node address for broadcast,
+   rather than the all-ones node address.  When these mismatched
+   implementations tried to interoperate on an Ethernet, it was easy to
+   produce "broadcast storms" that would consume all available network
+   bandwidth until manually stopped.  The offending implementation was
+   upgraded in the subsequent 4.3 BSD release to meet the standards.
+   The problem has not recurred for decades, but a remnant of the gaffe
+   exists in the prohibition in [RFC1122] (section 3.2.2.7) on using the
+   zero node address in a network or subnet.
 
 2.3.  Multicast
 
    Later (1988) designers chose to allocate 1/16th of the total space
-   (half of the formerly reserved space) for multicast use in [RFC1054].
+   (half of the formerly reserved space) for multicast use in [RFC1112].
    While multicast was a much better idea than the sole similar former
    option (broadcast), its use on anything besides local area networks
    has remained a tiny niche, in retrospect clearly not worth
@@ -266,26 +268,26 @@ Internet-Draft                v4unicast-ext                February 2019
    "eventual exhaustion of the 32-bit IP address space" as documented in
    [RFC1338].  After a convincing extrapolation that class-B space would
    be exhausted by mid-1994 [IETF-13], the ROAD working group was
-   convened.
+   formed.
 
    Their proposed fixes involved an extension of subnetting to
    "supernetting" multiple Class C networks, deploying classless routing
    protocols, and generally deprecating the concept of "network address
    classes".  Each network address would be represented by a "pair": an
-   address and a mask.  This proposal reserved the address 0.0.0.0 with
-   mask 0.0.0.0 as the "default route" with special rules.  This was
 
 
 
-Gilmore & Taeht          Expires August 17, 2019                [Page 5]
+Gilmore & Taeht          Expires August 19, 2019                [Page 5]
 
 Internet-Draft                v4unicast-ext                February 2019
 
 
+   address and a mask.  This proposal reserved the address 0.0.0.0 with
+   mask 0.0.0.0 as the "default route" with special rules.  This was
    adopted in 1993 as Classless Inter-Domain Routing (CIDR) for Class C,
    and half of Class A (a quarter of the entire Internet address space)
    was reserved for future subnetting after deployment of more capable
-   routing protocols.  [RFC1466], [RFC1518], [RFC1519]
+   routing protocols by [RFC1466], [RFC1518], [RFC1519].
 
    In 1994, NAT [RFC1631] also appeared as an interim solution to
    address depletion.
@@ -308,10 +310,10 @@ Internet-Draft                v4unicast-ext                February 2019
 
    In 2011, IPv4 address exhaustion happened, on schedule.  Demand for
    IPv4 and IPv6 to IPv4 translation technologies spiked, leveraging
-   [RFC1918], with [RFC7289] CGNs, [RFC6333] DS-Lite, and [RFC6877]
-   464XLAT becoming widely adopted.  While each of these solutions is
-   inadequate in their own way, and pure IPv6 is superior, the need for
-   IPv4 address space appears unslakeable for the next 20 years.
+   [RFC1918], with CGNS ([RFC7289]), DS-Lite ([RFC6333]), and 464XLAT
+   ([RFC6877]) becoming widely adopted.  While each of these solutions
+   is inadequate in their own way, and pure IPv6 is superior, the need
+   for IPv4 address space appears unslakeable for the next 20 years.
 
    Although a market has appeared for existing IPv4 allocations, and
    small amounts of address space returned to the global pools, demand
@@ -331,9 +333,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-
-
-Gilmore & Taeht          Expires August 17, 2019                [Page 6]
+Gilmore & Taeht          Expires August 19, 2019                [Page 6]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -389,7 +389,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 17, 2019                [Page 7]
+Gilmore & Taeht          Expires August 19, 2019                [Page 7]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -445,7 +445,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 17, 2019                [Page 8]
+Gilmore & Taeht          Expires August 19, 2019                [Page 8]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -454,9 +454,10 @@ Internet-Draft                v4unicast-ext                February 2019
    it is usable only as a source IP address, and only in nodes that do
    not know or have an IPv4 address on the network where the packet
    appears; it is invalid as a network interface address.  Typically,
-   such an address is used when using a UDP-based protocol like BOOTP or
-   DHCP to ask another node to supply this node with a usable address.
-   This behavior is unchanged from previously specified behavior.
+   such an address is used when using a UDP-based protocol like BOOTP,
+   DHCP, or IGMP [RFC4541] to ask another node to supply this node with
+   a usable address.  This behavior is unchanged from previously
+   specified behavior.
 
          +----------------------+----------------------------+
          | Attribute            | Value                      |
@@ -500,8 +501,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-
-Gilmore & Taeht          Expires August 17, 2019                [Page 9]
+Gilmore & Taeht          Expires August 19, 2019                [Page 9]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -557,7 +557,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 17, 2019               [Page 10]
+Gilmore & Taeht          Expires August 19, 2019               [Page 10]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -613,7 +613,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 17, 2019               [Page 11]
+Gilmore & Taeht          Expires August 19, 2019               [Page 11]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -649,16 +649,13 @@ Internet-Draft                v4unicast-ext                February 2019
 5.2.  Unicast use of the all-ones node address in each point-to-point
       network
 
-   The all-ones node address MUST be treated as broadcast except when
-   used as a target for a /32 network node.
-
    255.255.255.255/32 MUST always be treated as broadcast.
 
 6.  Issues
 
    This document does not presently go into all the possible issues with
    these reallocations.  Prior documents conflate the end-purpose of
-   these IP addreses without mandating the simple requirement that they
+   these IP addresses without mandating the simple requirement that they
    be unicast and routable.
 
 6.1.  Long Deployment Tail
@@ -669,7 +666,10 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 17, 2019               [Page 12]
+
+
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 12]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -684,14 +684,16 @@ Internet-Draft                v4unicast-ext                February 2019
 
 6.3.  Martians lists, bogons and BCP38
 
-   [RFC2827] recommends that ISPs police their customers' traffic by
-   dropping traffic entering their networks that is coming from a source
-   address not legitimately in use by the customer network.  The
-   filtering includes but is in no way limited to the traffic whose
-   source address is a so-called "Martian Address" - an address that is
-   reserved [3], including any address within 0.0.0.0/8, 10.0.0.0/8,
-   127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 224.0.0.0/4, or
-   240.0.0.0/4.
+   [RFC3704] states:
+
+      [RFC2827] recommends that ISPs police their customers' traffic by
+      dropping traffic entering their networks that is coming from a
+      source address not legitimately in use by the customer network.
+      The filtering includes but is in no way limited to the traffic
+      whose source address is a so-called "Martian Address" - an address
+      that is reserved [3], including any address within 0.0.0.0/8,
+      10.0.0.0/8, 127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16,
+      224.0.0.0/4, or 240.0.0.0/4.
 
    This memo removes 0.0.0.0/8, 240.0.0.0/4, 127.0.0.0/8, and
    225.0.0.0/8-231.0.0.0/8 from the martian address spaces.
@@ -700,19 +702,41 @@ Internet-Draft                v4unicast-ext                February 2019
 
    o  0.0.0.0/32
 
+   o  100.64.0.0/10
+
    o  10.0.0.0/8
-
-   o  172.16.0.0/12
-
-   o  192.168.0.0/16
 
    o  127.0.0.0/16
 
-   o  255.255.255.255/32
+   o  172.16.0.0/12
+
+   o  169.254.0.0/16
+
+   o  192.0.0.0/24
+
+   o  192.0.2.0/24
+
+   o  192.168.0.0/16
+
+   o  198.18.0.0/15
+
+   o  198.51.100.0/24
+
+
+
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 13]
+
+Internet-Draft                v4unicast-ext                February 2019
+
+
+   o  203.0.113.0/24
 
    o  224.0.0.0/8
 
    o  232.0.0.0/5
+
+   o  255.255.255.255/32
 
    Firewalls [CBR03], packet filters, and intrusion detection systems,
    MUST be upgraded to be capable of monitoring and managing these
@@ -720,15 +744,6 @@ Internet-Draft                v4unicast-ext                February 2019
 
    Routing protocols MUST treat these as unicast, globally routable
    addresses.
-
-
-
-
-
-Gilmore & Taeht          Expires August 17, 2019               [Page 13]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
 6.4.  Enable Reverse DNS for 255.0.0.0/8
 
@@ -747,8 +762,8 @@ Internet-Draft                v4unicast-ext                February 2019
    supported 240/4 since 2008.  Four out of the top 5 open source IoT
    stacks, also treat 240/4 as unicast, with a 3 line patch awaiting
    submission for the last.  The [RFC6126] Babel routing protocol fully
-   supports 240/4, and patches have been submitted to the BGP/OSPF/ISIS/
-   etc capable routing daemon projects, "Bird", and "FRR".
+   supports 240/4, and patches have been submitted to the BGP/OSPF/ISIS
+   capable routing daemon projects, "Bird", and "FRR".
 
    No plans have been announced for modifications to any version of
    Microsoft Windows, however Windows developers are aware of the work
@@ -762,6 +777,15 @@ Internet-Draft                v4unicast-ext                February 2019
    2008-2010 timeframe, with proposals for making it pure public
    routable unicast [I-D.fuller-240space], or routable, but private,
    RFC1918 style address space [I-D.wilson-class-e].  Neither proposal
+
+
+
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 14]
+
+Internet-Draft                v4unicast-ext                February 2019
+
+
    gained traction in the IETF, however the first step - making 240/4
    actually work - was almost universally adopted in the field.
 
@@ -771,20 +795,27 @@ Internet-Draft                v4unicast-ext                February 2019
 
 9.  IANA Considerations
 
-   IANA is directed to make the these address spaces available as
-   reverse DNS space in in-addr.arpa.
+   Although this memo requires implementations to treat these addresses
+   the same as any other unicast addresses, it does not change the
+   "reserved" status of any block.  The IANA is requested to mark these
+   new blocks as unallocated, with the understanding that future
+   standards action will define how they are to be allocated.
 
+   240.0.0.0/4 and 0.0.0.0/8 move from the "special purpose" registry
+   (https://www.iana.org/assignments/iana-ipv4-special-registry/iana-
+   ipv4-special-registry.xhtml [1]) and are added to the regular "ipv4-
+   address-space" registry ( https://www.iana.org/assignments/ipv4-
+   address-space/ipv4-address-space.xhtml) [2]
 
+   0.0.0.0/32 and 127.0.0.0/16 should be added to the special purpose
+   registry.
 
+   In the ipv4-address-space registry, 240/4 should be moved from future
+   use to unallocated, and 225/8 - 231/8 should be moved from multicast
+   to unallocated. 127.1.0.0/16 and up should be added.
 
-
-
-
-
-Gilmore & Taeht          Expires August 17, 2019               [Page 14]
-
-Internet-Draft                v4unicast-ext                February 2019
-
+   IANA is directed also to prepare the these address spaces to be
+   available as reverse DNS space in in-addr.arpa.
 
 10.  Security Considerations
 
@@ -801,6 +832,16 @@ Internet-Draft                v4unicast-ext                February 2019
    that 127 in particular, having been "localnet" so long, is on fewer
    bogon/martian lists than it should.
 
+
+
+
+
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 15]
+
+Internet-Draft                v4unicast-ext                February 2019
+
+
 11.  Acknowledgements
 
    Jason Ackley, Brian Carpenter, Vint Cerf, Kevin Darbyshire-Bryant,
@@ -814,94 +855,14 @@ Internet-Draft                v4unicast-ext                February 2019
 
 12.1.  Normative References
 
-   [CBR03]    Cheswick, W., Bellovin, S., and A. Rubin, "Firewalls and
-              Internet Security: Repelling the Wily Hacker, Second
-              Edition", 2003.
-
-   [RFC0791]  Postel, J., "Internet Protocol", STD 5, RFC 791,
-              DOI 10.17487/RFC0791, September 1981,
-              <https://www.rfc-editor.org/info/rfc791>.
-
-   [RFC0903]  Finlayson, R., Mann, T., Mogul, J., and M. Theimer, "A
-              Reverse Address Resolution Protocol", STD 38, RFC 903,
-              DOI 10.17487/RFC0903, June 1984,
-              <https://www.rfc-editor.org/info/rfc903>.
-
-   [RFC0917]  Mogul, J., "Internet subnets", RFC 917,
-              DOI 10.17487/RFC0917, October 1984,
-              <https://www.rfc-editor.org/info/rfc917>.
-
-   [RFC0951]  Croft, W. and J. Gilmore, "Bootstrap Protocol", RFC 951,
-              DOI 10.17487/RFC0951, September 1985,
-              <https://www.rfc-editor.org/info/rfc951>.
-
-
-
-Gilmore & Taeht          Expires August 17, 2019               [Page 15]
-
-Internet-Draft                v4unicast-ext                February 2019
-
-
-   [RFC1022]  Partridge, C. and G. Trewitt, "High-level Entity
-              Management Protocol (HEMP)", RFC 1022,
-              DOI 10.17487/RFC1022, October 1987,
-              <https://www.rfc-editor.org/info/rfc1022>.
-
-   [RFC1023]  Trewitt, G. and C. Partridge, "HEMS monitoring and control
-              language", RFC 1023, DOI 10.17487/RFC1023, October 1987,
-              <https://www.rfc-editor.org/info/rfc1023>.
-
-   [RFC1024]  Partridge, C. and G. Trewitt, "HEMS variable definitions",
-              RFC 1024, DOI 10.17487/RFC1024, October 1987,
-              <https://www.rfc-editor.org/info/rfc1024>.
-
-   [RFC1054]  Deering, S., "Host extensions for IP multicasting",
-              RFC 1054, DOI 10.17487/RFC1054, May 1988,
-              <https://www.rfc-editor.org/info/rfc1054>.
-
    [RFC1112]  Deering, S., "Host extensions for IP multicasting", STD 5,
               RFC 1112, DOI 10.17487/RFC1112, August 1989,
               <https://www.rfc-editor.org/info/rfc1112>.
 
-   [RFC1338]  Fuller, V., Li, T., Yu, J., and K. Varadhan,
-              "Supernetting: an Address Assignment and Aggregation
-              Strategy", RFC 1338, DOI 10.17487/RFC1338, June 1992,
-              <https://www.rfc-editor.org/info/rfc1338>.
-
-   [RFC1466]  Gerich, E., "Guidelines for Management of IP Address
-              Space", RFC 1466, DOI 10.17487/RFC1466, May 1993,
-              <https://www.rfc-editor.org/info/rfc1466>.
-
-   [RFC1518]  Rekhter, Y. and T. Li, "An Architecture for IP Address
-              Allocation with CIDR", RFC 1518, DOI 10.17487/RFC1518,
-              September 1993, <https://www.rfc-editor.org/info/rfc1518>.
-
-   [RFC1519]  Fuller, V., Li, T., Yu, J., and K. Varadhan, "Classless
-              Inter-Domain Routing (CIDR): an Address Assignment and
-              Aggregation Strategy", RFC 1519, DOI 10.17487/RFC1519,
-              September 1993, <https://www.rfc-editor.org/info/rfc1519>.
-
-   [RFC1797]  Internet Assigned Numbers Authority (IANA), "Class A
-              Subnet Experiment", RFC 1797, DOI 10.17487/RFC1797, April
-              1995, <https://www.rfc-editor.org/info/rfc1797>.
-
-   [RFC1918]  Rekhter, Y., Moskowitz, B., Karrenberg, D., de Groot, G.,
-              and E. Lear, "Address Allocation for Private Internets",
-              BCP 5, RFC 1918, DOI 10.17487/RFC1918, February 1996,
-              <https://www.rfc-editor.org/info/rfc1918>.
-
-
-
-
-Gilmore & Taeht          Expires August 17, 2019               [Page 16]
-
-Internet-Draft                v4unicast-ext                February 2019
-
-
-   [RFC2036]  Huston, G., "Observations on the use of Components of the
-              Class A Address Space within the Internet", RFC 2036,
-              DOI 10.17487/RFC2036, October 1996,
-              <https://www.rfc-editor.org/info/rfc2036>.
+   [RFC1122]  Braden, R., Ed., "Requirements for Internet Hosts -
+              Communication Layers", STD 3, RFC 1122,
+              DOI 10.17487/RFC1122, October 1989,
+              <https://www.rfc-editor.org/info/rfc1122>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -913,53 +874,29 @@ Internet-Draft                v4unicast-ext                February 2019
               Address Spoofing", BCP 38, RFC 2827, DOI 10.17487/RFC2827,
               May 2000, <https://www.rfc-editor.org/info/rfc2827>.
 
-   [RFC4632]  Fuller, V. and T. Li, "Classless Inter-domain Routing
-              (CIDR): The Internet Address Assignment and Aggregation
-              Plan", BCP 122, RFC 4632, DOI 10.17487/RFC4632, August
-              2006, <https://www.rfc-editor.org/info/rfc4632>.
-
-   [RFC6126]  Chroboczek, J., "The Babel Routing Protocol", RFC 6126,
-              DOI 10.17487/RFC6126, April 2011,
-              <https://www.rfc-editor.org/info/rfc6126>.
-
-   [RFC6333]  Durand, A., Droms, R., Woodyatt, J., and Y. Lee, "Dual-
-              Stack Lite Broadband Deployments Following IPv4
-              Exhaustion", RFC 6333, DOI 10.17487/RFC6333, August 2011,
-              <https://www.rfc-editor.org/info/rfc6333>.
-
-   [RFC6877]  Mawatari, M., Kawashima, M., and C. Byrne, "464XLAT:
-              Combination of Stateful and Stateless Translation",
-              RFC 6877, DOI 10.17487/RFC6877, April 2013,
-              <https://www.rfc-editor.org/info/rfc6877>.
-
    [RFC6890]  Cotton, M., Vegoda, L., Bonica, R., Ed., and B. Haberman,
               "Special-Purpose IP Address Registries", BCP 153,
               RFC 6890, DOI 10.17487/RFC6890, April 2013,
               <https://www.rfc-editor.org/info/rfc6890>.
 
-   [RFC7289]  Kuarsingh, V., Ed. and J. Cianfarani, "Carrier-Grade NAT
-              (CGN) Deployment with BGP/MPLS IP VPNs", RFC 7289,
-              DOI 10.17487/RFC7289, June 2014,
-              <https://www.rfc-editor.org/info/rfc7289>.
-
-
-
-
-
-
-
-
-Gilmore & Taeht          Expires August 17, 2019               [Page 17]
-
-Internet-Draft                v4unicast-ext                February 2019
-
-
 12.2.  Informative References
+
+   [CBR03]    Cheswick, W., Bellovin, S., and A. Rubin, "Firewalls and
+              Internet Security: Repelling the Wily Hacker, Second
+              Edition", 2003.
 
    [I-D.fuller-240space]
               Fuller, V., "Reclassifying 240/4 as usable unicast address
               space", draft-fuller-240space-02 (work in progress), March
               2008.
+
+
+
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 16]
+
+Internet-Draft                v4unicast-ext                February 2019
+
 
    [I-D.wilson-class-e]
               Wilson, P., Michaelson, G., and G. Huston, "Redesignation
@@ -980,6 +917,10 @@ Internet-Draft                v4unicast-ext                February 2019
               DOI 10.17487/RFC0760, January 1980,
               <https://www.rfc-editor.org/info/rfc760>.
 
+   [RFC0791]  Postel, J., "Internet Protocol", STD 5, RFC 791,
+              DOI 10.17487/RFC0791, September 1981,
+              <https://www.rfc-editor.org/info/rfc791>.
+
    [RFC0792]  Postel, J., "Internet Control Message Protocol", STD 5,
               RFC 792, DOI 10.17487/RFC0792, September 1981,
               <https://www.rfc-editor.org/info/rfc792>.
@@ -987,6 +928,15 @@ Internet-Draft                v4unicast-ext                February 2019
    [RFC0796]  Postel, J., "Address mappings", RFC 796,
               DOI 10.17487/RFC0796, September 1981,
               <https://www.rfc-editor.org/info/rfc796>.
+
+   [RFC0903]  Finlayson, R., Mann, T., Mogul, J., and M. Theimer, "A
+              Reverse Address Resolution Protocol", STD 38, RFC 903,
+              DOI 10.17487/RFC0903, June 1984,
+              <https://www.rfc-editor.org/info/rfc903>.
+
+   [RFC0917]  Mogul, J., "Internet subnets", RFC 917,
+              DOI 10.17487/RFC0917, October 1984,
+              <https://www.rfc-editor.org/info/rfc917>.
 
    [RFC0919]  Mogul, J., "Broadcasting Internet Datagrams", STD 5,
               RFC 919, DOI 10.17487/RFC0919, October 1984,
@@ -997,31 +947,72 @@ Internet-Draft                v4unicast-ext                February 2019
               DOI 10.17487/RFC0922, October 1984,
               <https://www.rfc-editor.org/info/rfc922>.
 
+
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 17]
+
+Internet-Draft                v4unicast-ext                February 2019
+
+
+   [RFC0951]  Croft, W. and J. Gilmore, "Bootstrap Protocol", RFC 951,
+              DOI 10.17487/RFC0951, September 1985,
+              <https://www.rfc-editor.org/info/rfc951>.
+
    [RFC0966]  Deering, S. and D. Cheriton, "Host groups: A multicast
               extension to the Internet Protocol", RFC 966,
               DOI 10.17487/RFC0966, December 1985,
               <https://www.rfc-editor.org/info/rfc966>.
 
-
-
-
-Gilmore & Taeht          Expires August 17, 2019               [Page 18]
-
-Internet-Draft                v4unicast-ext                February 2019
-
-
    [RFC0972]  Wancho, F., "Password Generator Protocol", RFC 972,
               DOI 10.17487/RFC0972, January 1986,
               <https://www.rfc-editor.org/info/rfc972>.
 
-   [RFC1122]  Braden, R., Ed., "Requirements for Internet Hosts -
-              Communication Layers", STD 3, RFC 1122,
-              DOI 10.17487/RFC1122, October 1989,
-              <https://www.rfc-editor.org/info/rfc1122>.
+   [RFC1022]  Partridge, C. and G. Trewitt, "High-level Entity
+              Management Protocol (HEMP)", RFC 1022,
+              DOI 10.17487/RFC1022, October 1987,
+              <https://www.rfc-editor.org/info/rfc1022>.
+
+   [RFC1023]  Trewitt, G. and C. Partridge, "HEMS monitoring and control
+              language", RFC 1023, DOI 10.17487/RFC1023, October 1987,
+              <https://www.rfc-editor.org/info/rfc1023>.
+
+   [RFC1024]  Partridge, C. and G. Trewitt, "HEMS variable definitions",
+              RFC 1024, DOI 10.17487/RFC1024, October 1987,
+              <https://www.rfc-editor.org/info/rfc1024>.
+
+   [RFC1338]  Fuller, V., Li, T., Yu, J., and K. Varadhan,
+              "Supernetting: an Address Assignment and Aggregation
+              Strategy", RFC 1338, DOI 10.17487/RFC1338, June 1992,
+              <https://www.rfc-editor.org/info/rfc1338>.
+
+   [RFC1466]  Gerich, E., "Guidelines for Management of IP Address
+              Space", RFC 1466, DOI 10.17487/RFC1466, May 1993,
+              <https://www.rfc-editor.org/info/rfc1466>.
+
+   [RFC1518]  Rekhter, Y. and T. Li, "An Architecture for IP Address
+              Allocation with CIDR", RFC 1518, DOI 10.17487/RFC1518,
+              September 1993, <https://www.rfc-editor.org/info/rfc1518>.
+
+   [RFC1519]  Fuller, V., Li, T., Yu, J., and K. Varadhan, "Classless
+              Inter-Domain Routing (CIDR): an Address Assignment and
+              Aggregation Strategy", RFC 1519, DOI 10.17487/RFC1519,
+              September 1993, <https://www.rfc-editor.org/info/rfc1519>.
 
    [RFC1631]  Egevang, K. and P. Francis, "The IP Network Address
               Translator (NAT)", RFC 1631, DOI 10.17487/RFC1631, May
               1994, <https://www.rfc-editor.org/info/rfc1631>.
+
+
+
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 18]
+
+Internet-Draft                v4unicast-ext                February 2019
+
+
+   [RFC1797]  Internet Assigned Numbers Authority (IANA), "Class A
+              Subnet Experiment", RFC 1797, DOI 10.17487/RFC1797, April
+              1995, <https://www.rfc-editor.org/info/rfc1797>.
 
    [RFC1883]  Deering, S. and R. Hinden, "Internet Protocol, Version 6
               (IPv6) Specification", RFC 1883, DOI 10.17487/RFC1883,
@@ -1031,18 +1022,81 @@ Internet-Draft                v4unicast-ext                February 2019
               Addressing Architecture", RFC 1884, DOI 10.17487/RFC1884,
               December 1995, <https://www.rfc-editor.org/info/rfc1884>.
 
+   [RFC1918]  Rekhter, Y., Moskowitz, B., Karrenberg, D., de Groot, G.,
+              and E. Lear, "Address Allocation for Private Internets",
+              BCP 5, RFC 1918, DOI 10.17487/RFC1918, February 1996,
+              <https://www.rfc-editor.org/info/rfc1918>.
+
    [RFC1925]  Callon, R., "The Twelve Networking Truths", RFC 1925,
               DOI 10.17487/RFC1925, April 1996,
               <https://www.rfc-editor.org/info/rfc1925>.
+
+   [RFC2036]  Huston, G., "Observations on the use of Components of the
+              Class A Address Space within the Internet", RFC 2036,
+              DOI 10.17487/RFC2036, October 1996,
+              <https://www.rfc-editor.org/info/rfc2036>.
+
+   [RFC3704]  Baker, F. and P. Savola, "Ingress Filtering for Multihomed
+              Networks", BCP 84, RFC 3704, DOI 10.17487/RFC3704, March
+              2004, <https://www.rfc-editor.org/info/rfc3704>.
+
+   [RFC4541]  Christensen, M., Kimball, K., and F. Solensky,
+              "Considerations for Internet Group Management Protocol
+              (IGMP) and Multicast Listener Discovery (MLD) Snooping
+              Switches", RFC 4541, DOI 10.17487/RFC4541, May 2006,
+              <https://www.rfc-editor.org/info/rfc4541>.
+
+   [RFC4632]  Fuller, V. and T. Li, "Classless Inter-domain Routing
+              (CIDR): The Internet Address Assignment and Aggregation
+              Plan", BCP 122, RFC 4632, DOI 10.17487/RFC4632, August
+              2006, <https://www.rfc-editor.org/info/rfc4632>.
+
+   [RFC6126]  Chroboczek, J., "The Babel Routing Protocol", RFC 6126,
+              DOI 10.17487/RFC6126, April 2011,
+              <https://www.rfc-editor.org/info/rfc6126>.
+
+
+
+
+
+
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 19]
+
+Internet-Draft                v4unicast-ext                February 2019
+
+
+   [RFC6333]  Durand, A., Droms, R., Woodyatt, J., and Y. Lee, "Dual-
+              Stack Lite Broadband Deployments Following IPv4
+              Exhaustion", RFC 6333, DOI 10.17487/RFC6333, August 2011,
+              <https://www.rfc-editor.org/info/rfc6333>.
 
    [RFC6529]  McKenzie, A. and S. Crocker, "Host/Host Protocol for the
               ARPA Network", RFC 6529, DOI 10.17487/RFC6529, April 2012,
               <https://www.rfc-editor.org/info/rfc6529>.
 
+   [RFC6877]  Mawatari, M., Kawashima, M., and C. Byrne, "464XLAT:
+              Combination of Stateful and Stateless Translation",
+              RFC 6877, DOI 10.17487/RFC6877, April 2013,
+              <https://www.rfc-editor.org/info/rfc6877>.
+
+   [RFC7289]  Kuarsingh, V., Ed. and J. Cianfarani, "Carrier-Grade NAT
+              (CGN) Deployment with BGP/MPLS IP VPNs", RFC 7289,
+              DOI 10.17487/RFC7289, June 2014,
+              <https://www.rfc-editor.org/info/rfc7289>.
+
    [RFC8200]  Deering, S. and R. Hinden, "Internet Protocol, Version 6
               (IPv6) Specification", STD 86, RFC 8200,
               DOI 10.17487/RFC8200, July 2017,
               <https://www.rfc-editor.org/info/rfc8200>.
+
+12.3.  URIs
+
+   [1] https://www.iana.org/assignments/iana-ipv4-special-registry/iana-
+       ipv4-special-registry.xhtml
+
+   [2] https://www.iana.org/assignments/ipv4-address-space/ipv4-address-
+       space.xhtml)
 
 Authors' Addresses
 
@@ -1054,6 +1108,7 @@ Authors' Addresses
 
    Phone: +1 415 221 6524
    Email: gnu@ietf-id.toad.com
+   URI:   http://www.toad.com
 
 
 
@@ -1061,7 +1116,8 @@ Authors' Addresses
 
 
 
-Gilmore & Taeht          Expires August 17, 2019               [Page 19]
+
+Gilmore & Taeht          Expires August 19, 2019               [Page 20]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -1074,6 +1130,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
    Phone: +1 831 205 9740
    Email: dave@taht.net
+   URI:   http://www.teklibre.com
 
 
 
@@ -1116,5 +1173,4 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-
-Gilmore & Taeht          Expires August 17, 2019               [Page 20]
+Gilmore & Taeht          Expires August 19, 2019               [Page 21]
