@@ -76,24 +76,46 @@ from simplifying a few of the vestigial choices made during that
 evolution.
 
 The Internet Protocol (IP version 4, IPv4) was designed from scratch
-as a replacement for the ARPAnet [@RFC6529] protocols.  Rather than
+as a replacement for the ARPANET [@RFC6529] protocols.  Rather than
 enforcing uniformity, it followed the "Catenet Model" [@IEN48] of a
 concatenated network of diversely implemented underlying networks,
 connected by simple and relatively memoryless gateways.
 
-## Arpanet -> IPv4
+## ARPANET -> IPv4
+
+The IP address, expressed in x.x.x.x notation, could be used to
+specify both a particular network and a Host address on that network.
+There were several different classes of IP address, each having
+different numbers of bits allocated for the network # and address
+within that network.  Class A networks used 8 bits for network # and
+allowed 24 bits for address-on-that-network.  The ARPANET addresses
+could be encoded into 24 bits.  So, for ARPANET (and some of its
+clones), an IP address like 10.2.0.5 would mean network #10, Host #2
+on IMP #5.  Host #2 identified a specific physical connector on the
+back of the IMP cabinet.
+
+Routers (then known as gateways), hosts, and anybody else could take
+an IP address, and figure out the network address on that particular
+network by simple algorithm. This worked for ARPANET, SATNET, and
+PRNETs.
+
+LANs broke this scheme.  In particular, Ethernet addresses were too
+big to be stuffed into even the 24 bits of a class-A IP address.  So
+algorithmic translations were not possible with those types of
+networks.  That ultimately led to the creation of ARP, and the use of
+broadcast capabilities of Ethernets, to implement a mechanism for
+doing translations.
 
 By the year 1981, IPv4 had landed as a simple and well-edited
 specification in [@RFC0791], [@RFC0792].
 
-The designers improved on ARPAnet's addressing [@RFC0635], and the
-addressing of several other common networks (SATNET, others), with
-IPv4's 32-bit address space. [@RFC0760] The 32-bit address space was
-clearly chosen as a compromise; its inability to address all the nodes
-that would likely want to use it was known from the start, but
-resource limitations in early routers discouraged the use of longer
-addresses, and the IPv4 Internet was considered experimental and
-temporary.
+The designers improved on ARPANET's addressing [@RFC0635], and the
+addressing of several other common networks, with IPv4's 32-bit
+address space. [@RFC0760] The 32-bit address space was clearly chosen
+as a compromise; its inability to address all the nodes that would
+likely want to use it was known from the start, but resource
+limitations in early routers discouraged the use of longer addresses,
+and the IPv4 Internet was considered experimental and temporary.
 
 The initial IPv4 design designated almost 7/8ths of the possible
 addresses as Unicast addresses.  These addresses identified individual
