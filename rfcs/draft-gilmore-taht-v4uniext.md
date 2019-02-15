@@ -66,7 +66,7 @@ address blocks as globally routable unicast address space.
 
 The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **SHOULD**, **SHOULD NOT**, **RECOMMENDED**, **MAY**, and **OPTIONAL**, when they appear in this document, are to be interpreted as described in [@!RFC2119].
 
-# A short history of the Internet Addressing models
+# A brief history of the Internet Addressing models
 
 The Internet Protocol version 4 addressing model started off simple
 and has evolved over 40 years.  This Internet-Draft briefly summarizes
@@ -75,13 +75,13 @@ design life, significant benefits to the Internet community can ensue
 from simplifying a few of the vestigial choices made during that
 evolution.
 
+## ARPANET -> IPv4
+
 The Internet Protocol (IP version 4, IPv4) was designed from scratch
 as a replacement for the ARPANET [@RFC6529] protocols.  Rather than
 enforcing uniformity, it followed the "Catenet Model" [@IEN48] of a
 concatenated network of diversely implemented underlying networks,
 connected by simple and relatively memoryless gateways.
-
-## ARPANET -> IPv4
 
 The IP address, then expressed in x.x.x.x notation, could be used to
 specify both a particular network and a Host address on that network.
