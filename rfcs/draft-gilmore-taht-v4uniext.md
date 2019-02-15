@@ -1,7 +1,7 @@
 %%%
 title = "IPv4 Unicast Extensions"
 abbrev = "v4unicast-ext"
-updates = [2827, 3330, 6890]
+updates = [2827, 6890]
 ipr = "trust200902"
 area = "Internet"
 docname = "draft-gilmore-taht-v4uniext"
@@ -14,7 +14,7 @@ keyword = [""]
 name = "Internet-Draft"
 value = "draft-gilmore-taht-v4uniext-01"
 stream = "IETF"
-status = "standard"
+status = "bcp"
 
 [[author]]
 initials = "J."
@@ -57,8 +57,8 @@ addresses in the Internet Protocol (IP).  Some portions of the IP
 address space have been "reserved for future use" for decades. The
 future has arrived.
 
-This memo reclassifies multiple underused address blocks as globally
-routable unicast address space.
+This memo updates [@!RFC6890], reclassifying multiple underused
+address blocks as globally routable unicast address space.
 
 {mainmatter}
 
@@ -102,28 +102,29 @@ of packets designed to be forwarded with full global reachability,
 and/or for packets on local area networks. [@RFC0791; @RFC0796] The
 term "unicast" only came into use when multicast was invented for the
 Internet protocol in 1985.  Initially ALL the existing non-reserved IP
-addresses were, by default, unicast addresses.  [@RFC0966]
+addresses were, by default, unicast addresses in [@RFC0966].
 
 1/8th of the 32-bit address space was left as "reserved for future
 use", and a few other 256ths were reserved for simple protocol
-functions or for future use.  [@RFC0791](#3.2) [@RFC0796]
+functions or for future use in [@RFC0791] (section 3.2) and [@RFC0796]
 
 1/256th of the address space initially reserved for protocol functions
 was "network 0". "0" was originally an ARPAnet network address for
 control messages. The IPv4 address 0.0.0.0 was reserved for use only
 as a source address by nodes that do not know their own address yet in
-[@!RFC1122](#3.2.1.3). Addresses of the form 0.x.y.z were initially
-defined only as a source address for "node number x.y.z on THIS
-NETWORK" by nodes that know their address on their local network, but
-do not yet know their network prefix. [@RFC0972] (pg 19) This
-definition as later repealed in [@RFC1122] (#3.2.2.7) because the
-expected ICMP-based mechanism for learning their network prefix had
-turned out to be unworkable. [@RFC0903], [@RFC0951]. That repeal
-left 16 million addresses in 0.0.0.0/8 reserved for future use.
+[@!RFC1122] (section 3.2.1.3). Addresses of the form 0.x.y.z were
+initially defined only as a source address for "node number x.y.z on
+THIS NETWORK" by nodes that know their address on their local network,
+but do not yet know their network prefix in [@RFC0972] (pg 19). This
+requirement was later repealed in [@RFC1122] (section 3.2.2.7) because
+the expected ICMP-based mechanism for learning the network prefix had
+turned out to be unworkable and had been replaced by [@RFC0903], and
+BOOTP ([@RFC0951]). That repeal left 16 million addresses in 0.0.0.0/8
+reserved for future use.
 
 The other 1/256th of the address space initially reserved for protocol
 functions was network 127.  The entire set of 16 million addresses of
-the form 127.x.y.z were reserved in [@!RFC1122](#3.2.1.3) for
+the form 127.x.y.z were reserved in [@!RFC1122](section 3.2.1.3) for
 "internal host loopback addresses" and "should never appear as a
 source or destination address on a network outside of a single
 node". When IPv6 was designed in the 1990s, this was seen as
@@ -132,12 +133,14 @@ defined, but in IPv4, this reservation has continued to the present
 day.
 
 The remaining 1/16th of the "EXPERIMENTAL" portion of the address
-space has remained reserved and unused [@!RFC1112] #4 in the 38 years since 1981. This portion is now called 240/4 in CIDR notation and
-contains 268,435,455 addresses.
+space has remained reserved and unused [@!RFC1112] (section 4) in the
+38 years since 1981. This portion is now called 240/4 in CIDR notation
+and contains 268,435,455 addresses.
 
 ## Subnetting and broadcast extensions
 
-By 1984, subnets were made part of the IP protocol by  [@RFC0917],  and [@RFC0922]. 
+In 1984, subnets were made part of the IP protocol by [@RFC0917] and
+[@RFC0922].
 
 Initially, subnets were only used "locally".  The global Internet
 routing infrastructure still only knew how to route to Class A, B, and
@@ -145,13 +148,14 @@ C networks.  Local equipment in each such network could route locally
 to any local subnets, such as multiple Ethernets on a university
 campus.
 
-Also in 1984, broadcast addresses were added to IPv4. [@RFC0919],
-[@RFC0922] This required reserving one IPv4 address within each and
-every network or subnet (the final address in that network or subnet,
-the "all-ones" host address).  The address 255.255.255.255 was also
-reserved to make it easier to broadcast on "a local hardware network"
-without knowing the details of those networks.  This made broadcast a
-useful mechanism for discovering a node's own address on the network.
+Also in 1984, broadcast addresses were added to IPv4 by [@RFC0919],
+and [@RFC0922]. This required reserving one IPv4 address within each
+and every network or subnet (the final address in that network or
+subnet, the "all-ones" host address).  The address 255.255.255.255 was
+also reserved to make it easier to broadcast on "a local hardware
+network" without knowing the details of those networks.  This made
+broadcast a useful mechanism for discovering a node's own address on
+the network.
 
 The 1984 broadcast extension also reserved the initial (zero) address
 in each network or subnet, with [@RFC0919] stating that "There is
@@ -163,16 +167,16 @@ confused subsequent protocol users into thinking that the initial
 (zero) address in a network or subnet cannot be used as an ordinary
 unicast node address.
 
-During that era, there was confusion in one popular IPv4
-implementation, 4.2 BSD, which used the zero node address for
-broadcast, rather than the all-ones node address.  When these
-mismatched implementations tried to interoperate on an Ethernet, it
-was easy to produce "broadcast storms" that would consume all
-available network bandwidth until manually stopped.  The offending
-implementation was upgraded in the subsequent 4.3 BSD release to meet
-the standards.  The problem has not recurred for decades, but a
-remnant of the gaffe exists in the prohibition on using the zero node
-address in a network or subnet. [@!RFC1122] (section 3.2.2.7)
+Before those standard were finalized, one popular IPv4 implementation,
+4.2 BSD used the zero node address for broadcast, rather than the
+all-ones node address.  When these mismatched implementations tried to
+interoperate on an Ethernet, it was easy to produce "broadcast storms"
+that would consume all available network bandwidth until manually
+stopped.  The offending implementation was upgraded in the subsequent
+4.3 BSD release to meet the standards.  The problem has not recurred
+for decades, but a remnant of the gaffe exists in the prohibition in
+[@!RFC1122] (section 3.2.2.7) on using the zero node address in a
+network or subnet.
 
 ## Multicast
 
@@ -209,7 +213,7 @@ mask 0.0.0.0 as the "default route" with special rules.  This was
 adopted in 1993 as Classless Inter-Domain Routing (CIDR) for Class C,
 and half of Class A (a quarter of the entire Internet address space)
 was reserved for future subnetting after deployment of more capable
-routing protocols.  [@RFC1466], [@RFC1518], [@RFC1519]
+routing protocols by [@RFC1466], [@RFC1518], [@RFC1519].
 
 In 1994, NAT [@RFC1631] also appeared as an interim solution to
 address depletion.
@@ -232,8 +236,8 @@ address space.
 
 In 2011, IPv4 address exhaustion happened, on schedule. Demand for
 IPv4 and IPv6 to IPv4 translation technologies spiked, leveraging
-[@RFC1918], with [@RFC7289] CGNs, [@RFC6333] DS-Lite, and
-[@RFC6877] 464XLAT becoming widely adopted.  While each of these
+[@RFC1918], with CGNS ([@RFC7289]), DS-Lite ([@RFC6333]), and
+ 464XLAT ([@RFC6877]) becoming widely adopted.  While each of these
 solutions is inadequate in their own way, and pure IPv6 is superior,
 the need for IPv4 address space appears unslakeable for the next 20
 years.
@@ -347,12 +351,13 @@ replacing table 1 of [@!RFC6890].
            +----------------------+----------------------------+
 
 The Unknown Local Address, 0.0.0.0, still must be treated specially:
-it is usable only as a source IP address, and only in nodes that
-do not know or have an IPv4 address on the network where the packet
+it is usable only as a source IP address, and only in nodes that do
+not know or have an IPv4 address on the network where the packet
 appears; it is invalid as a network interface address.  Typically,
-such an address is used when using a UDP-based protocol like BOOTP or
-DHCP to ask another node to supply this node with a usable address.
-This behavior is unchanged from previously specified behavior.
+such an address is used when using a UDP-based protocol like BOOTP,
+DHCP, or IGMP [@RFC4541] to ask another node to supply this node with
+a usable address.  This behavior is unchanged from previously
+specified behavior.
 
 {#fig-0000}
           +----------------------+----------------------------+
@@ -486,9 +491,6 @@ of 0.0.0.0/32.
 
 ## Unicast use of the all-ones node address in each point-to-point network
 
-The all-ones node address MUST be treated as broadcast except when
-used as a target for a /32 network node. 
-
 255.255.255.255/32 MUST always be treated as broadcast.
 
 # Issues
@@ -511,6 +513,8 @@ Some potential for incorrect operation exists with the multicast
 space re-allocation.
 
 ## Martians lists, bogons and BCP38
+
+[@RFC3704] states:
 
 > [@!RFC2827] recommends that ISPs police their customers' traffic by
 > dropping traffic entering their networks that is coming from a source
@@ -563,7 +567,7 @@ supported 240/4 since 2008. Four out of the top 5 open source IoT
 stacks, also treat 240/4 as unicast, with a 3 line patch awaiting
 submission for the last. The [@RFC6126] Babel routing protocol fully
 supports 240/4, and patches have been submitted to the
-BGP/OSPF/ISIS/etc capable routing daemon projects, "Bird", and "FRR".
+BGP/OSPF/ISIS capable routing daemon projects, "Bird", and "FRR".
 
 No plans have been announced for modifications to any version of
 Microsoft Windows, however Windows developers are aware of the work
@@ -586,8 +590,23 @@ unicast. A network periscope study is planned.
 
 # IANA Considerations
 
-IANA is directed to make the these address spaces available as reverse
-DNS space in in-addr.arpa.
+Although this memo requires implementations to treat these addresses
+the same as any other unicast addresses, it does not change the
+"reserved" status of any block.  The IANA is requested to mark these
+new blocks as unallocated, with the understanding that future
+standards action will define how they are to be allocated.
+   
+240.0.0.0/4 and 0.0.0.0/8 move from the "special purpose" registry (https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml) and are added to the regular "ipv4-address-space" registry (
+https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xhtml)
+
+0.0.0.0/32 and 127.0.0.0/16 should be added to the special purpose registry.
+
+In the ipv4-address-space registry, 240/4 should be moved from
+future use to unallocated, and 225/8 - 231/8 should be moved from
+multicast to unallocated. 127.1.0.0/16 and up should be added.
+
+IANA is directed also to prepare the these address spaces to be
+available as reverse DNS space in in-addr.arpa.
 
 # Security Considerations
 
