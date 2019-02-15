@@ -83,7 +83,7 @@ connected by simple and relatively memoryless gateways.
 
 ## ARPANET -> IPv4
 
-The IP address, expressed in x.x.x.x notation, could be used to
+The IP address, then expressed in x.x.x.x notation, could be used to
 specify both a particular network and a Host address on that network.
 There were several different classes of IP address, each having
 different numbers of bits allocated for the network # and address
@@ -111,9 +111,9 @@ specification in [@RFC0791], [@RFC0792].
 
 The designers improved on ARPANET's addressing [@RFC0635], and the
 addressing of several other common networks, with IPv4's 32-bit
-address space. [@RFC0760] The 32-bit address space was clearly chosen
-as a compromise; its inability to address all the nodes that would
-likely want to use it was known from the start, but resource
+address space in [@RFC0760]. The 32-bit address space was clearly
+chosen as a compromise; its inability to address all the nodes that
+would likely want to use it was known from the start, but resource
 limitations in early routers discouraged the use of longer addresses,
 and the IPv4 Internet was considered experimental and temporary.
 
@@ -128,7 +128,7 @@ addresses were, by default, unicast addresses in [@RFC0966].
 
 1/8th of the 32-bit address space was left as "reserved for future
 use", and a few other 256ths were reserved for simple protocol
-functions or for future use in [@RFC0791] (section 3.2) and [@RFC0796]
+functions or for future use in [@RFC0791] (section 3.2) and [@RFC0796].
 
 1/256th of the address space initially reserved for protocol functions
 was "network 0". "0" was originally an ARPAnet network address for
@@ -140,9 +140,9 @@ THIS NETWORK" by nodes that know their address on their local network,
 but do not yet know their network prefix in [@RFC0972] (pg 19). This
 requirement was later repealed in [@RFC1122] (section 3.2.2.7) because
 the expected ICMP-based mechanism for learning the network prefix had
-turned out to be unworkable and had been replaced by [@RFC0903], and
-BOOTP ([@RFC0951]). That repeal left 16 million addresses in 0.0.0.0/8
-reserved for future use.
+turned out to be unworkable and had been replaced by reverse ARP
+[@RFC0903], and BOOTP ([@RFC0951]). This change left 16 million
+addresses in 0.0.0.0/8 reserved for future use.
 
 The other 1/256th of the address space initially reserved for protocol
 functions was network 127.  The entire set of 16 million addresses of
