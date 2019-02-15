@@ -25,6 +25,7 @@ organization = "Electronic Frontier Foundation"
   [author.address]
   email = "gnu@ietf-id.toad.com"
   phone = "+1 415 221 6524"
+  uri = "http://www.toad.com"
   [author.address.postal]
   street = "PO Box 170608-ietf-id"
   city = "San Francisco"
@@ -40,7 +41,8 @@ organization = "TekLibre"
   [author.address]
   email = "dave@taht.net"
   phone = "+1 831 205 9740"
-  [author.address.postal]
+  uri = "http://www.teklibre.com"
+[author.address.postal]
   street = "20600 Aldercroft Heights Rd"
   city = "Los Gatos"
   region = "CA"
@@ -116,7 +118,7 @@ NETWORK" by nodes that know their address on their local network, but
 do not yet know their network prefix. [@RFC0972] (pg 19) This
 definition as later repealed in [@RFC1122] (#3.2.2.7) because the
 expected ICMP-based mechanism for learning their network prefix had
-turned out to be unworkable. [@!RFC0903], [@!RFC0951]. That repeal
+turned out to be unworkable. [@RFC0903], [@RFC0951]. That repeal
 left 16 million addresses in 0.0.0.0/8 reserved for future use.
 
 The other 1/256th of the address space initially reserved for protocol
@@ -130,12 +132,12 @@ defined, but in IPv4, this reservation has continued to the present
 day.
 
 The remaining 1/16th of the "EXPERIMENTAL" portion of the address
-space has remained reserved and unused [@!RFC1054] #4 in the 38 years since 1981. This portion is now called 240/4 in CIDR notation and
+space has remained reserved and unused [@!RFC1112] #4 in the 38 years since 1981. This portion is now called 240/4 in CIDR notation and
 contains 268,435,455 addresses.
 
 ## Subnetting and broadcast extensions
 
-By 1984, subnets were made part of the IP protocol by  [@!RFC0917],  and [@RFC0922]. 
+By 1984, subnets were made part of the IP protocol by  [@RFC0917],  and [@RFC0922]. 
 
 Initially, subnets were only used "locally".  The global Internet
 routing infrastructure still only knew how to route to Class A, B, and
@@ -170,22 +172,22 @@ available network bandwidth until manually stopped.  The offending
 implementation was upgraded in the subsequent 4.3 BSD release to meet
 the standards.  The problem has not recurred for decades, but a
 remnant of the gaffe exists in the prohibition on using the zero node
-address in a network or subnet. [@RFC1122] (section 3.2.2.7)
+address in a network or subnet. [@!RFC1122] (section 3.2.2.7)
 
 ## Multicast
 
 Later (1988) designers chose to allocate 1/16th of the total space
-(half of the formerly reserved space) for multicast use in [@!RFC1054].
+(half of the formerly reserved space) for multicast use in [@!RFC1112].
 While multicast was a much better idea than the sole similar former
 option (broadcast), its use on anything besides local area networks
 has remained a tiny niche, in retrospect clearly not worth designating
 1/16th of the entire address space for.  This address space is called
-224/4 in Phil Karn's more modern CIDR [@!RFC4632] notation.
+224/4 in Phil Karn's more modern CIDR [@RFC4632] notation.
 
 By 1989, the revisions to the basic Internet Protocol suite required
 reading dozens and dozens of documents.  The basic requirements for
 Internet hosts and gateways were then consolidated into
-[@!RFC1022;@!RFC1023;@!RFC1024].
+[@RFC1022;@RFC1023;@RFC1024].
 
 ## CIDR and NAT
 
@@ -194,9 +196,9 @@ straining at the seams.  The problems were "the lack of a network
 class of a size which is appropriate for mid-sized organization[s]",
 growth of routing tables beyond available capacities, and the
 "eventual exhaustion of the 32-bit IP address space" as documented in
-[@!RFC1338]. After a convincing extrapolation that class-B space would
+[@RFC1338]. After a convincing extrapolation that class-B space would
 be exhausted by mid-1994 [@IETF-13], the ROAD working group was
-convened.
+formed.
 
 Their proposed fixes involved an extension of subnetting to
 "supernetting" multiple Class C networks, deploying classless routing
@@ -207,7 +209,7 @@ mask 0.0.0.0 as the "default route" with special rules.  This was
 adopted in 1993 as Classless Inter-Domain Routing (CIDR) for Class C,
 and half of Class A (a quarter of the entire Internet address space)
 was reserved for future subnetting after deployment of more capable
-routing protocols.  [@!RFC1466], [@!RFC1518], [@!RFC1519]
+routing protocols.  [@RFC1466], [@RFC1518], [@RFC1519]
 
 In 1994, NAT [@RFC1631] also appeared as an interim solution to
 address depletion.
@@ -216,8 +218,8 @@ By 1995, the implementation of subnetting for "Class A" addresses
 proved sufficiently buggy that the IANA began a global experiment by
 allocating 256 subnetted Class A addresses to *every* existing address
 space user, and encouraging them to be used to verify correct
-operation of their gateways and hosts, in [@!RFC1797]. Even in 1996,
-[@!RFC2036] described that large parts of the Internet could not
+operation of their gateways and hosts, in [@RFC1797]. Even in 1996,
+[@RFC2036] described that large parts of the Internet could not
 correctly subnet Class A addresses.
 
 ## IPv6 address extension
@@ -230,8 +232,8 @@ address space.
 
 In 2011, IPv4 address exhaustion happened, on schedule. Demand for
 IPv4 and IPv6 to IPv4 translation technologies spiked, leveraging
-[@!RFC1918], with [@!RFC7289] CGNs, [@!RFC6333] DS-Lite, and
-[@!RFC6877] 464XLAT becoming widely adopted.  While each of these
+[@RFC1918], with [@RFC7289] CGNs, [@RFC6333] DS-Lite, and
+[@RFC6877] 464XLAT becoming widely adopted.  While each of these
 solutions is inadequate in their own way, and pure IPv6 is superior,
 the need for IPv4 address space appears unslakeable for the next 20
 years.
@@ -324,7 +326,7 @@ behavior is unchanged from previously specified behavior in
 ## Unicast use of 0/8
 
 These new Unicast addresses, 0.0.0.1 thru 0.255.255.255, replace the
-obsolete "This host on this network" concept from [@!RFC0791],
+obsolete "This host on this network" concept from [@RFC0791],
 replacing table 1 of [@!RFC6890].
 
 {#fig-0}
@@ -493,7 +495,7 @@ used as a target for a /32 network node.
 
 This document does not presently go into all the possible issues with
 these reallocations. Prior documents conflate the end-purpose of these
-IP addreses without mandating the simple requirement that they be
+IP addresses without mandating the simple requirement that they be
 unicast and routable.
 
 ## Long Deployment Tail
@@ -510,30 +512,38 @@ space re-allocation.
 
 ## Martians lists, bogons and BCP38
 
-[@!RFC2827] recommends that ISPs police their customers' traffic
-by dropping traffic entering their networks that is coming from a
-source address not legitimately in use by the customer network.  The
-filtering includes but is in no way limited to the traffic whose
-source address is a so-called "Martian Address" - an address that is
-reserved [3], including any address within 0.0.0.0/8, 10.0.0.0/8,
-127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 224.0.0.0/4, or
-240.0.0.0/4.
+> [@!RFC2827] recommends that ISPs police their customers' traffic by
+> dropping traffic entering their networks that is coming from a source
+> address not legitimately in use by the customer network.  The
+> filtering includes but is in no way limited to the traffic whose
+> source address is a so-called "Martian Address" - an address that is
+> reserved [3], including any address within 0.0.0.0/8, 10.0.0.0/8,
+> 127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 224.0.0.0/4, or
+> 240.0.0.0/4.
 
 This memo removes 0.0.0.0/8, 240.0.0.0/4, 127.0.0.0/8, and
 225.0.0.0/8-231.0.0.0/8 from the martian address spaces.
 
 Martian addresses will now include:
 
+* 169.254.0.0/16
+* 192.0.2.0/24
+* 198.51.100.0/24
+* 203.0.113.0/24
+* 198.18.0.0/15
+
+§ RFC 3330 IANA IPv4 Special-Purpose Address Registry
+
 * 0.0.0.0/32
 * 10.0.0.0/8
+* 127.0.0.0/16
 * 172.16.0.0/12
 * 192.168.0.0/16
-* 127.0.0.0/16
-* 255.255.255.255/32
 * 224.0.0.0/8
 * 232.0.0.0/5
+* 255.255.255.255/32
 
-Firewalls [@!CBR03], packet filters, and intrusion detection systems,
+Firewalls [@CBR03], packet filters, and intrusion detection systems,
 MUST be upgraded to be capable of monitoring and managing these
 addresses.
 
@@ -552,7 +562,7 @@ unicast, globally reachable address space. Solaris, Linux, Android,
 and FreeBSD all treat it as such, also. These operating systems have
 supported 240/4 since 2008. Four out of the top 5 open source IoT
 stacks, also treat 240/4 as unicast, with a 3 line patch awaiting
-submission for the last. The [@!RFC6126] Babel routing protocol fully
+submission for the last. The [@RFC6126] Babel routing protocol fully
 supports 240/4, and patches have been submitted to the
 BGP/OSPF/ISIS/etc capable routing daemon projects, "Bird", and "FRR".
 
@@ -628,7 +638,9 @@ details straight.
 </author>
 <date year='1989' />
 </front>
-<format type='PDF' target='https://www.ietf.org/proceedings/13.pdf' />
+<abstract>
+<t>
+</t></abstract><format type='PDF' octets='' target='https://www.ietf.org/proceedings/13.pdf' />
 </reference>
 
 <reference anchor='IHML' target='http://mailman.postel.org/pipermail/internet-history/2019-February/004865.html'>
@@ -638,6 +650,7 @@ details straight.
 </author>
 <date year='2019' />
 </front>
+
 <format type='HTML' target='http://mailman.postel.org/pipermail/internet-history/2019-February/004865.html' />
 </reference>
 
