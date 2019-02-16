@@ -432,7 +432,7 @@ payload, for unrelated functions; these are also unchanged.)
 
 # Unicast use of address spaces formerly reserved for other functions
 
-## Unicast use of 127\/8
+## Unicast use of 127/8
 
 These new unicast addresses, 127.1.0.0 thru 127.255.255.255, replace
 more than 99% of the former reserved Loopback address space, updating
@@ -743,7 +743,7 @@ undetermined.
 Cisco and Juniper routers' reaction to seeing routing updates that
 include the extended unicast addresses is as yet undetermined.
 
-The [@RFC6126] Babel routing protocol and its (sole?) implementation
+The [@RFC6126] Babel routing protocol and its primary implementation
 fully supports unicast 240/4.  The status of the other extended unicast
 networks in Babel is as yet unknown.
 
@@ -769,12 +769,13 @@ the use of the final address in a point-to-point network as a unicast address.
 
 # Related Work
 
-The last previous attempts at making more unicast IPv4 address space occurred in
-2008-2010, with proposals for making 240/4 into pure public routable
-unicast [@I-D.fuller-240space], or routable, but private, RFC1918 style
-unicast address space [@I-D.wilson-class-e]. Neither proposal gained rough
-consensus in the IETF.  However, "running code" - making 240/4
-actually work - was almost universally adopted in the field.
+The last previous attempts at making more unicast IPv4 address space
+occurred in 2008-2010, with proposals for making 240/4 into pure
+public routable unicast [@I-D.fuller-240space], or routable, but
+private, RFC1918 style unicast address space
+[@I-D.wilson-class-e]. Neither proposal gained rough consensus in the
+IETF.  However, "running code" - making 240/4 actually work - was
+almost universally adopted in the field.
 
 It is presently unknown if any organization is making local or global
 use on the network of 240/4, 0/8, 127/8, or any of the reserved portions
