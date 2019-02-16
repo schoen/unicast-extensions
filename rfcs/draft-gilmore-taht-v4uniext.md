@@ -129,48 +129,50 @@ specification in [@RFC0791], [@RFC0792].
 
 The designers improved on ARPANET's addressing [@RFC0635], and the
 addressing of several other common networks, with IPv4's 32-bit
-address space in [@RFC0760]. The 32-bit address space was
-chosen as a compromise; its inability to address all the nodes that
-would likely want to use it was known from the start, but resource
-limitations in early routers, and development timelines, discouraged the use of longer addresses,
-and the IPv4 Internet was considered experimental and temporary.
+address space in [@RFC0760]. The 32-bit address space was chosen as a
+compromise; its inability to address all the nodes that would likely
+want to use it was known from the start, but resource limitations in
+early routers, and development timelines, discouraged the use of
+longer addresses, and the IPv4 Internet was considered experimental
+and temporary.
 
 The initial IPv4 design designated almost 7/8ths of the possible
 addresses as ordinary unicast addresses.  These addresses identified
 individual nodes, routers, and interfaces, and could be used as source
-and destination addresses of packets designed to be forwarded with full
-global reachability, and/or for packets on local area networks. [@RFC0791;
-@RFC0796]
+and destination addresses of packets designed to be forwarded with
+full global reachability, and/or for packets on local area
+networks. [@RFC0791; @RFC0796]
 
-Early standards do not use the term "unicast" because it only came to be
-used by contrast to multicast and broadcast, which came later in Internet
-protocol evolution.  [@RFC0966] is the first to use the word "unicast",
-stating:  "In this paper, we describe a model of multicast service we
-call host groups and propose this model as a way to support multicast
-in the DARPA Internet environment.  We argue that it is feasible to
-implement this facility as an extension of the existing 'unicast' IP
-datagram model and mechanism."
+Early standards do not use the term "unicast" because it only came to
+be used by contrast to multicast and broadcast, which came later in
+Internet protocol evolution.  [@RFC0966] is the first to use the word
+"unicast", stating: "In this paper, we describe a model of multicast
+service we call host groups and propose this model as a way to support
+multicast in the DARPA Internet environment.  We argue that it is
+feasible to implement this facility as an extension of the existing
+'unicast' IP datagram model and mechanism."
 
 1/8th of the 32-bit address space was left as "reserved for future
 use", and a few other 256ths were reserved for simple protocol
-functions or for future use in [@RFC0791] (section 3.2) and [@RFC0796].
+functions or for future use in [@RFC0791] (section 3.2) and
+[@RFC0796].
 
 1/256th of the address space initially reserved for protocol functions
 was "network 0".  The IPv4 address 0.0.0.0 was reserved for use only
-as a source address by nodes that do not know their own address yet
-in [@!RFC1122] (section 3.2.1.3).  Addresses of the form 0.x.y.z
-were initially defined only as a source address in an ICMP datagram,
+as a source address by nodes that do not know their own address yet in
+[@!RFC1122] (section 3.2.1.3).  Addresses of the form 0.x.y.z were
+initially defined only as a source address in an ICMP datagram,
 indicating "node number x.y.z on this IPv4 network", by nodes that
 know their address on their local network, but do not yet know their
 network prefix, in [@RFC0792] (page 19). This usage of 0.x.y.z was
 later repealed in [@RFC1122] (section 3.2.2.7), because the original
 ICMP-based mechanism for learning the network prefix was unworkable on
 many networks such as Ethernet (which have longer addresses that would
-not fit into the 24 "node number" bits).  Modern networks use reverse ARP
-[@RFC0903] or BOOTP ([@RFC0951])/DHCP ([@RFC2131]) to find their full
-32-bit address and CIDR netmask (and other parameters such as default
-gateways).  Eliminating this usage of 0.x.y.z left 16,777,215 addresses
-in 0.0.0.0/8 unused and reserved for future use.
+not fit into the 24 "node number" bits).  Modern networks use reverse
+ARP [@RFC0903] or BOOTP ([@RFC0951])/DHCP ([@RFC2131]) to find their
+full 32-bit address and CIDR netmask (and other parameters such as
+default gateways).  Eliminating this usage of 0.x.y.z left 16,777,215
+addresses in 0.0.0.0/8 unused and reserved for future use.
 
 The other 1/256th of the address space initially reserved for protocol
 functions was network 127.  The entire set of 16 million addresses of
@@ -231,12 +233,13 @@ network or subnet.
 ## Multicast
 
 Later (1988) designers chose to allocate 1/16th of the total space
-(half of the formerly reserved space) for multicast use in [@!RFC1112].
-While multicast was a much better idea than the sole similar former
-option (broadcast), its use on anything besides local area networks
-has remained a tiny niche, in retrospect clearly not worth designating
-1/16th of the entire address space for.  This address space is called
-224/4 in Phil Karn's more modern CIDR [@RFC4632] notation.
+(half of the formerly reserved space) for multicast use in
+[@!RFC1112].  While multicast was a much better idea than the sole
+similar former option (broadcast), its use on anything besides local
+area networks has remained a tiny niche, in retrospect clearly not
+worth designating 1/16th of the entire address space for.  This
+address space is called 224/4 in Phil Karn's more modern CIDR
+[@RFC4632] notation.
 
 By 1989, the revisions to the basic Internet Protocol suite required
 reading dozens and dozens of documents.  The basic requirements for
@@ -429,7 +432,7 @@ payload, for unrelated functions; these are also unchanged.)
 
 # Unicast use of address spaces formerly reserved for other functions
 
-## Unicast use of 127/8
+## Unicast use of 127\/8
 
 These new unicast addresses, 127.1.0.0 thru 127.255.255.255, replace
 more than 99% of the former reserved Loopback address space, updating
@@ -650,17 +653,17 @@ issue have not yet been explored.
 > 240.0.0.0/4.
 
 ISPs that filter their customers' traffic based on source address MUST
-NOT discard traffic solely because it has a source addresses in the ranges 0.0.0.0/8, 240.0.0.0/4,
-127.0.0.0/8, and 225.0.0.0/8 thru 231.0.0.0/8, except the addresses
-0.0.0.0, 255.255.255.255, and the loopback addresses 127.0.0.0/16.
-However, if a customer network has not been allocated a source address
-in these ranges, then they can be filtered out as attempts to spoof
-someone else's network.
+NOT discard traffic solely because it has a source addresses in the
+ranges 0.0.0.0/8, 240.0.0.0/4, 127.0.0.0/8, and 225.0.0.0/8 thru
+231.0.0.0/8, except the addresses 0.0.0.0, 255.255.255.255, and the
+loopback addresses 127.0.0.0/16.  However, if a customer network has
+not been allocated a source address in these ranges, then they can be
+filtered out as attempts to spoof someone else's network.
 
-No ISP filter should ever discard datagrams based
-on destination addresses within these newly extended unicast ranges.
+No ISP filter should ever discard datagrams based on destination
+addresses within these newly extended unicast ranges.
 
-(The only remaining Martian addresses now include:
+The only remaining Martian addresses now include:
 
 * 0.0.0.0/32
 * 100.64.0.0/10
@@ -678,35 +681,33 @@ on destination addresses within these newly extended unicast ranges.
 * 232.0.0.0/5
 * 255.255.255.255/32
 
-)
-
 Firewalls [@CBR03], packet filters, and intrusion detection systems,
-MUST be capable of monitoring and managing the newly
-extended unicast addresses.
+MUST be capable of monitoring and managing the newly extended unicast
+addresses.
 
 Routing protocols MUST treat the newly extended unicast addresses
 as unicast, globally reachable addresses.
 
 # Implementation status
 
-## 0/8
+## Address Range: 0/8
 
 No implementation is currently known to allow the unicast use of 0/8.
 However, small Linux kernel patches provide this function.
 
-## 127/8
+## Address Range: 127/8
 
 No implementation is currently known to allow the unicast use of 127/8.
 There are preliminary Linux kernel patches that still have some remaining
 issues.  In addition, system configuration scripts that configure
 the internal "loopback interface" probably need modification.
 
-## 225/8 thru 231/8
+## Address Range: 225//8 thru 231//8
 
 No implementation is currently known to allow the unicast use of 0/8.
 However, small Linux kernel patches provide this function.
 
-## 240/4
+## Address Range: 240//4
 
 The following operating systems support the use of 240.0.0.0/4 as
 unicast, globally reachable address space: Solaris, Linux, Android,
