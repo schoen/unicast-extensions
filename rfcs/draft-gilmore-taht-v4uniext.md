@@ -702,12 +702,12 @@ There are preliminary Linux kernel patches that still have some remaining
 issues.  In addition, system configuration scripts that configure
 the internal "loopback interface" probably need modification.
 
-## Address Range: 225//8 thru 231//8
+## Address Range: 225/8 thru 231/8
 
 No implementation is currently known to allow the unicast use of 0/8.
 However, small Linux kernel patches provide this function.
 
-## Address Range: 240//4
+## Address Range: 240/4
 
 The following operating systems support the use of 240.0.0.0/4 as
 unicast, globally reachable address space: Solaris, Linux, Android,
