@@ -3,12 +3,12 @@
 ## "Focus on IPv6!"
 
 The trivial amount of effort required to improve IPv4 pales in comparison
-to the amount of effort to make IPv6 universal.
+to the amount of effort to make IPv6 universal. IPv6 is still the long-term answer and future.
 
 ## "It will take too long to deploy!"
 
 Any rational assessment of IPv4's continued existence stretches out
-another 20 years, or longer. 
+another 20 years, or longer.
 
 Increasing the amount of even semi-usable IPv4 addresses better
 enables innovation and newcomers to the field, to at least "get
@@ -18,7 +18,7 @@ impossible.
 ## "These addresses will never work globally"
 
 They won't unless we try. They already work fine with the patchsets we
-have on linux, freebsd, & osx, on a local lan, in tunnels, and via the two major routing daemons we've patched, and nearly every IOT OS we've tried.
+have on Linux, FreeBSD, and macOS. These addresses work on a local LAN, in tunnels, and via the two major routing daemons we've patched, and nearly every IoT OS we've tried.
 
 ## "We could allocate all these addresses in a year!"
 
@@ -49,7 +49,7 @@ same time, as part of the same effort.
 Any attempt to make these address ranges fully usable stumbles on the
 fact that manufacturers, data centers, ISPs, corporations, and users
 need to be incented to support them. Some piece of gear will
-inevitably not allow ipv4 addresses in this range unless a formal, and
+inevitably not allow IPv4 addresses in this range unless a formal, and
 not just defacto, standard also exists.
 
 Plenty of limited use IPv4 address spaces exist - not just RFC1918,
@@ -57,6 +57,6 @@ but CGN networks are wildly popular.
 
 As a totally new address range, making class-e in particular globally
 routable makes it more possible to address other long-standing bugs in
-ipv4 implementations like [zeroth networks](ZEROTH.md), attempt to make
+IPv4 implementations like [zeroth networks](ZEROTH.md), attempt to make
 more protocols available through NAT (such as udp-lite, sctp), and so on.
 
