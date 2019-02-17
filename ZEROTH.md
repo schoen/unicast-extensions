@@ -14,14 +14,14 @@ others, 255, and thus a few years of confusion reigned.
 
 This was a mistake made in the early 80s, that made 0 the broadcast address in BSD 4.3. BSD 4.3 has long since been retired and we know of no operating system made in the last 3 decades that uses '0' for broadcast. Why continue restricting it?
 
-# Tasklist for fixing zeroth
+## Tasklist for fixing zeroth
 
 1) Find and eliminate the last remaining vestiges of zeroth problems.
 
 So far, the "zeroth" problem, is generally limited to some variant of "ping", where an attempt to ping the zeroth network address still results in "Did you want to ping broadcast? use -b to specify".
 
 which is a few line patch to every ping and traceroute implementation in
-the world. We know of *no* kernel or other usespace application that actually enforces the zeroth problem - just these two utilities.
+the world. We know of *no* kernel or other userspace application that actually enforces the zeroth problem - just these two utilities.
 
 2) Eliminate the last vestige of "0" from the IPv4 related standards.
 
