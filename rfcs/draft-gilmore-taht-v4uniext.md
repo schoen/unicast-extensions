@@ -815,10 +815,10 @@ same bogon filter and martian list fixes.
 
 # Acknowledgements
 
-Jason Ackley, Brian Carpenter, Vint Cerf, Kevin Darbyshire-Bryant,
-Vince Fuller, Stephen Hemminger, Geoff Huston, Rob Landley, Eliot
-Lear, Dan Mahoney, and Paul Wouters all made contributions to this
-document, directly or indirectly. Thanks also to the members of the
+Jason Ackley, John Perry Barlow, Brian Carpenter, Vint Cerf,
+Kevin Darbyshire-Bryant, Vince Fuller, Stephen Hemminger, Geoff Huston,
+Rob Landley, Eliot Lear, Dan Mahoney, and Paul Wouters all made contributions
+to this document, directly or indirectly. Thanks also to the members of the
 internet history mailing list [@IHML] for helping get the early
 details straight.
 
