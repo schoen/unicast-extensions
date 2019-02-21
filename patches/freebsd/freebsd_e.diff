@@ -1,0 +1,12 @@
+Index: sys/netinet/ip_icmp.c
+===================================================================
+--- sys/netinet/ip_icmp.c	(revision 344445)
++++ sys/netinet/ip_icmp.c	(working copy)
+@@ -733,7 +733,6 @@
+ 	int optlen = (ip->ip_hl << 2) - sizeof(struct ip);
+ 
+ 	if (IN_MULTICAST(ntohl(ip->ip_src.s_addr)) ||
+-	    IN_EXPERIMENTAL(ntohl(ip->ip_src.s_addr)) ||
+ 	    IN_ZERONET(ntohl(ip->ip_src.s_addr)) ) {
+ 		m_freem(m);	/* Bad return address */
+ 		ICMPSTAT_INC(icps_badaddr);
