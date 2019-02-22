@@ -1,0 +1,13 @@
+Index: sys/netinet/in.h
+===================================================================
+--- sys/netinet/in.h	(revision 344445)
++++ sys/netinet/in.h	(working copy)
+@@ -374,7 +374,7 @@
+ 
+ #define IN_LINKLOCAL(i)		(((in_addr_t)(i) & 0xffff0000) == 0xa9fe0000)
+ #define IN_LOOPBACK(i)		(((in_addr_t)(i) & 0xff000000) == 0x7f000000)
+-#define IN_ZERONET(i)		(((in_addr_t)(i) & 0xff000000) == 0)
++#define IN_ZERONET(i)		(((in_addr_t)(i)) == 0)
+ 
+ #define	IN_PRIVATE(i)	((((in_addr_t)(i) & 0xff000000) == 0x0a000000) || \
+ 			 (((in_addr_t)(i) & 0xfff00000) == 0xac100000) || \
