@@ -382,7 +382,7 @@ behavior is unchanged from previously specified behavior in
 
 ## Unicast use of 0/8
 
-These new unicast addresses, 0.0.0.1 thru 0.255.255.255, replace the
+These new unicast addresses, 0.0.0.1 through 0.255.255.255, replace the
 obsolete "This host on this network" concept from [@RFC0791],
 replacing table 1 of [@!RFC6890].
 
@@ -434,7 +434,7 @@ payload, for unrelated functions; these are also unchanged.)
 
 ## Unicast use of 127/8
 
-These new unicast addresses, 127.1.0.0 thru 127.255.255.255, replace
+These new unicast addresses, 127.1.0.0 through 127.255.255.255, replace
 more than 99% of the former reserved Loopback address space, updating
 table 4 of [@!RFC6890].
 
@@ -484,7 +484,7 @@ addresses rather than to 16,777,216 addresses.
 
 ## Unicast re-use of former Class D (multicast) address space
 
-These new unicast addresses, 225.0.0.0 thru 231.255.255.255, replace
+These new unicast addresses, 225.0.0.0 through 231.255.255.255, replace
 more than 40% of the address space formerly reserved for future
 Multicast use.
 
@@ -572,7 +572,7 @@ zeroth address is in use at a host as a network interface, that interface
 should be configured in the identical way, as e.g. 198.51.100.0/24.
 This usage does not conflict with the informal usage of 198.51.100.0/24
 to refer to the entire network whose addresses range from 198.51.100.0
-thru 198.51.100.255.
+through 198.51.100.255.
 
 ## Unicast use of the all-ones node address in each point-to-point network
 
@@ -654,7 +654,7 @@ issue have not yet been explored.
 
 ISPs that filter their customers' traffic based on source address MUST
 NOT discard traffic solely because it has a source addresses in the
-ranges 0.0.0.0/8, 240.0.0.0/4, 127.0.0.0/8, and 225.0.0.0/8 thru
+ranges 0.0.0.0/8, 240.0.0.0/4, 127.0.0.0/8, and 225.0.0.0/8 through
 231.0.0.0/8, except the addresses 0.0.0.0, 255.255.255.255, and the
 loopback addresses 127.0.0.0/16.  However, if a customer network has
 not been allocated a source address in these ranges, then they can be
@@ -702,7 +702,7 @@ There are preliminary Linux kernel patches that still have some remaining
 issues.  In addition, system configuration scripts that configure
 the internal "loopback interface" probably need modification.
 
-## Address Range: 225/8 thru 231/8
+## Address Range: 225/8 through 231/8
 
 No implementation is currently known to allow the unicast use of 0/8.
 However, small Linux kernel patches provide this function.
@@ -712,9 +712,11 @@ However, small Linux kernel patches provide this function.
 The following operating systems support the use of 240.0.0.0/4 as
 unicast, globally reachable address space: Solaris, Linux, Android,
 Apple OSX, Apple IOS, and FreeBSD.  This support has existed since
-approximately 2008.  Four out of the top 5 open source IoT
-stacks already treat 240/4 as unicast, with a 3 line patch awaiting
-submission for the fifth.
+approximately 2008. There are some issues with parts of BSD network
+stack that treat Class-E addresses as "invalid". There are also cases of
+translation (NAT64) where checks reject Class-E addresses and need small
+fixes. Four out of the top 5 open source IoT stacks already treat 240/4 as
+unicast, with a 3 line patch awaiting submission for the fifth.
 
 Some deployments of the BIND Domain Name System implementation
 (e.g. Debian) override the reverse DNS for 255.in-addr.arpa. with a
