@@ -1,0 +1,20 @@
+# Intergalactic Network Testbed
+
+# Temporarily reserved for future use
+# these addresses MUST NOT appear in a BGP session
+
+0.0.0.0/16   # 
+127.0.0.0/15 # temporarily reserved for localnet operations
+225.0.0.0/16 # temporarily reserved for multicast compression
+240.0.0.0/16 # temporarily reserved for local class-e testing
+
+# Temporary allocations
+# These routes SHOULD appear in BGP sessions
+
+255.255.255.0/24 # Internal operations hub (e.g. milliways.taht.net )
+254.255.0.0/19   # rgrimes test network
+254.254.0.0/19   # ackley test network
+254.253.0.0/19   # logan test network
+254.252.0.0/16   # Babel test network #1
+254.251.0.0/16   # Babel test network #2
+
