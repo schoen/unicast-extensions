@@ -52,6 +52,10 @@ organization = "TekLibre"
 
 .# Abstract
 
+>Editor's note: This draft is a *WIP*. Please do not recirculate. Please! Feel free to join us in testing a ton of patches and equipment and help out at: https://github.com/dtaht/ipv4-cleanup
+
+>Thank you!
+
 Unicast addresses are the most successful and most useful kind of
 addresses in the Internet Protocol (IP).  Non-unicast portions have
 been allocated greater space than their usage requires, including some
@@ -693,19 +697,20 @@ as unicast, globally reachable addresses.
 ## Address Range: 0/8
 
 No implementation is currently known to allow the unicast use of 0/8.
-However, small Linux kernel patches provide this function.
+However, small Linux and FreeBSD kernel patches provide this function.
 
 ## Address Range: 127/8
 
 No implementation is currently known to allow the unicast use of 127/8.
-There are preliminary Linux kernel patches that still have some remaining
-issues.  In addition, system configuration scripts that configure
+There are preliminary Linux and FreeBSD kernel patches.
+TP uses 127.127 for the clock interface. 
+In addition, system configuration scripts that configure
 the internal "loopback interface" probably need modification.
 
 ## Address Range: 225/8 through 231/8
 
 No implementation is currently known to allow the unicast use of 0/8.
-However, small Linux kernel patches provide this function.
+However, small Linux and FreeBSD kernel patches provide this function.
 
 ## Address Range: 240/4
 
@@ -715,7 +720,8 @@ Apple OSX, Apple IOS, and FreeBSD.  This support has existed since
 approximately 2008. There are some issues with parts of BSD network
 stack that treat Class-E addresses as "invalid". There are also cases of
 translation (NAT64) where checks reject Class-E addresses and need small
-fixes. Four out of the top 5 open source IoT stacks already treat 240/4 as
+fixes. In both cases we have the patches under review for FreeBSD.
+Four out of the top 5 open source IoT stacks already treat 240/4 as
 unicast, with a 3 line patch awaiting submission for the fifth.
 
 Some deployments of the BIND Domain Name System implementation
