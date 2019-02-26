@@ -6,13 +6,19 @@ Internet Area Working Group                                   J. Gilmore
 Internet-Draft                            Electronic Frontier Foundation
 Updates: 2827, 6890 (if approved)                               D. Taeht
 Intended status: Best Current Practice                          TekLibre
-Expires: August 26, 2019                               February 22, 2019
+Expires: August 30, 2019                               February 26, 2019
 
 
                         IPv4 Unicast Extensions
                      draft-gilmore-taht-v4uniext-01
 
 Abstract
+
+      Editor's note: This draft is a _WIP_. Please do not recirculate.
+      Please!  Feel free to join us in testing a ton of patches and
+      equipment and help out at: https://github.com/dtaht/ipv4-cleanup
+      [1]
+      Thank you!
 
    Unicast addresses are the most successful and most useful kind of
    addresses in the Internet Protocol (IP).  Non-unicast portions have
@@ -42,21 +48,20 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 26, 2019.
+   This Internet-Draft will expire on August 30, 2019.
+
+
+
+
+Gilmore & Taeht          Expires August 30, 2019                [Page 1]
+
+Internet-Draft                v4unicast-ext                February 2019
+
 
 Copyright Notice
 
    Copyright (c) 2019 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
-
-
-
-
-
-Gilmore & Taeht          Expires August 26, 2019                [Page 1]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
@@ -101,19 +106,19 @@ Table of Contents
      8.2.  Address Range: 127/8  . . . . . . . . . . . . . . . . . .  17
      8.3.  Address Range: 225/8 through 231/8  . . . . . . . . . . .  17
      8.4.  Address Range: 240/4  . . . . . . . . . . . . . . . . . .  17
+
+
+
+Gilmore & Taeht          Expires August 30, 2019                [Page 2]
+
+Internet-Draft                v4unicast-ext                February 2019
+
+
      8.5.  Routing to extended unicast networks  . . . . . . . . . .  18
      8.6.  Zeroth and final addresses in subnets . . . . . . . . . .  18
    9.  Related Work  . . . . . . . . . . . . . . . . . . . . . . . .  19
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  19
    11. Security Considerations . . . . . . . . . . . . . . . . . . .  19
-
-
-
-Gilmore & Taeht          Expires August 26, 2019                [Page 2]
-
-Internet-Draft                v4unicast-ext                February 2019
-
-
    12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  20
    13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  20
      13.1.  Normative References . . . . . . . . . . . . . . . . . .  20
@@ -158,18 +163,17 @@ Internet-Draft                v4unicast-ext                February 2019
    concatenated network of diversely implemented underlying networks,
    connected by simple and relatively memoryless gateways.
 
-   The IP address, then expressed in x.x.x.x notation, could be used to
-   specify both a particular network and a Host address on that network.
-   There were several different classes of IP address, each having
-   different numbers of bits allocated for the network # and address
 
 
-
-Gilmore & Taeht          Expires August 26, 2019                [Page 3]
+Gilmore & Taeht          Expires August 30, 2019                [Page 3]
 
 Internet-Draft                v4unicast-ext                February 2019
 
 
+   The IP address, then expressed in x.x.x.x notation, could be used to
+   specify both a particular network and a Host address on that network.
+   There were several different classes of IP address, each having
+   different numbers of bits allocated for the network # and address
    within that network.  Class A networks used 8 bits for network # and
    allowed 24 bits for address-on-that-network.  The ARPANET addresses
    could be encoded into 24 bits.  So, for ARPANET (and some of its
@@ -214,17 +218,16 @@ Internet-Draft                v4unicast-ext                February 2019
    "unicast", stating: "In this paper, we describe a model of multicast
    service we call host groups and propose this model as a way to
    support multicast in the DARPA Internet environment.  We argue that
-   it is feasible to implement this facility as an extension of the
-   existing 'unicast' IP datagram model and mechanism."
 
 
 
-
-
-Gilmore & Taeht          Expires August 26, 2019                [Page 4]
+Gilmore & Taeht          Expires August 30, 2019                [Page 4]
 
 Internet-Draft                v4unicast-ext                February 2019
 
+
+   it is feasible to implement this facility as an extension of the
+   existing 'unicast' IP datagram model and mechanism."
 
    1/8th of the 32-bit address space was left as "reserved for future
    use", and a few other 256ths were reserved for simple protocol
@@ -271,16 +274,16 @@ Internet-Draft                v4unicast-ext                February 2019
    Initially, subnets were only used "locally".  The global Internet
    routing infrastructure still only knew how to route to Class A, B,
    and C networks.  Local equipment in each such network could route
-   locally to any local subnets, such as multiple Ethernets on a
-   university campus.
 
 
 
-
-Gilmore & Taeht          Expires August 26, 2019                [Page 5]
+Gilmore & Taeht          Expires August 30, 2019                [Page 5]
 
 Internet-Draft                v4unicast-ext                February 2019
 
+
+   locally to any local subnets, such as multiple Ethernets on a
+   university campus.
 
    Also in 1984, broadcast addresses were added to IPv4 by [RFC0919],
    and [RFC0922].  This required reserving one IPv4 address within each
@@ -330,10 +333,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-
-
-
-Gilmore & Taeht          Expires August 26, 2019                [Page 6]
+Gilmore & Taeht          Expires August 30, 2019                [Page 6]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -389,7 +389,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019                [Page 7]
+Gilmore & Taeht          Expires August 30, 2019                [Page 7]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -445,7 +445,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019                [Page 8]
+Gilmore & Taeht          Expires August 30, 2019                [Page 8]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -501,7 +501,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019                [Page 9]
+Gilmore & Taeht          Expires August 30, 2019                [Page 9]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -557,7 +557,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 10]
+Gilmore & Taeht          Expires August 30, 2019               [Page 10]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -613,7 +613,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 11]
+Gilmore & Taeht          Expires August 30, 2019               [Page 11]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -669,7 +669,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 12]
+Gilmore & Taeht          Expires August 30, 2019               [Page 12]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -725,7 +725,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 13]
+Gilmore & Taeht          Expires August 30, 2019               [Page 13]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -781,7 +781,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 14]
+Gilmore & Taeht          Expires August 30, 2019               [Page 14]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -837,7 +837,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 15]
+Gilmore & Taeht          Expires August 30, 2019               [Page 15]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -893,7 +893,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 16]
+Gilmore & Taeht          Expires August 30, 2019               [Page 16]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -910,20 +910,22 @@ Internet-Draft                v4unicast-ext                February 2019
 8.1.  Address Range: 0/8
 
    No implementation is currently known to allow the unicast use of 0/8.
-   However, small Linux kernel patches provide this function.
+   However, small Linux and FreeBSD kernel patches provide this
+   function.
 
 8.2.  Address Range: 127/8
 
    No implementation is currently known to allow the unicast use of
-   127/8.  There are preliminary Linux kernel patches that still have
-   some remaining issues.  In addition, system configuration scripts
-   that configure the internal "loopback interface" probably need
-   modification.
+   127/8.  There are preliminary Linux and FreeBSD kernel patches.  TP
+   uses 127.127 for the clock interface.  In addition, system
+   configuration scripts that configure the internal "loopback
+   interface" probably need modification.
 
 8.3.  Address Range: 225/8 through 231/8
 
    No implementation is currently known to allow the unicast use of 0/8.
-   However, small Linux kernel patches provide this function.
+   However, small Linux and FreeBSD kernel patches provide this
+   function.
 
 8.4.  Address Range: 240/4
 
@@ -933,27 +935,29 @@ Internet-Draft                v4unicast-ext                February 2019
    approximately 2008.  There are some issues with parts of BSD network
    stack that treat Class-E addresses as "invalid".  There are also
    cases of translation (NAT64) where checks reject Class-E addresses
-   and need small fixes.  Four out of the top 5 open source IoT stacks
-   already treat 240/4 as unicast, with a 3 line patch awaiting
-   submission for the fifth.
+   and need small fixes.  In both cases we have the patches under review
+   for FreeBSD.  Four out of the top 5 open source IoT stacks already
+   treat 240/4 as unicast, with a 3 line patch awaiting submission for
+   the fifth.
 
    Some deployments of the BIND Domain Name System implementation (e.g.
    Debian) override the reverse DNS for 255.in-addr.arpa. with a local
    empty domain, and do not forward requests for those addresses.  These
    packages will require revision.
 
-   Recent versions of Microsoft Windows will not accept nor forward any
-   packet with either a source or destination address in 240/4.  Nor
-   will they assign an interface address in this range, if one is
-   offered via DHCP.  No plans have been announced for modifications to
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 17]
+
+Gilmore & Taeht          Expires August 30, 2019               [Page 17]
 
 Internet-Draft                v4unicast-ext                February 2019
 
 
+   Recent versions of Microsoft Windows will not accept nor forward any
+   packet with either a source or destination address in 240/4.  Nor
+   will they assign an interface address in this range, if one is
+   offered via DHCP.  No plans have been announced for modifications to
    any version of Microsoft Windows.  Windows developers are aware of
    the work required, and are considering it for a future version.
 
@@ -1001,11 +1005,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-
-
-
-
-Gilmore & Taeht          Expires August 26, 2019               [Page 18]
+Gilmore & Taeht          Expires August 30, 2019               [Page 18]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -1034,9 +1034,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
    240.0.0.0/4 and 0.0.0.0/8 move from the "special purpose" registry
    (https://www.iana.org/assignments/iana-ipv4-special-registry/iana-
-   ipv4-special-registry.xhtml [1]) and are added to the regular "ipv4-
+   ipv4-special-registry.xhtml [2]) and are added to the regular "ipv4-
    address-space" registry ( https://www.iana.org/assignments/ipv4-
-   address-space/ipv4-address-space.xhtml) [2]
+   address-space/ipv4-address-space.xhtml) [3]
 
    0.0.0.0/32 and 127.0.0.0/16 should be added to the special purpose
    registry.
@@ -1061,7 +1061,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 19]
+Gilmore & Taeht          Expires August 30, 2019               [Page 19]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -1117,7 +1117,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 20]
+Gilmore & Taeht          Expires August 30, 2019               [Page 20]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -1173,7 +1173,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 21]
+Gilmore & Taeht          Expires August 30, 2019               [Page 21]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -1229,7 +1229,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 22]
+Gilmore & Taeht          Expires August 30, 2019               [Page 22]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -1285,7 +1285,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 23]
+Gilmore & Taeht          Expires August 30, 2019               [Page 23]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -1325,10 +1325,12 @@ Internet-Draft                v4unicast-ext                February 2019
 
 13.3.  URIs
 
-   [1] https://www.iana.org/assignments/iana-ipv4-special-registry/iana-
+   [1] https://github.com/dtaht/ipv4-cleanup
+
+   [2] https://www.iana.org/assignments/iana-ipv4-special-registry/iana-
        ipv4-special-registry.xhtml
 
-   [2] https://www.iana.org/assignments/ipv4-address-space/ipv4-address-
+   [3] https://www.iana.org/assignments/ipv4-address-space/ipv4-address-
        space.xhtml)
 
 Authors' Addresses
@@ -1339,9 +1341,7 @@ Authors' Addresses
 
 
 
-
-
-Gilmore & Taeht          Expires August 26, 2019               [Page 24]
+Gilmore & Taeht          Expires August 30, 2019               [Page 24]
 
 Internet-Draft                v4unicast-ext                February 2019
 
@@ -1397,4 +1397,4 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 26, 2019               [Page 25]
+Gilmore & Taeht          Expires August 30, 2019               [Page 25]
