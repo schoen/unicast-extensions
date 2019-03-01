@@ -552,7 +552,7 @@ formerly-reserved addresses to be used as ordinary unicast addresses.
 For example, a /29 network that formerly allowed 6 unique interface
 addresses on an Ethernet can now use 7.  A /31 network that formerly
 allowed no unique interface addresses at all can be used for the two
-interfaces in a point-to-point network as per FIXME. 
+interfaces in a point-to-point network as per [@!RFC3021]. 
 
 ## Unicast use of the zero node address in each network or subnet
 
