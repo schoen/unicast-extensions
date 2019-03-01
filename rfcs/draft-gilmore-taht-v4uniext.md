@@ -552,7 +552,7 @@ formerly-reserved addresses to be used as ordinary unicast addresses.
 For example, a /29 network that formerly allowed 6 unique interface
 addresses on an Ethernet can now use 7.  A /31 network that formerly
 allowed no unique interface addresses at all can be used for the two
-interfaces in a point-to-point network.
+interfaces in a point-to-point network as per FIXME. 
 
 ## Unicast use of the zero node address in each network or subnet
 
@@ -701,16 +701,24 @@ However, small Linux and FreeBSD kernel patches provide this function.
 
 ## Address Range: 127/8
 
-No implementation is currently known to allow the unicast use of 127/8.
-There are preliminary Linux and FreeBSD kernel patches.
-TP uses 127.127 for the clock interface. 
+All implementations currently allow the unicast use of 127/8, however
+it is not routable. 
+There are preliminary Linux and FreeBSD kernel patches to restrict
+the "local" requirement of the existing specification to 127/16.
+NTP uses 127.127 for the clock interface, and several chassis control systems
+have been found that use an address in the 127 range.
+ 
 In addition, system configuration scripts that configure
 the internal "loopback interface" probably need modification.
 
 ## Address Range: 225/8 through 231/8
 
-No implementation is currently known to allow the unicast use of 0/8.
-However, small Linux and FreeBSD kernel patches provide this function.
+No implementation is currently known to allow the unicast use of 225/8 - 231/8.
+Some bridges (usually wifi) are known to convert multicast in all ranges to
+unicast. Converting these spaces to unicast beforehand has thus far been
+observed to cause no problems.
+
+Small Linux and FreeBSD kernel patches provide this extension.
 
 ## Address Range: 240/4
 
@@ -736,28 +744,29 @@ DHCP.  No plans have been announced for modifications to any version of
 Microsoft Windows.  Windows developers are aware of the work required,
 and are considering it for a future version.
 
-Juniper routers block traffic for 240/4 by default, but there is a simple
-configuration switch to disable that check, at which point they are fully
-functional.
+Juniper routers block traffic for 240/4 by default, but there has been a simple
+configuration switch to disable that check since 2010, at which point they are fully functional.
 
-Cisco routers are as yet unexplored.
+Some cisco routers can assign and route 240/4, most don't.
 
 ## Routing to extended unicast networks
 
 The reaction of free software routing applications to receiving
 routing updates that include the extended unicast addresses is as yet
-undetermined.
+somewhat undetermined.
 
 Cisco and Juniper routers' reaction to seeing routing updates that
 include the extended unicast addresses is as yet undetermined.
 
 The [@RFC6126] Babel routing protocol and its primary implementation
-fully supports unicast 240/4.  The status of the other extended unicast
-networks in Babel is as yet unknown.
+fully supports unicast 240/4. 
 
 Patches for allowing unicast 240/4 routes have been submitted to the
 BGP/OSPF/ISIS capable routing daemon projects, "Bird", and "FRR".
 However, there may be interoperability issues with unmodified daemons.
+
+All we have observed is an increase in logfile messages, no session drops,
+no crashes, for as-yet unpatched routing daemons.
 
 ## Zeroth and final addresses in subnets
 
