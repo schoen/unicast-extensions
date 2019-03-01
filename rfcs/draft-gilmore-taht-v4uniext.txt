@@ -6,7 +6,7 @@ Internet Area Working Group                                   J. Gilmore
 Internet-Draft                            Electronic Frontier Foundation
 Updates: 2827, 6890 (if approved)                               D. Taeht
 Intended status: Best Current Practice                          TekLibre
-Expires: August 30, 2019                               February 26, 2019
+Expires: September 2, 2019                                 March 1, 2019
 
 
                         IPv4 Unicast Extensions
@@ -48,14 +48,14 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 30, 2019.
+   This Internet-Draft will expire on September 2, 2019.
 
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 1]
+Gilmore & Taeht         Expires September 2, 2019               [Page 1]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
 Copyright Notice
@@ -109,22 +109,22 @@ Table of Contents
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 2]
+Gilmore & Taeht         Expires September 2, 2019               [Page 2]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
      8.5.  Routing to extended unicast networks  . . . . . . . . . .  18
      8.6.  Zeroth and final addresses in subnets . . . . . . . . . .  18
    9.  Related Work  . . . . . . . . . . . . . . . . . . . . . . . .  19
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  19
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  19
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  20
    12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  20
    13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  20
      13.1.  Normative References . . . . . . . . . . . . . . . . . .  20
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  20
-     13.3.  URIs . . . . . . . . . . . . . . . . . . . . . . . . . .  24
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  24
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  21
+     13.3.  URIs . . . . . . . . . . . . . . . . . . . . . . . . . .  25
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  25
 
 1.  Terminology
 
@@ -165,9 +165,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 3]
+Gilmore & Taeht         Expires September 2, 2019               [Page 3]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
    The IP address, then expressed in x.x.x.x notation, could be used to
@@ -221,9 +221,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 4]
+Gilmore & Taeht         Expires September 2, 2019               [Page 4]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
    it is feasible to implement this facility as an extension of the
@@ -277,9 +277,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 5]
+Gilmore & Taeht         Expires September 2, 2019               [Page 5]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
    locally to any local subnets, such as multiple Ethernets on a
@@ -333,9 +333,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 6]
+Gilmore & Taeht         Expires September 2, 2019               [Page 6]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
 3.4.  CIDR and NAT
@@ -389,9 +389,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 7]
+Gilmore & Taeht         Expires September 2, 2019               [Page 7]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
    Although a market has appeared for existing IPv4 allocations, and
@@ -445,9 +445,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 8]
+Gilmore & Taeht         Expires September 2, 2019               [Page 8]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
           +----------------------+----------------------------+
@@ -501,9 +501,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019                [Page 9]
+Gilmore & Taeht         Expires September 2, 2019               [Page 9]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
           +----------------------+----------------------------+
@@ -557,9 +557,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019               [Page 10]
+Gilmore & Taeht         Expires September 2, 2019              [Page 10]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
 5.  Unicast use of address spaces formerly reserved for other functions
@@ -613,9 +613,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019               [Page 11]
+Gilmore & Taeht         Expires September 2, 2019              [Page 11]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
          +----------------------+----------------------------+
@@ -669,9 +669,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019               [Page 12]
+Gilmore & Taeht         Expires September 2, 2019              [Page 12]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
    Multiple addresses are provided, and can be distinguished by
@@ -713,7 +713,7 @@ Internet-Draft                v4unicast-ext                February 2019
    For example, a /29 network that formerly allowed 6 unique interface
    addresses on an Ethernet can now use 7.  A /31 network that formerly
    allowed no unique interface addresses at all can be used for the two
-   interfaces in a point-to-point network.
+   interfaces in a point-to-point network as per [RFC3021].
 
 6.1.  Unicast use of the zero node address in each network or subnet
 
@@ -725,9 +725,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019               [Page 13]
+Gilmore & Taeht         Expires September 2, 2019              [Page 13]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
    As a minor exception, now that 0/8 is designated as global unicast
@@ -781,9 +781,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019               [Page 14]
+Gilmore & Taeht         Expires September 2, 2019              [Page 14]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
 7.  Issues
@@ -837,9 +837,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019               [Page 15]
+Gilmore & Taeht         Expires September 2, 2019              [Page 15]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
       10.0.0.0/8, 127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16,
@@ -893,9 +893,9 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-Gilmore & Taeht          Expires August 30, 2019               [Page 16]
+Gilmore & Taeht         Expires September 2, 2019              [Page 16]
 
-Internet-Draft                v4unicast-ext                February 2019
+Internet-Draft                v4unicast-ext                   March 2019
 
 
    Firewalls [CBR03], packet filters, and intrusion detection systems,
@@ -915,17 +915,24 @@ Internet-Draft                v4unicast-ext                February 2019
 
 8.2.  Address Range: 127/8
 
-   No implementation is currently known to allow the unicast use of
-   127/8.  There are preliminary Linux and FreeBSD kernel patches.  TP
-   uses 127.127 for the clock interface.  In addition, system
-   configuration scripts that configure the internal "loopback
-   interface" probably need modification.
+   All implementations currently allow the unicast use of 127/8, however
+   it is not routable.  There are preliminary Linux and FreeBSD kernel
+   patches to restrict the "local" requirement of the existing
+   specification to 127/16.  NTP uses 127.127 for the clock interface,
+   and several chassis control systems have been found that use an
+   address in the 127 range.
+
+   In addition, system configuration scripts that configure the internal
+   "loopback interface" probably need modification.
 
 8.3.  Address Range: 225/8 through 231/8
 
-   No implementation is currently known to allow the unicast use of 0/8.
-   However, small Linux and FreeBSD kernel patches provide this
-   function.
+   No implementation is currently known to allow the unicast use of
+   225/8 - 231/8.  Some bridges (usually wifi) are known to convert
+   multicast in all ranges to unicast.  Converting these spaces to
+   unicast beforehand has thus far been observed to cause no problems.
+
+   Small Linux and FreeBSD kernel patches provide this extension.
 
 8.4.  Address Range: 240/4
 
@@ -940,19 +947,17 @@ Internet-Draft                v4unicast-ext                February 2019
    treat 240/4 as unicast, with a 3 line patch awaiting submission for
    the fifth.
 
+
+
+Gilmore & Taeht         Expires September 2, 2019              [Page 17]
+
+Internet-Draft                v4unicast-ext                   March 2019
+
+
    Some deployments of the BIND Domain Name System implementation (e.g.
    Debian) override the reverse DNS for 255.in-addr.arpa. with a local
    empty domain, and do not forward requests for those addresses.  These
    packages will require revision.
-
-
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 17]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
    Recent versions of Microsoft Windows will not accept nor forward any
    packet with either a source or destination address in 240/4.  Nor
@@ -961,29 +966,31 @@ Internet-Draft                v4unicast-ext                February 2019
    any version of Microsoft Windows.  Windows developers are aware of
    the work required, and are considering it for a future version.
 
-   Juniper routers block traffic for 240/4 by default, but there is a
-   simple configuration switch to disable that check, at which point
-   they are fully functional.
+   Juniper routers block traffic for 240/4 by default, but there has
+   been a simple configuration switch to disable that check since 2010,
+   at which point they are fully functional.
 
-   Cisco routers are as yet unexplored.
+   Some cisco routers can assign and route 240/4, most don't.
 
 8.5.  Routing to extended unicast networks
 
    The reaction of free software routing applications to receiving
    routing updates that include the extended unicast addresses is as yet
-   undetermined.
+   somewhat undetermined.
 
    Cisco and Juniper routers' reaction to seeing routing updates that
    include the extended unicast addresses is as yet undetermined.
 
    The [RFC6126] Babel routing protocol and its primary implementation
-   fully supports unicast 240/4.  The status of the other extended
-   unicast networks in Babel is as yet unknown.
+   fully supports unicast 240/4.
 
    Patches for allowing unicast 240/4 routes have been submitted to the
    BGP/OSPF/ISIS capable routing daemon projects, "Bird", and "FRR".
    However, there may be interoperability issues with unmodified
    daemons.
+
+   All we have observed is an increase in logfile messages, no session
+   drops, no crashes, for as-yet unpatched routing daemons.
 
 8.6.  Zeroth and final addresses in subnets
 
@@ -996,19 +1003,19 @@ Internet-Draft                v4unicast-ext                February 2019
    trouble, but with local area network equipment that does know the
    subnet address mask.
 
+
+
+Gilmore & Taeht         Expires September 2, 2019              [Page 18]
+
+Internet-Draft                v4unicast-ext                   March 2019
+
+
    Informally, most operating systems and networking equipment already
    supports the use of the zeroth address as a unicast address.
 
    Informally, most operating systems and networking equipment already
    supports the use of the final address in a point-to-point network as
    a unicast address.
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 18]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
 9.  Related Work
 
@@ -1048,6 +1055,17 @@ Internet-Draft                v4unicast-ext                February 2019
    IANA is also requested to prepare the these address spaces to be
    available as reverse DNS space in in-addr.arpa.
 
+
+
+
+
+
+
+Gilmore & Taeht         Expires September 2, 2019              [Page 19]
+
+Internet-Draft                v4unicast-ext                   March 2019
+
+
 11.  Security Considerations
 
    Presently access to the 240/4 and 0/8 blocks are mostly assumed to be
@@ -1056,15 +1074,6 @@ Internet-Draft                v4unicast-ext                February 2019
    lists and hard coded martian files.  In many other cases it will
    "just work", but thought needs to be given to any additional security
    exposures to existing firewalled networks.
-
-
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 19]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
    Address space in the localnet and multicast blocks are also primarily
    assumed to be managed elsewhere in the network, and subject to the
@@ -1102,6 +1111,22 @@ Internet-Draft                v4unicast-ext                February 2019
               Address Spoofing", BCP 38, RFC 2827, DOI 10.17487/RFC2827,
               May 2000, <https://www.rfc-editor.org/info/rfc2827>.
 
+
+
+
+
+
+
+Gilmore & Taeht         Expires September 2, 2019              [Page 20]
+
+Internet-Draft                v4unicast-ext                   March 2019
+
+
+   [RFC3021]  Retana, A., White, R., Fuller, V., and D. McPherson,
+              "Using 31-Bit Prefixes on IPv4 Point-to-Point Links",
+              RFC 3021, DOI 10.17487/RFC3021, December 2000,
+              <https://www.rfc-editor.org/info/rfc3021>.
+
    [RFC6890]  Cotton, M., Vegoda, L., Bonica, R., Ed., and B. Haberman,
               "Special-Purpose IP Address Registries", BCP 153,
               RFC 6890, DOI 10.17487/RFC6890, April 2013,
@@ -1109,18 +1134,8 @@ Internet-Draft                v4unicast-ext                February 2019
 
 13.2.  Informative References
 
-   [CBR03]    Cheswick, W., Bellovin, S., and A. Rubin, "Firewalls and
-              Internet Security: Repelling the Wily Hacker, Second
-              Edition", 2003.
-
-
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 20]
-
-Internet-Draft                v4unicast-ext                February 2019
-
+   [CBR03]    Rubin, A., "Firewalls and Internet Security: Repelling the
+              Wily Hacker, Second Edition", 2003.
 
    [I-D.fuller-240space]
               Fuller, V., "Reclassifying 240/4 as usable unicast address
@@ -1134,7 +1149,7 @@ Internet-Draft                v4unicast-ext                February 2019
 
    [IEN48]    Cerf, V., "The CATENET MODEL FOR INTERNETWORKING", 1978.
 
-   [IETF-13]  Gross, P. and K. Bowers, "IETF Proceedings", 1989.
+   [IETF-13]  Bowers, K., "IETF Proceedings", 1989.
 
    [IHML]     Many, T., "Internet History Mailing list", 2019.
 
@@ -1154,6 +1169,15 @@ Internet-Draft                v4unicast-ext                February 2019
               RFC 792, DOI 10.17487/RFC0792, September 1981,
               <https://www.rfc-editor.org/info/rfc792>.
 
+
+
+
+
+Gilmore & Taeht         Expires September 2, 2019              [Page 21]
+
+Internet-Draft                v4unicast-ext                   March 2019
+
+
    [RFC0796]  Postel, J., "Address mappings", RFC 796,
               DOI 10.17487/RFC0796, September 1981,
               <https://www.rfc-editor.org/info/rfc796>.
@@ -1170,13 +1194,6 @@ Internet-Draft                v4unicast-ext                February 2019
    [RFC0919]  Mogul, J., "Broadcasting Internet Datagrams", STD 5,
               RFC 919, DOI 10.17487/RFC0919, October 1984,
               <https://www.rfc-editor.org/info/rfc919>.
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 21]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
    [RFC0922]  Mogul, J., "Broadcasting Internet datagrams in the
               presence of subnets", STD 5, RFC 922,
@@ -1210,6 +1227,13 @@ Internet-Draft                v4unicast-ext                February 2019
               Point Links", RFC 1331, DOI 10.17487/RFC1331, May 1992,
               <https://www.rfc-editor.org/info/rfc1331>.
 
+
+
+Gilmore & Taeht         Expires September 2, 2019              [Page 22]
+
+Internet-Draft                v4unicast-ext                   March 2019
+
+
    [RFC1338]  Fuller, V., Li, T., Yu, J., and K. Varadhan,
               "Supernetting: an Address Assignment and Aggregation
               Strategy", RFC 1338, DOI 10.17487/RFC1338, June 1992,
@@ -1222,17 +1246,6 @@ Internet-Draft                v4unicast-ext                February 2019
    [RFC1518]  Rekhter, Y. and T. Li, "An Architecture for IP Address
               Allocation with CIDR", RFC 1518, DOI 10.17487/RFC1518,
               September 1993, <https://www.rfc-editor.org/info/rfc1518>.
-
-
-
-
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 22]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
    [RFC1519]  Fuller, V., Li, T., Yu, J., and K. Varadhan, "Classless
               Inter-Domain Routing (CIDR): an Address Assignment and
@@ -1269,6 +1282,14 @@ Internet-Draft                v4unicast-ext                February 2019
               DOI 10.17487/RFC2036, October 1996,
               <https://www.rfc-editor.org/info/rfc2036>.
 
+
+
+
+Gilmore & Taeht         Expires September 2, 2019              [Page 23]
+
+Internet-Draft                v4unicast-ext                   March 2019
+
+
    [RFC2131]  Droms, R., "Dynamic Host Configuration Protocol",
               RFC 2131, DOI 10.17487/RFC2131, March 1997,
               <https://www.rfc-editor.org/info/rfc2131>.
@@ -1282,13 +1303,6 @@ Internet-Draft                v4unicast-ext                February 2019
               (IGMP) and Multicast Listener Discovery (MLD) Snooping
               Switches", RFC 4541, DOI 10.17487/RFC4541, May 2006,
               <https://www.rfc-editor.org/info/rfc4541>.
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 23]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
    [RFC4632]  Fuller, V. and T. Li, "Classless Inter-domain Routing
               (CIDR): The Internet Address Assignment and Aggregation
@@ -1323,6 +1337,15 @@ Internet-Draft                v4unicast-ext                February 2019
               DOI 10.17487/RFC8200, July 2017,
               <https://www.rfc-editor.org/info/rfc8200>.
 
+
+
+
+
+Gilmore & Taeht         Expires September 2, 2019              [Page 24]
+
+Internet-Draft                v4unicast-ext                   March 2019
+
+
 13.3.  URIs
 
    [1] https://github.com/dtaht/ipv4-cleanup
@@ -1334,17 +1357,6 @@ Internet-Draft                v4unicast-ext                February 2019
        space.xhtml)
 
 Authors' Addresses
-
-
-
-
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 24]
-
-Internet-Draft                v4unicast-ext                February 2019
-
 
    John Gilmore
    Electronic Frontier Foundation
@@ -1385,16 +1397,4 @@ Internet-Draft                v4unicast-ext                February 2019
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Gilmore & Taeht          Expires August 30, 2019               [Page 25]
+Gilmore & Taeht         Expires September 2, 2019              [Page 25]
