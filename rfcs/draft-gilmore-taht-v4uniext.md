@@ -52,9 +52,8 @@ organization = "TekLibre"
 
 .# Abstract
 
->Editor's note: This draft is a *WIP*. Please do not recirculate. Please! Feel free to join us in testing a ton of patches and equipment and help out at: https://github.com/dtaht/ipv4-cleanup
-
->Thank you!
+>Editor's note: This draft has not been submitted to any formal process.  It may
+change significantly if it is ever submitted.  You are reading it because we trust you and we value your opinions.  Please do not recirculate it.  Please join us in testing patches and equipment!
 
 Unicast addresses are the most successful and most useful kind of
 addresses in the Internet Protocol (IP).  Non-unicast portions have
@@ -62,12 +61,17 @@ been allocated greater space than their usage requires, including some
 unused portions that have been "reserved for future use" for decades.
 Meanwhile, rapid uptake of unicast IPv4 throughout the world has exhausted
 the supply of unicast addresses.  New IPv4 users are now regularly charged
-US$15 or more per address to reclaim them from older users.  To improve
-this imbalance and reduce the barrier to new entrants, this document
-extends the unicast address space to include several hundred million
-more unicast IPv4 addresses, worth billions of dollars to end users.
-It updates [@!RFC6890] to reclassify these addresses as globally reachable
-unicast address space.
+US$15 or more per address to reclaim them from older users.
+
+To reduce the barrier to new entrants, keeping the Internet's evolution
+open to all, this document extends the unicast address space to include
+several hundred million more unicast IPv4 addresses, worth billions
+of dollars to end users.  It updates [@!RFC6890] to reclassify these
+addresses as globally reachable unicast address space.
+
+Global implementation of these changes requires reprogramming some fraction
+of the IPv4-compatible equipment worldwide, a multi-year project that is
+not centrally funded nor organized.  We also discuss that transition.
 
 {mainmatter}
 
@@ -459,16 +463,20 @@ table 4 of [@!RFC6890].
            | Reserved-by-Protocol | False                      |
            +----------------------+----------------------------+
 
-The Loopback Addresses, 127.0.0.0 through 127.0.255.255, still must be
-treated specially: they are usable only as a destination IP address;
-they are invalid as a network interface address; and when used as a
-destination address in a packet, the packet is received and consumed
-only by the current node.  Typically, such an address is used when
-communicating with another process on this particular node.  Multiple
-addresses are provided, and can be distinguished by recipient processes,
-to accommodate historical use patterns.  This behavior is unchanged
-from previously specified behavior, though it now only applies to 65,536
-addresses rather than to 16,777,216 addresses.
+To the extent that any existing users had special uses for some small
+subsets of this space, those subsets may be allocated to those users by
+administrative action of IANA.
+
+A smaller set of Loopback Addresses, 127.0.0.0 through 127.0.255.255,
+still must be treated specially: they are usable only as a destination
+IP address; they are invalid as a network interface address; and when
+used as a destination address in a packet, the packet is received
+and consumed only by the current node.  Typically, such an address is
+used when communicating with another process on this particular node.
+Multiple addresses are provided, and can be distinguished by recipient
+processes, to accommodate historical use patterns.  This behavior is
+unchanged from previously specified behavior, though it now only applies
+to 65,536 addresses rather than to 16,777,216 addresses.
 
 {#fig-127-16}
           +----------------------+----------------------------+
@@ -701,10 +709,11 @@ However, small Linux and FreeBSD kernel patches provide this function.
 
 ## Address Range: 127/8
 
-All implementations currently allow the unicast use of 127/8, however
-it is not routable. 
+All implementations currently allow the use of 127/8 for local traffic, however
+they do not allow its use for globally routable unicast traffic. 
 There are preliminary Linux and FreeBSD kernel patches to restrict
-the "local" requirement of the existing specification to 127/16.
+the "local" requirement of the existing specification to 127.0/16 and permit
+globally routable unicast traffic in the rest of 127/8.
 NTP uses 127.127 for the clock interface, and several chassis control systems
 have been found that use an address in the 127 range.
  
