@@ -1,0 +1,4 @@
+* Fix and break url first two slides
+* More quotes from karl
+* confirm retirement date
+* deploy rfcXXXX for ptp stuff
