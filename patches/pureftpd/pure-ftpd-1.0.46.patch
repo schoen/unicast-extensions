@@ -1,0 +1,24 @@
+diff -Naur pure-ftpd-1.0.47-orig/src/ftpd.c pure-ftpd-1.0.47/src/ftpd.c
+--- pure-ftpd-1.0.47-orig/src/ftpd.c	2019-03-20 11:04:49.802145290 +0100
++++ pure-ftpd-1.0.47/src/ftpd.c	2019-03-20 11:24:10.819954082 +0100
+@@ -530,17 +530,15 @@
+     return 1;
+ #endif
+     if (STORAGE_FAMILY(*addr) == AF_INET6) {
+-        if (IN6_IS_ADDR_MULTICAST(&STORAGE_SIN_ADDR6_NF(*addr)) ||
+-            IN6_IS_ADDR_UNSPECIFIED(&STORAGE_SIN_ADDR6_NF(*addr))) {
++        if (IN6_IS_ADDR_UNSPECIFIED(&STORAGE_SIN_ADDR6_NF(*addr))) {
+             return 0;
+         }
+         return 1;
+     } else if (STORAGE_FAMILY(*addr) == AF_INET) {
+         if (ntohl(STORAGE_SIN_ADDR(*addr)) == INADDR_ANY ||
+             ntohl(STORAGE_SIN_ADDR(*addr)) == INADDR_NONE ||
+-            ntohl(STORAGE_SIN_ADDR(*addr)) == INADDR_BROADCAST ||
+-            IN_MULTICAST(ntohl(STORAGE_SIN_ADDR(*addr))) ||
+-            IN_BADCLASS(ntohl(STORAGE_SIN_ADDR(*addr)))) {
++            ntohl(STORAGE_SIN_ADDR(*addr)) == INADDR_BROADCAST
++            ) {
+             return 0;
+         }
+         return 1;
