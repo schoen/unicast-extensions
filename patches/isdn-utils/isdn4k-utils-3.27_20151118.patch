@@ -1,0 +1,116 @@
+diff -Naur isdn4k-utils-3.27_20151118-orig/ipppd/auth.c isdn4k-utils-3.27_20151118/ipppd/auth.c
+--- isdn4k-utils-3.27_20151118-orig/ipppd/auth.c	2015-11-18 16:45:08.000000000 +0100
++++ isdn4k-utils-3.27_20151118/ipppd/auth.c	2019-03-20 11:33:58.888350479 +0100
+@@ -1087,10 +1087,6 @@
+ 	struct netent *np;
+ 	struct wordlist *addrs;
+ 
+-	/* don't allow loopback or multicast address */
+-	if (bad_ip_adrs(addr))
+-		return 0;
+-
+ 	if ((addrs = lns[unit].addresses) == NULL)
+ 		return 1;                /* no restriction */
+ 
+@@ -1155,18 +1151,6 @@
+ }
+ 
+ /*
+- * bad_ip_adrs - return 1 if the IP address is one we don't want
+- * to use, such as an address in the loopback net or a multicast address.
+- * addr is in network byte order.
+- */
+-int bad_ip_adrs(u_int32_t addr)
+-{
+-	addr = ntohl(addr);
+-	return (addr >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET
+-		|| IN_MULTICAST(addr) || IN_BADCLASS(addr);
+-}
+-
+-/*
+  * check_access - complain if a secret file has too-liberal permissions.
+  */
+ void check_access(FILE *f,char *filename)
+diff -Naur isdn4k-utils-3.27_20151118-orig/ipppd/ipppd.h isdn4k-utils-3.27_20151118/ipppd/ipppd.h
+--- isdn4k-utils-3.27_20151118-orig/ipppd/ipppd.h	2015-11-18 16:45:08.000000000 +0100
++++ isdn4k-utils-3.27_20151118/ipppd/ipppd.h	2019-03-20 11:35:25.664444914 +0100
+@@ -290,7 +290,6 @@
+ void ipcp_freeunit(int);
+ void lcp_freeunit(int);
+ char *ip_ntoa(u_int32_t);
+-int bad_ip_adrs(u_int32_t);
+ int getword(FILE *,char *,int *,char *);
+ void print_string(char *p,int len,void (*printer)(void *,char *,...),void *arg);
+ int auth_ip_addr(int unit,u_int32_t addr);
+diff -Naur isdn4k-utils-3.27_20151118-orig/ipppd/options.c isdn4k-utils-3.27_20151118/ipppd/options.c
+--- isdn4k-utils-3.27_20151118-orig/ipppd/options.c	2015-11-18 16:45:08.000000000 +0100
++++ isdn4k-utils-3.27_20151118/ipppd/options.c	2019-03-20 11:35:02.084147514 +0100
+@@ -1633,10 +1633,6 @@
+ 		}
+ 	    }
+ 	}
+-	if (bad_ip_adrs(local)) {
+-	    fprintf(stderr, "bad local IP address %s\n", ip_ntoa(local));
+-	    return -1;
+-	}
+ 	if (local != 0)
+ 	{
+ 	    wo->ouraddr = local;
+@@ -1663,10 +1659,6 @@
+ 		}
+ 	    }
+ 	}
+-	if (bad_ip_adrs(remote)) {
+-	    fprintf(stderr, "bad remote IP address %s\n", ip_ntoa(remote));
+-	    return -1;
+-	}
+ 	if (remote != 0)
+ 	{
+ 	    wo->hisaddr = remote;
+@@ -1732,7 +1724,7 @@
+       if ((hp = gethostbyname(hostname)) == NULL)
+ 	return;
+       local = *(u_int32_t *)hp->h_addr;
+-      if (local != 0 && !bad_ip_adrs(local))
++      if (local != 0)
+ 	wo->ouraddr = local;
+     }
+ }
+diff -Naur isdn4k-utils-3.27_20151118-orig/ipppd/radius.c isdn4k-utils-3.27_20151118/ipppd/radius.c
+--- isdn4k-utils-3.27_20151118-orig/ipppd/radius.c	2015-11-18 16:45:08.000000000 +0100
++++ isdn4k-utils-3.27_20151118/ipppd/radius.c	2019-03-20 11:35:21.787396015 +0100
+@@ -26,7 +26,6 @@
+ #include "pathnames.h"
+ 
+ char *ip_ntoa __P((u_int32_t));
+-int	bad_ip_adrs __P((u_int32_t));
+ char	username_realm[255];
+ char    radius_user[MAXNAMELEN];
+ char 	*make_username_realm ( char * );
+@@ -161,15 +160,6 @@
+ 			if ((remote != 0xfffffffe) && (remote != 0xffffffff)) 
+ 			{
+ 				remote = htonl(remote);
+-				if (bad_ip_adrs (remote))
+-				{
+-					syslog (LOG_ERR, 
+-						"RADIUS bad remote IP address %s for %s in %s", 
+-						ip_ntoa (remote), 
+-						radius_user,
+-						func );
+-					return (-1);
+-				}
+ 				wo->hisaddr = remote;
+ 				syslog (LOG_DEBUG,
+               				"Assigned remote static IP %s in %s",
+diff -Naur isdn4k-utils-3.27_20151118-orig/ipppd/sys-linux.c isdn4k-utils-3.27_20151118/ipppd/sys-linux.c
+--- isdn4k-utils-3.27_20151118-orig/ipppd/sys-linux.c	2015-11-18 16:45:08.000000000 +0100
++++ isdn4k-utils-3.27_20151118/ipppd/sys-linux.c	2019-03-20 11:35:13.779295015 +0100
+@@ -1199,7 +1199,6 @@
+ 	}
+ 	nmask = htonl(nmask);
+ 
+-	/* class D nets are disallowed by bad_ip_adrs */
+ 	mask = netmask | nmask;
+ 
+ 	if (ifs == (void *) 0) {
