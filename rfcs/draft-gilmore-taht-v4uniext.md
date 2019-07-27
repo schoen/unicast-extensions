@@ -53,7 +53,7 @@ organization = "TekLibre"
 .# Abstract
 
 >Editor's note: This draft has not been submitted to any formal process.  It may
-change significantly if it is ever submitted.  You are reading it because we trust you and we value your opinions.  Please do not recirculate it.  Please join us in testing patches and equipment!
+change significantly if it is ever submitted.  You are reading it because we trust you and we value your opinions. Feel free to link, but please do not recirculate it.  Please join us in testing patches and equipment!
 
 Unicast addresses are the most successful and most useful kind of
 addresses in the Internet Protocol (IP).  Non-unicast portions have
@@ -573,8 +573,8 @@ space, it is possible to define a network whose zeroth address overlaps
 the reserved address 0.0.0.0.  Such a network does not have a fully
 addressable, globally reachable, unicast zeroth address, because 0.0.0.0
 is always reserved and always has its reserved meaning.  For example,
-despite the preceding paragraph, network 0.0.0.0/24 only includes 254
-usable addresses, starting from 0.0.0.1 and ending at 0.0.0.255.
+despite the preceding paragraph, network 0.0.0.0/24 only includes 253
+usable addresses, starting from 0.0.0.1 and ending at 0.0.0.254.
 
 When configuring or describing the IPv4 address of an interface on a
 network, the full 32-bit interface address is traditionally used along
