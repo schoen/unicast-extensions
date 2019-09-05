@@ -1,0 +1,28 @@
+From 1ab2b4878049906b049adf0fcf85005eeb8eb6e0 Mon Sep 17 00:00:00 2001
+From: Dave Taht <dave.taht@gmail.com>
+Date: Wed, 4 Sep 2019 19:22:47 -0700
+Subject: [PATCH] martians_check: remove all but 0.0.0.0/32 from 0.0.0.0
+
+Linux now supports addresses and routes in the 0.0.0.0/8
+range.
+---
+ util.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/util.c b/util.c
+index 1b5066f..7939361 100644
+--- a/util.c
++++ b/util.c
+@@ -446,7 +446,8 @@ martian_prefix(const unsigned char *prefix, int plen)
+         (plen >= 128 && memcmp(prefix, zeroes, 15) == 0 &&
+          (prefix[15] == 0 || prefix[15] == 1)) ||
+         (plen >= 96 && v4mapped(prefix) &&
+-         ((plen >= 104 && (prefix[12] == 127 || prefix[12] == 0)) ||
++         ((plen >= 104 && (prefix[12] == 127 ||
++			   (prefix[12] == 0 && plen == 104))) ||
+           (plen >= 100 && (prefix[12] & 0xF0) == 0xE0) ||
+           (plen >= 128 && memcmp(prefix + 12, ones, 4) == 0)));
+ }
+-- 
+2.7.4
+
