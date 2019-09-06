@@ -1,0 +1,54 @@
+From f9a706a78ece500f167da890eca2ff2eaa6e7006 Mon Sep 17 00:00:00 2001
+From: Dave Taht <dave.taht@gmail.com>
+Date: Sun, 18 Aug 2019 16:55:09 +0000
+Subject: [PATCH 2/2] Reduce localhost to 127.0.0.0/16
+
+The 127 concept of "localhost" was  basically a straight port over from
+original ARPANET behavior. At the time it was envisioned that
+many services would exist in the mainframe that would need to be
+individually addressable, and long predated alternative approaches
+such as tipc, etc.
+
+This reduces 127.0.0.0/8 to a /16, and opens up 127.1.0.0 and above
+for use as real, unicast addresses either on the wire or internal
+to containers, virtual machines, vpns, etc.
+
+The only major uses of 127 to date have been (of
+course) 127.0.0.1 and 127.0.1.1 (for dns), and various adhoc uses
+for things like anti-spam daemons.
+
+Linux also has a non-standard treatment of the entire 127 address
+space - anything sent to any address there "just works". This patch
+preserves that behavior for 127.0.0.0/16 only.
+
+Other uses, such as ntp's 127.127 "handle" for it, doesn't actually
+touch the stack.  We've seen 127.x used for chassis access and a few
+other explicit uses in the field, but very little.
+
+There is some small hope that we can preserve the original intent of
+"localhost" in an age of stacked vms and containers, where instead of
+using rfc1918 nat at each level, we can route, instead.
+
+
+---
+ include/linux/in.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/in.h b/include/linux/in.h
+index 8665842a3589..6e4f37e5bf51 100644
+--- a/include/linux/in.h
++++ b/include/linux/in.h
+@@ -37,7 +37,9 @@ static inline int proto_ports_offset(int proto)
+ 
+ static inline bool ipv4_is_loopback(__be32 addr)
+ {
+-	return (addr & htonl(0xff000000)) == htonl(0x7f000000);
++	if((addr & htonl(0xff000000)) == htonl(0x7f000000))
++		return( addr & htonl(0x00ff0000)) == 0;
++	return 0;
+ }
+ 
+ static inline bool ipv4_is_multicast(__be32 addr)
+-- 
+2.17.1
+
