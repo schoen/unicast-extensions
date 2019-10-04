@@ -704,8 +704,10 @@ as unicast, globally reachable addresses.
 
 ## Address Range: 0/8
 
-No implementation is currently known to allow the unicast use of 0/8.
-However, small Linux and FreeBSD kernel patches provide this function.
+Linux now allows the unicast use of 0/8 as of version 5.3.
+
+Small FreeBSD kernel patches and routing daemon patches are
+now available.
 
 ## Address Range: 127/8
 
