@@ -1,0 +1,43 @@
+From 04e0ed5afd2379be94aa24ced0bcf60e92a08f9e Mon Sep 17 00:00:00 2001
+From: Seth Schoen <schoen@loyalty.org>
+Date: Wed, 23 Sep 2020 17:26:06 -0700
+Subject: [PATCH] Treat IPv4 zero host as ordinary unicast address.
+
+This patch makes it possible to use the zero host (the host whose
+host address on a network is 0) as ordinary unicast instead of as
+a second broadcast address. For example, on 192.168.17.0/24, the
+address 192.168.17.255 remains broadcast, but 192.168.17.0 can be
+assigned and interacted with as a normal unicast address. This
+means we have 2^(32-n)-1 instead of 2^(32-n)-2 addresses available
+for assignment on each IPv4 /n subnet.
+
+
+Signed-off-by: Seth Schoen <schoen@loyalty.org>
+---
+ net/ipv4/fib_frontend.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/net/ipv4/fib_frontend.c b/net/ipv4/fib_frontend.c
+index 86a23e4a6a50..f2bf7471efdd 100644
+--- a/net/ipv4/fib_frontend.c
++++ b/net/ipv4/fib_frontend.c
+@@ -1122,10 +1122,13 @@ void fib_add_ifaddr(struct in_ifaddr *ifa)
+ 				  prefix, ifa->ifa_prefixlen, prim,
+ 				  ifa->ifa_rt_priority);
+ 
+-		/* Add network specific broadcasts, when it takes a sense */
++		/* Add the network broadcast address, when it makes sense */
+ 		if (ifa->ifa_prefixlen < 31) {
+-			fib_magic(RTM_NEWROUTE, RTN_BROADCAST, prefix, 32,
+-				  prim, 0);
++			/* The zero host on a network is not a broadcast
++			 * address; we no longer treat it specially. Only
++			 * the address with all ones in the host address
++			 * is a broadcast address. */
++
+ 			fib_magic(RTM_NEWROUTE, RTN_BROADCAST, prefix | ~mask,
+ 				  32, prim, 0);
+ 		}
+-- 
+2.17.1
+
