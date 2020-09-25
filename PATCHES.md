@@ -32,4 +32,10 @@
 
 ### Windows
 
+## Zeroth host
 
+### Linux
+
+### FreeBSD
+
+### Windows
