@@ -1,0 +1,27 @@
+linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
+
+	The 0/8 part of this patch was merged in 96125bf9985a7, approved
+	by David S. Miller in June 2019.
+
+	The other parts have not been merged as of 2020-09-25.
+
+linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
+
+	This patch was merged in 65cab850f0eea, approved by Greg Kroah-Hartman
+	in January 2019.
+
+linux/0001-Reduce-multicast-range.patch
+
+	This patch has not been merged as of 2020-09-25.  It is a narrower
+	part of the functionality of
+	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
+
+linux/0001-Treat-IPv4-zero-host-as-ordinary-unicast-address.patch
+
+	This patch is new as of 2020-09-23 and has not been merged yet.
+
+linux/0002-Reduce-localhost-to-a-16.patch
+
+	This patch has not been merged as of 2020-09-25.  It is a narrower
+	part of the functionality of
+	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
