@@ -39,7 +39,36 @@ linux/0002-Reduce-localhost-to-a-16.patch
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
 
 www.taht.net/classe/0001-Allow-Class-E-addresses-throughout-FRR.patch
+
+	This patch has not been merged as of 2020-09-25.  The upstream project
+	is looking for revisions or actions from us.  See
+
+	https://github.com/FRRouting/frr/pull/3462
+
 www.taht.net/classe/0001-bird-treat-former-classe-addresses-as-valid-addresse.patch
+
+	This patch has not been merged as of 2020-09-25.  I'm not sure whether
+	it was submitted to the upstream project or not.  See, e.g.,
+
+	https://gitlab.nic.cz/labs/bird/-/blob/master/lib/ip.c
+
+	(I need to do some more searches to see if this patch was ever introduced
+	into the project's Gitlab instance or a mailing list.)
+
 www.taht.net/classe/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
+
+	This patch became the
+	linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
+	which was merged as noted above.
+
 www.taht.net/classe/0001-Relax-martians-check-in-babeld.patch
+
+	A version of this patch was committed on December 22, 2018.  See
+
+	https://github.com/jech/babeld/commit/19a442ba8df5db57c13a041501629c12ff9cef83
+
 www.taht.net/classe/0001-Support-class-e-addressing-in-netifd.patch
+
+	This patch was committed on December 16, 2018.  See
+
+	https://git.openwrt.org/?p=project/netifd.git;a=commitdiff;h=cd089c52de96e47cf99410f66701e04e24155b9a
