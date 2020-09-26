@@ -13,8 +13,9 @@ linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=96125bf9985a
 
-	The other parts have not been merged as of 2020-09-25.
-
+	The other parts have not been merged as of 2020-09-25, and
+	correspond to other pending patches below.
+	
 linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
 
 	This patch was merged in 65cab850f0eea, approved by David S. Miller
