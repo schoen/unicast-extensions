@@ -1,14 +1,18 @@
 linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	The 0/8 part of this patch was merged in 96125bf9985a7, approved
-	by David S. Miller in June 2019.
+	by David S. Miller on June 26, 2019.
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=96125bf9985a
 
 	The other parts have not been merged as of 2020-09-25.
 
 linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
 
-	This patch was merged in 65cab850f0eea, approved by Greg Kroah-Hartman
-	in January 2019.
+	This patch was merged in 65cab850f0eea, approved by David S. Miller
+	on December 14, 2018.
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=65cab850f0eea
 
 linux/0001-Reduce-multicast-range.patch
 
@@ -25,3 +29,9 @@ linux/0002-Reduce-localhost-to-a-16.patch
 	This patch has not been merged as of 2020-09-25.  It is a narrower
 	part of the functionality of
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
+
+www.taht.net/classe/0001-Allow-Class-E-addresses-throughout-FRR.patch
+www.taht.net/classe/0001-bird-treat-former-classe-addresses-as-valid-addresse.patch
+www.taht.net/classe/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
+www.taht.net/classe/0001-Relax-martians-check-in-babeld.patch
+www.taht.net/classe/0001-Support-class-e-addressing-in-netifd.patch
