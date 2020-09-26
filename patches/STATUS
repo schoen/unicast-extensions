@@ -1,3 +1,11 @@
+freebsd/freebsd_e.diff
+
+	This patch has not been merged as of 2020-09-25.
+
+freebsd/in_zeronet.patch
+
+	This patch has not been merged as of 2020-09-25.
+
 linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	The 0/8 part of this patch was merged in 96125bf9985a7, approved
