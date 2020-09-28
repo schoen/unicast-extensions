@@ -1,3 +1,25 @@
+isdn-utils/isdn4k-utils-3.27_20151118.patch
+
+	I'm not sure what would be considered the upstream source for this
+	package anymore.  There are a few related projects that appear to
+	be almost abandoned.  I could not access the CVS server mentioned
+	at https://www.isdn4linux.de/cvs.shtml.
+
+	I think the official upstream might be
+
+	git://git.misdn.eu/isdn4k-utils.git
+
+	which isn't explicitly mentioned on the corresponding web site,
+	and which I deduced by analogy to the CVS page.
+
+	There's also a fork of the source at
+
+	https://github.com/marschap/isdn4k-utils
+
+	This patch has not been merged on either of these trees as of
+	2020-09-28.  As noted below, the affected code originally came
+	from pppd.
+
 freebsd/freebsd_e.diff
 
 	This patch has not been merged as of 2020-09-25.
@@ -39,37 +61,63 @@ linux/0002-Reduce-localhost-to-a-16.patch
 	part of the functionality of
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
 
-www.taht.net/classe/0001-Allow-Class-E-addresses-throughout-FRR.patch
+openbsd/openbsd_class_e.diff
+
+	This patch has not been merged as of 2020-09-28.  It's closely
+	related to, though narrower than, the FreeBSD patch.
+
+openwrt/0001-Support-class-e-addressing-in-netifd.patch
+
+	This patch was committed on December 16, 2018.  See
+
+	https://git.openwrt.org/?p=project/netifd.git;a=commitdiff;h=cd089c52de96e47cf99410f66701e04e24155b9a
+
+ppp/ppp-2.4.7.patch
+
+	This patch has not been merged as of 2020-09-28.  The affected code
+	is apparently the origin of the code in isdn-utils (not that
+	isdn-utils is likely to be updating its PPP implementation to match
+	the original upstream pppd).
+
+	The author of this code is my former Linuxcare coworker.
+
+pureftpd/pure-ftpd-1.0.46.patch
+
+	This patch has not been merged as of 2020-09-28.
+
+	The upstream developer independently made a related change that
+	allows the software to use class E addresses, though still not
+	class D addresses, on November 21, 2019.
+
+	https://github.com/jedisct1/pure-ftpd/commit/2d7bff38b7b82ba49b3bf73b393c7e43a6e27406
+
+routing/0001-Allow-Class-E-addresses-throughout-FRR.patch
 
 	This patch has not been merged as of 2020-09-25.  The upstream project
 	is looking for revisions or actions from us.  See
 
 	https://github.com/FRRouting/frr/pull/3462
 
-www.taht.net/classe/0001-bird-treat-former-classe-addresses-as-valid-addresse.patch
+routing/0001-bird-treat-former-classe-addresses-as-valid-addresse.patch
 
 	This patch has not been merged as of 2020-09-25.  I'm not sure whether
 	it was submitted to the upstream project or not.  See, e.g.,
 
 	https://gitlab.nic.cz/labs/bird/-/blob/master/lib/ip.c
 
-	(I need to do some more searches to see if this patch was ever introduced
-	into the project's Gitlab instance or a mailing list.)
+	(I need to do some more searches to see if this patch was ever
+	introduced into the project's Gitlab instance or a mailing list.)
 
-www.taht.net/classe/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
+routing/0001-martians_check-remove-all-but-0.0.0.0-32-from-0.0.0..patch
 
-	This patch became the
-	linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
-	which was merged as noted above.
+	This is apparently meant to be applied to babeld (the name doesn't
+	make that explicit).  This patch has not been merged as of
+	2020-09-28.  See, e.g.,
 
-www.taht.net/classe/0001-Relax-martians-check-in-babeld.patch
+	https://github.com/jech/babeld/blob/master/util.c
+
+routing/0001-Relax-martians-check-in-babeld.patch
 
 	A version of this patch was committed on December 22, 2018.  See
 
 	https://github.com/jech/babeld/commit/19a442ba8df5db57c13a041501629c12ff9cef83
-
-www.taht.net/classe/0001-Support-class-e-addressing-in-netifd.patch
-
-	This patch was committed on December 16, 2018.  See
-
-	https://git.openwrt.org/?p=project/netifd.git;a=commitdiff;h=cd089c52de96e47cf99410f66701e04e24155b9a
