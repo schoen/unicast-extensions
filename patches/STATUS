@@ -35,6 +35,8 @@ linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=96125bf9985a
 
+	This was included in Linux release tag v5.2.
+
 	The other parts have not been merged as of 2020-09-25, and
 	correspond to other pending patches below.
 	
@@ -44,6 +46,8 @@ linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patc
 	on December 14, 2018.
 
 	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=65cab850f0eea
+
+	This was included in Linux release tags v4.20 and v5.0.
 
 linux/0001-Reduce-multicast-range.patch
 
