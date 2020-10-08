@@ -1,4 +1,5 @@
 #!/bin/sh
+# SPDX-License-Identifier: GPL-2.0
 
 # This is work in progress toward an eventual submission to the Linux
 # selftests (in linux/tools/testing/selftests).  It uses the network
