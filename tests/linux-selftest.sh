@@ -88,11 +88,14 @@ pingtest 0.77.240.17 0.77.2.23 16 "assign and ping within 0/8 (2 of 2)"
 
 # It should still not be possible to use 0.0.0.0 or 255.255.255.255
 # as a unicast address.  Thus, these tests expect failure.
-invert_pingtest 0.0.1.5 0.0.0.0 16 "can't assign 0.0.0.0"
-invert_pingtest 255.255.255.1 255.255.255.255 16 "can't assign 255.255.255.255"
+invert_pingtest 0.0.1.5 0.0.0.0 16 "assigning 0.0.0.0 is forbidden"
+invert_pingtest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 is forbidden"
 
 # But, even 255.255/16 is OK!
 pingtest 255.255.3.1 255.255.50.77 16 "assign and ping inside 255.255/16"
+
+# Or 255.255.255/24
+pingtest 255.255.255.1 255.255.255.254 16 "assign and ping inside 255.255.255/24"
 
 
 # Test support for zeroth host
