@@ -41,7 +41,7 @@ pingtest 250.1.2.1 250.1.2.4 24  || result=1
 pingtest 0.1.2.17 0.1.2.23 24  || result=1
 
 # Test support for zeroth host
-pingtest 5.10.15.20 5.10.15.0 24  || result=1
+# pingtest 5.10.15.20 5.10.15.0 24  || result=1
 # TODO: Let's also have some prefixes other than /24
 
 exit ${result}
