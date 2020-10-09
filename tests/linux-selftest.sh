@@ -11,19 +11,27 @@
 # This test must be run as root (to manipulate the network namespaces
 # and virtual interfaces).
 
-# TODO: This needs to be updated to match coding style and success/failure
-#       reporting conventions of existing network tests.  (It now returns
-#       success when the tests perform as expected, but the output is
-#       still pretty noisy!)
+# TODO: This needs to be updated to better match the coding style of
+#       existing network tests.
 
 result=0
 
+hide_output(){ exec 3>&1; exec 4>&2; exec >/dev/null; exec 2>/dev/null; }
+show_output(){ exec >&3; exec 2>&4; }
+
+show_result(){
+if [ $1 -eq 0 ]
+then
+	printf "TEST: %-60s  [ OK ]\n" "${2}"
+else
+	printf "TEST: %-60s  [FAIL]\n" "${2}"
+	result=1
+fi
+}
+
 pingtest(){
 test_result=0
-exec 3>&1
-exec 4>&2
-exec >/dev/null
-exec 2>/dev/null
+hide_output
 ip netns add foo-ns
 ip netns add bar-ns
 ip link add foo netns foo-ns type veth peer name bar netns bar-ns
@@ -36,55 +44,18 @@ ip netns exec bar-ns arp -n
 
 ip netns del foo-ns
 ip netns del bar-ns
-exec >&3
-exec 2>&4
-if [ $test_result -eq 0 ]
-then
-	printf "TEST: %-60s  [ OK ]\n" "${4}"
-else
-	printf "TEST: %-60s  [FAIL]\n" "${4}"
-	result=1
-fi
+show_output
+
+# inverted tests will expect failure instead of success
+[ -n "$expect_failure" ] && test_result=`expr 1 - $test_result`
+
+show_result $test_result "$4"
 }
-
-invert_pingtest(){
-test_result=0
-exec 3>&1
-exec 4>&2
-exec >/dev/null
-exec 2>/dev/null
-ip netns add foo-ns
-ip netns add bar-ns
-ip link add foo netns foo-ns type veth peer name bar netns bar-ns
-ip netns exec foo-ns ifconfig foo inet $1/$3 || test_result=1
-ip netns exec bar-ns ifconfig bar inet $2/$3 || test_result=1
-ip netns exec foo-ns timeout 2 ping -c 1 $2 || test_result=1
-ip netns exec bar-ns timeout 2 ping -c 1 $1 || test_result=1
-ip netns exec foo-ns arp -n
-ip netns exec bar-ns arp -n
-
-ip netns del foo-ns
-ip netns del bar-ns
-exec >&3
-exec 2>&4
-
-if [ $test_result -ne 0 ]   # inverted to expect failure!!
-then
-	printf "TEST: %-60s  [ OK ]\n" "${4}"
-else
-	printf "TEST: %-60s  [FAIL]\n" "${4}"
-	result=1
-fi
-}
-
 
 route_test(){
 	# [a] <---> [b]-[c] <---> [d]   /mask
 test_result=0
-exec 3>&1
-exec 4>&2
-exec >/dev/null
-exec 2>/dev/null
+hide_output
 ip netns add foo-ns
 ip netns add bar-ns
 ip netns add router-ns
@@ -104,16 +75,9 @@ ip netns exec bar-ns timeout 2 ping -c 1 $1 || test_result=1
 ip netns del foo-ns
 ip netns del bar-ns
 ip netns del router-ns
-exec >&3
-exec 2>&4
+show_output
 
-if [ $test_result -eq 0 ]
-then
-	printf "TEST: %-60s  [ OK ]\n" "${6}"
-else
-	printf "TEST: %-60s  [FAIL]\n" "${6}"
-	result=1
-fi
+show_result $test_result "$6"
 
 }
 
@@ -127,15 +91,16 @@ pingtest 0.77.240.17 0.77.2.23 16 "assign and ping within 0/8 (2 of 2)"
 
 # It should still not be possible to use 0.0.0.0 or 255.255.255.255
 # as a unicast address.  Thus, these tests expect failure.
-invert_pingtest 0.0.1.5 0.0.0.0 16 "assigning 0.0.0.0 is forbidden"
-invert_pingtest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 is forbidden"
+expect_failure=true
+pingtest 0.0.1.5 0.0.0.0 16 "assigning 0.0.0.0 is forbidden"
+pingtest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 is forbidden"
+unset expect_failure
 
 # But, even 255.255/16 is OK!
 pingtest 255.255.3.1 255.255.50.77 16 "assign and ping inside 255.255/16"
 
 # Or 255.255.255/24
-pingtest 255.255.255.1 255.255.255.254 16 "assign and ping inside 255.255.255/24"
-
+pingtest 255.255.255.1 255.255.255.254 24 "assign and ping inside 255.255.255/24"
 
 #    Test support for zeroth host
 # pingtest 5.10.15.20 5.10.15.0 24 "assign and ping zeroth host"
