@@ -14,6 +14,21 @@
 # TODO: This needs to be updated to better match the coding style of
 #       existing network tests.
 
+# TODO: This needs a nettest binary, from linux/tools/testing/selftests/net;
+#       either integrate this with the selftests so this is guaranteed to
+#       be available, or use a different dependency for TCP socket testing!
+
+
+if [ -x ./nettest ]; then
+	NETTEST=./nettest
+elif [ -x /tmp/nettest ]; then
+	NETTEST=/tmp/nettest   # XXX this is only for testing because
+	                       # we should definitely not run a script
+			       # with a fixed name from /tmp as root!
+else
+	NETTEST=`which nettest`
+fi
+
 result=0
 
 hide_output(){ exec 3>&1; exec 4>&2; exec >/dev/null; exec 2>/dev/null; }
@@ -42,8 +57,21 @@ ip netns exec bar-ns timeout 2 ping -c 1 $1 || test_result=1
 ip netns exec foo-ns arp -n
 ip netns exec bar-ns arp -n
 
+# using nettest (for this simple test, it's akin to netcat)
+# (can we make this faster by having nettest indicate exactly
+# when the listening socket has been bound or something?)
+ip netns exec foo-ns "$NETTEST" -s &
+sleep 0.5
+ip netns exec bar-ns "$NETTEST" -r $1 || test_result=1
+
+ip netns exec bar-ns "$NETTEST" -s &
+sleep 0.5
+ip netns exec foo-ns "$NETTEST" -r $2 || test_result=1
+
+wait
 ip netns del foo-ns
 ip netns del bar-ns
+
 show_output
 
 # inverted tests will expect failure instead of success
@@ -72,13 +100,23 @@ ip netns exec foo-ns timeout 2 ping -c 1 $2 || test_result=1
 ip netns exec foo-ns timeout 2 ping -c 1 $4 || test_result=1
 ip netns exec bar-ns timeout 2 ping -c 1 $3 || test_result=1
 ip netns exec bar-ns timeout 2 ping -c 1 $1 || test_result=1
+
+ip netns exec foo-ns "$NETTEST" -s &
+sleep 0.5
+ip netns exec bar-ns "$NETTEST" -r $1 || test_result=1
+
+ip netns exec bar-ns "$NETTEST" -s &
+sleep 0.5
+ip netns exec foo-ns "$NETTEST" -r $4 || test_result=1
+
+wait
+
 ip netns del foo-ns
 ip netns del bar-ns
 ip netns del router-ns
+
 show_output
-
 show_result $test_result "$6"
-
 }
 
 # Test support for 240/4
