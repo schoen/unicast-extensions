@@ -1,15 +1,14 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-2.0
 
-# This is work in progress toward an eventual submission to the Linux
-# selftests (in linux/tools/testing/selftests).  It uses the network
-# namespace kernel features (netns) together with virtual Ethernet
-# (veth) to create userspace processes that are akin to processes on
-# separate machines connected via an Ethernet, a technique used by many
-# of the other tests in selftests/net.
+# Self-tests for IPv4 address extensions: the kernel's ability to accept
+# certain traditionally unused or unallocated IPv4 addresses. Currently
+# the kernel accepts addresses in 0/8 and 240/4 as valid. These tests
+# check this for interface assignment, ping, TCP, and forwarding. Must
+# be run as root (to manipulate network namespaces and virtual interfaces).
 
-# This test must be run as root (to manipulate the network namespaces
-# and virtual interfaces).
+# This is work in progress toward an eventual submission to the Linux
+# selftests (in linux/tools/testing/selftests).
 
 # TODO: This needs a nettest binary, from linux/tools/testing/selftests/net;
 #       either integrate this with the selftests so this is guaranteed to
@@ -133,17 +132,17 @@ show_result $test_result "$6"
 }
 
 # Test support for 240/4
-pingtest 240.1.2.1 240.1.2.4 24 "assign and ping within 240/4 (1 of 2)"
+pingtest 240.1.2.1   240.1.2.4    24 "assign and ping within 240/4 (1 of 2)"
 pingtest 250.100.2.1 250.100.30.4 16 "assign and ping within 240/4 (2 of 2)"
 
 # Test support for 0/8
-pingtest 0.1.2.17 0.1.2.23 24 "assign and ping within 0/8 (1 of 2)"
+pingtest 0.1.2.17    0.1.2.23  24 "assign and ping within 0/8 (1 of 2)"
 pingtest 0.77.240.17 0.77.2.23 16 "assign and ping within 0/8 (2 of 2)"
 
 # It should still not be possible to use 0.0.0.0 or 255.255.255.255
 # as a unicast address.  Thus, these tests expect failure.
 expect_failure=true
-pingtest 0.0.1.5 0.0.0.0 16 "assigning 0.0.0.0 is forbidden"
+pingtest 0.0.1.5       0.0.0.0         16 "assigning 0.0.0.0 is forbidden"
 pingtest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 is forbidden"
 unset expect_failure
 
@@ -172,7 +171,7 @@ pingtest 255.255.255.1 255.255.255.254 24 "assign and ping inside 255.255.255/24
 # the kernel, seemingly outside of routing table/FIB lookups.
 
 # Routing between different networks
-route_test 240.5.6.7 240.5.6.1 255.1.2.1 255.1.2.3 24 "route between 240.5.6/24 and 255.1.2/24"
+route_test 240.5.6.7 240.5.6.1  255.1.2.1    255.1.2.3      24 "route between 240.5.6/24 and 255.1.2/24"
 route_test 0.200.6.7 0.200.38.1 245.99.101.1 245.99.200.111 16 "route between 0.200/16 and 245.99/16"
 
 #   Routing using zeroth host as a gateway/endpoint (also requires zeroth host
