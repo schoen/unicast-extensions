@@ -158,18 +158,6 @@ pingtest 255.255.255.1 255.255.255.254 24 "assign and ping inside 255.255.255/24
 #    Test support for not having all of 127 be loopback
 # pingtest 127.99.4.5 127.99.4.6 16 "assign and ping inside 127/8"
 
-# Interestingly, the kernel is happy to assign these 127/8 addresses to veth
-# interfaces, but even though there's no explicit routing table entry for
-# them, the ping still gives "Invalid argument", like
-#
-# connect(5, {sa_family=AF_INET, sin_port=htons(1025), sin_addr=inet_addr("127.99.4.6")}, 16) = -1 EINVAL (Invalid argument)
-#
-# (a TCP socket connect yields the same error)  -- It's interesting because,
-# if you give a different destination address inside of the netns where
-# there's just no relevant route set, instead of EINVAL you'll get
-# ENETUNREACH.  So that confirms that 127/8 is being treated specially by
-# the kernel, seemingly outside of routing table/FIB lookups.
-
 # Routing between different networks
 route_test 240.5.6.7 240.5.6.1  255.1.2.1    255.1.2.3      24 "route between 240.5.6/24 and 255.1.2/24"
 route_test 0.200.6.7 0.200.38.1 245.99.101.1 245.99.200.111 16 "route between 0.200/16 and 245.99/16"
