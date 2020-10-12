@@ -35,8 +35,7 @@ hide_output(){ exec 3>&1; exec 4>&2; exec >/dev/null; exec 2>/dev/null; }
 show_output(){ exec >&3; exec 2>&4; }
 
 show_result(){
-if [ $1 -eq 0 ]
-then
+if [ $1 -eq 0 ]; then
 	printf "TEST: %-60s  [ OK ]\n" "${2}"
 else
 	printf "TEST: %-60s  [FAIL]\n" "${2}"
@@ -44,34 +43,68 @@ else
 fi
 }
 
-pingtest(){
-test_result=0
-hide_output
-ip netns add foo-ns
-ip netns add bar-ns
-ip link add foo netns foo-ns type veth peer name bar netns bar-ns
-ip netns exec foo-ns ifconfig foo inet $1/$3 || test_result=1
-ip netns exec bar-ns ifconfig bar inet $2/$3 || test_result=1
-ip netns exec foo-ns timeout 2 ping -c 1 $2 || test_result=1
-ip netns exec bar-ns timeout 2 ping -c 1 $1 || test_result=1
-ip netns exec foo-ns arp -n
-ip netns exec bar-ns arp -n
+_do_pingtest(){
+# expects caller to set up foo-ns and bar-ns namespaces
+# and clean them up afterward
+ip netns exec foo-ns ifconfig foo inet $1/$3 || return 1
+ip netns exec bar-ns ifconfig bar inet $2/$3 || return 1
+ip netns exec foo-ns timeout 2 ping -c 1 $2 || return 1
+ip netns exec bar-ns timeout 2 ping -c 1 $1 || return 1
 
 # using nettest (for this simple test, it's akin to netcat)
 # (can we make this faster by having nettest indicate exactly
 # when the listening socket has been bound or something?)
 ip netns exec foo-ns "$NETTEST" -s &
 sleep 0.5
-ip netns exec bar-ns "$NETTEST" -r $1 || test_result=1
+ip netns exec bar-ns "$NETTEST" -r $1 || return 1
 
 ip netns exec bar-ns "$NETTEST" -s &
 sleep 0.5
-ip netns exec foo-ns "$NETTEST" -r $2 || test_result=1
+ip netns exec foo-ns "$NETTEST" -r $2 || return 1
 
 wait
+return 0
+}
+
+_do_route_test(){
+# expects caller to set up foo-ns, bar-ns, and router_ns before,
+# and clean them up afterward
+
+ip netns exec foo-ns ifconfig foo inet $1/$5 || return 1
+ip netns exec bar-ns ifconfig bar inet $4/$5 || return 1
+ip netns exec router-ns ifconfig foo1 inet $2/$5 || return 1
+ip netns exec router-ns ifconfig bar1 inet $3/$5 || return 1
+echo 1 | ip netns exec router-ns tee /proc/sys/net/ipv4/ip_forward
+ip netns exec foo-ns route add -net default gw $2 || return 1
+ip netns exec bar-ns route add -net default gw $3 || return 1
+ip netns exec foo-ns timeout 2 ping -c 1 $2 || return 1
+ip netns exec foo-ns timeout 2 ping -c 1 $4 || return 1
+ip netns exec bar-ns timeout 2 ping -c 1 $3 || return 1
+ip netns exec bar-ns timeout 2 ping -c 1 $1 || return 1
+
+ip netns exec foo-ns "$NETTEST" -s &
+sleep 0.5
+ip netns exec bar-ns "$NETTEST" -r $1 || return 1
+
+ip netns exec bar-ns "$NETTEST" -s &
+sleep 0.5
+ip netns exec foo-ns "$NETTEST" -r $4 || return 1
+
+wait
+return 0
+}
+
+pingtest(){
+hide_output
+ip netns add foo-ns
+ip netns add bar-ns
+ip link add foo netns foo-ns type veth peer name bar netns bar-ns
+
+test_result=0
+_do_pingtest "$@" || test_result=1
+
 ip netns del foo-ns
 ip netns del bar-ns
-
 show_output
 
 # inverted tests will expect failure instead of success
@@ -79,6 +112,7 @@ show_output
 
 show_result $test_result "$4"
 }
+
 
 route_test(){
 	# [a] <---> [b]-[c] <---> [d]   /mask
@@ -89,27 +123,9 @@ ip netns add bar-ns
 ip netns add router-ns
 ip link add foo netns foo-ns type veth peer name foo1 netns router-ns
 ip link add bar netns bar-ns type veth peer name bar1 netns router-ns
-ip netns exec foo-ns ifconfig foo inet $1/$5 || test_result=1
-ip netns exec bar-ns ifconfig bar inet $4/$5 || test_result=1
-ip netns exec router-ns ifconfig foo1 inet $2/$5 || test_result=1
-ip netns exec router-ns ifconfig bar1 inet $3/$5 || test_result=1
-echo 1 | ip netns exec router-ns tee /proc/sys/net/ipv4/ip_forward
-ip netns exec foo-ns route add -net default gw $2 || test_result=1
-ip netns exec bar-ns route add -net default gw $3 || test_result=1
-ip netns exec foo-ns timeout 2 ping -c 1 $2 || test_result=1
-ip netns exec foo-ns timeout 2 ping -c 1 $4 || test_result=1
-ip netns exec bar-ns timeout 2 ping -c 1 $3 || test_result=1
-ip netns exec bar-ns timeout 2 ping -c 1 $1 || test_result=1
 
-ip netns exec foo-ns "$NETTEST" -s &
-sleep 0.5
-ip netns exec bar-ns "$NETTEST" -r $1 || test_result=1
-
-ip netns exec bar-ns "$NETTEST" -s &
-sleep 0.5
-ip netns exec foo-ns "$NETTEST" -r $4 || test_result=1
-
-wait
+test_result=0
+_do_route_test "$@" || test_result=1
 
 ip netns del foo-ns
 ip netns del bar-ns
