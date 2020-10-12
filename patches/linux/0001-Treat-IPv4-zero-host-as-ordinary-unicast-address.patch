@@ -1,27 +1,60 @@
-From 04e0ed5afd2379be94aa24ced0bcf60e92a08f9e Mon Sep 17 00:00:00 2001
+From c92f9caeececaaad9461da47592d01a9a8111f2c Mon Sep 17 00:00:00 2001
 From: Seth Schoen <schoen@loyalty.org>
-Date: Wed, 23 Sep 2020 17:26:06 -0700
+Date: Fri, 25 Sep 2020 16:29:30 -0700
 Subject: [PATCH] Treat IPv4 zero host as ordinary unicast address.
 
-This patch makes it possible to use the zero host (the host whose
-host address on a network is 0) as ordinary unicast instead of as
-a second broadcast address. For example, on 192.168.17.0/24, the
-address 192.168.17.255 remains broadcast, but 192.168.17.0 can be
-assigned and interacted with as a normal unicast address. This
-means we have 2^(32-n)-1 instead of 2^(32-n)-2 addresses available
-for assignment on each IPv4 /n subnet.
+This patch treats the zeroth host in a subnet (the host whose address
+within the subnet contains all 0 bits) as an ordinary unicast address
+instead of as a potential second broadcast address.  For example, in
+subnet 192.168.17.24/29, which contains 8 addresses, this patch makes
+address 192.168.17.24 usable as a normal unicast address (while
+continuing to support 192.168.17.31 as a broadcast address).  Since
+EVERY network number or subnet formerly had its host number 0 reserved,
+this patch adds 1 more usable host address to every network and subnet
+(i.e., 2^(32-n)-1 instead of 2^(32-n)-2 addresses available for
+assignment on each IPv4 /n subnet).  For small subnets, this is a
+significant gain; instead of 6 usable host addresses, a /29 would now
+contain 7, a 16% increase.
+
+The reserving of host number 0 for broadcast came about in RFC 1122 from
+1989 (page 31, "IP addresses are not permitted to have the value 0 or -1
+for any of the <Host-number>, <Network-number>, or <Subnet-number>
+fields (except in the special cases listed above)" and page 66, "There
+is a class of hosts [4.2BSD Unix and its derivatives, but not 4.3BSD]
+that use non-standard broadcast address forms, substituting 0 for -1.
+All hosts SHOULD recognize and accept any of these non-standard
+broadcast addresses as the destination address of an incoming
+datagram.").  This has been repeated in subsequent RFCs, always with
+backwards-compatibility rationales.  The zero address was reserved to
+avoid network troubles (broadcast storms) caused when some hosts on a
+LAN treated the zeroth host as unicast and others treated it as broadcast.
+BSD operating systems since 4.3BSD, including all the current BSD OSes,
+default to the standard IP broadcast address, just like Linux (and every
+other contemporary OS). 4.2BSD has been obsolete for more than 30 years,
+so there is no modern likelihood of it causing broadcast storms, except
+among researchers of computing history.
+
+Modern documentation continues to teach the definition of the directed,
+or "net-directed", broadcast address as "a host ID of all one bits",
+sometimes giving the analogy to the Ethernet-layer broadcast address
+FF:FF:FF:FF:FF:FF.  (Ethernet does not use 00:00:00:00:00:00 for
+this purpose, and never has.)  We don't benefit from having two different
+broadcast addresses; I have not been able to find any documentation that
+suggests that users or software should ever intentionally use the
+all-zero form or that justifies it other than as a historic Berkeleyism.
+
 
 
 Signed-off-by: Seth Schoen <schoen@loyalty.org>
 ---
- net/ipv4/fib_frontend.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ net/ipv4/fib_frontend.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/net/ipv4/fib_frontend.c b/net/ipv4/fib_frontend.c
-index 86a23e4a6a50..f2bf7471efdd 100644
+index 86a23e4a6a50..7a89d74d13c9 100644
 --- a/net/ipv4/fib_frontend.c
 +++ b/net/ipv4/fib_frontend.c
-@@ -1122,10 +1122,13 @@ void fib_add_ifaddr(struct in_ifaddr *ifa)
+@@ -1122,10 +1122,8 @@ void fib_add_ifaddr(struct in_ifaddr *ifa)
  				  prefix, ifa->ifa_prefixlen, prim,
  				  ifa->ifa_rt_priority);
  
@@ -30,11 +63,6 @@ index 86a23e4a6a50..f2bf7471efdd 100644
  		if (ifa->ifa_prefixlen < 31) {
 -			fib_magic(RTM_NEWROUTE, RTN_BROADCAST, prefix, 32,
 -				  prim, 0);
-+			/* The zero host on a network is not a broadcast
-+			 * address; we no longer treat it specially. Only
-+			 * the address with all ones in the host address
-+			 * is a broadcast address. */
-+
  			fib_magic(RTM_NEWROUTE, RTN_BROADCAST, prefix | ~mask,
  				  32, prim, 0);
  		}
