@@ -10,6 +10,8 @@
 # This is work in progress toward an eventual submission to the Linux
 # selftests (in linux/tools/testing/selftests).
 
+# TODO: document arguments to internal fnuctions
+
 # TODO: This needs a nettest binary, from linux/tools/testing/selftests/net;
 #       either integrate this with the selftests so this is guaranteed to
 #       be available, or use a different dependency for TCP socket testing!
@@ -29,8 +31,8 @@ fi
 
 result=0
 
-hide_output(){ exec 3>&1; exec 4>&2; exec >/dev/null; exec 2>/dev/null; }
-show_output(){ exec >&3; exec 2>&4; }
+hide_output(){ exec 3>&1 4>&2 >/dev/null 2>/dev/null; }
+show_output(){ exec >&3 2>&4; }
 
 show_result(){
 if [ $1 -eq 0 ]; then
@@ -44,8 +46,11 @@ fi
 _do_pingtest(){
 # expects caller to set up foo-ns and bar-ns namespaces
 # and clean them up afterward
-ip netns exec foo-ns ifconfig foo inet $1/$3 || return 1
-ip netns exec bar-ns ifconfig bar inet $2/$3 || return 1
+ip -n foo-ns address add $1/$3 dev foo || return 1
+ip -n foo-ns link set foo up || return 1
+ip -n bar-ns address add $2/$3 dev bar || return 1
+ip -n bar-ns link set bar up || return 1
+
 ip netns exec foo-ns timeout 2 ping -c 1 $2 || return 1
 ip netns exec bar-ns timeout 2 ping -c 1 $1 || return 1
 
@@ -66,13 +71,22 @@ _do_route_test(){
 # expects caller to set up foo-ns, bar-ns, and router_ns before,
 # and clean them up afterward
 
-ip netns exec foo-ns ifconfig foo inet $1/$5 || return 1
-ip netns exec bar-ns ifconfig bar inet $4/$5 || return 1
-ip netns exec router-ns ifconfig foo1 inet $2/$5 || return 1
-ip netns exec router-ns ifconfig bar1 inet $3/$5 || return 1
+ip -n foo-ns address add $1/$5 dev foo || return 1
+ip -n foo-ns link set foo up || return 1
+ip -n foo-ns route add default via $2 || return 1
+
+ip -n bar-ns address add $4/$5 dev bar || return 1
+ip -n bar-ns link set bar up || return 1
+ip -n bar-ns route add default via $3 || return 1
+
+ip -n router-ns address add $2/$5 dev foo1 || return 1
+ip -n router-ns link set foo1 up || return 1
+
+ip -n router-ns address add $3/$5 dev bar1 || return 1
+ip -n router-ns link set bar1 up || return 1
+
 echo 1 | ip netns exec router-ns tee /proc/sys/net/ipv4/ip_forward
-ip netns exec foo-ns route add -net default gw $2 || return 1
-ip netns exec bar-ns route add -net default gw $3 || return 1
+
 ip netns exec foo-ns timeout 2 ping -c 1 $2 || return 1
 ip netns exec foo-ns timeout 2 ping -c 1 $4 || return 1
 ip netns exec bar-ns timeout 2 ping -c 1 $3 || return 1
@@ -99,6 +113,8 @@ ip link add foo netns foo-ns type veth peer name bar netns bar-ns
 test_result=0
 _do_pingtest "$@" || test_result=1
 
+ip netns pids foo-ns | xargs kill -9
+ip netns pids bar-ns | xargs kill -9
 ip netns del foo-ns
 ip netns del bar-ns
 show_output
@@ -123,6 +139,9 @@ ip link add bar netns bar-ns type veth peer name bar1 netns router-ns
 test_result=0
 _do_route_test "$@" || test_result=1
 
+ip netns pids foo-ns | xargs kill -9
+ip netns pids bar-ns | xargs kill -9
+ip netns pids router-ns | xargs kill -9
 ip netns del foo-ns
 ip netns del bar-ns
 ip netns del router-ns
@@ -144,6 +163,9 @@ pingtest 0.77.240.17 0.77.2.23 16 "assign and ping within 0/8 (2 of 2)"
 expect_failure=true
 pingtest 0.0.1.5       0.0.0.0         16 "assigning 0.0.0.0 is forbidden"
 pingtest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 is forbidden"
+# Test support for not having all of 127 be loopback
+# Currently Linux does not allow this, so this should fail too
+pingtest 127.99.4.5 127.99.4.6 16 "can't assign and ping inside 127/8"
 unset expect_failure
 
 # But, even 255.255/16 is OK!
@@ -155,8 +177,6 @@ pingtest 255.255.255.1 255.255.255.254 24 "assign and ping inside 255.255.255/24
 #    Test support for zeroth host
 # pingtest 5.10.15.20 5.10.15.0 24 "assign and ping zeroth host"
 
-#    Test support for not having all of 127 be loopback
-# pingtest 127.99.4.5 127.99.4.6 16 "assign and ping inside 127/8"
 
 # Routing between different networks
 route_test 240.5.6.7 240.5.6.1  255.1.2.1    255.1.2.3      24 "route between 240.5.6/24 and 255.1.2/24"
@@ -165,11 +185,5 @@ route_test 0.200.6.7 0.200.38.1 245.99.101.1 245.99.200.111 16 "route between 0.
 #   Routing using zeroth host as a gateway/endpoint (also requires zeroth host
 #   patch)!
 # route_test 192.168.42.1 192.168.42.0 9.8.7.6 9.8.7.0 24 "route using zeroth host"
-
-# TODO: It's slightly harder to have tests for TCP, not just ICMP, because
-#       the ping responder is in the kernel, while answering TCP via netcat
-#       requires a subprocess or subshell.  However this could certainly be
-#       done with a subshell, like { echo hello | timeout 2 nc -l 12345; } &
-#       or similar.
 
 exit ${result}
