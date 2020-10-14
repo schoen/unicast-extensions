@@ -161,9 +161,12 @@ pingtest 250.100.2.1 250.100.30.4 16 "assign and ping within 240/4 (2 of 2)"
 pingtest 0.1.2.17    0.1.2.23  24 "assign and ping within 0/8 (1 of 2)"
 pingtest 0.77.240.17 0.77.2.23 16 "assign and ping within 0/8 (2 of 2)"
 
+# ==============================================
+# ==== TESTS THAT CURRENTLY EXPECT FAILURE =====
+# ==============================================
+expect_failure=true
 # It should still not be possible to use 0.0.0.0 or 255.255.255.255
 # as a unicast address.  Thus, these tests expect failure.
-expect_failure=true
 pingtest 0.0.1.5       0.0.0.0         16 "assigning 0.0.0.0 is forbidden"
 pingtest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 is forbidden"
 # Test support for not having all of 127 be loopback
@@ -176,13 +179,16 @@ pingtest 5.10.15.20 5.10.15.0 24 "assign and ping zeroth host is forbidden"
 # Currently Linux does not allow this, so this should fail too
 route_test 192.168.42.1 192.168.42.0 9.8.7.6 9.8.7.0 24 "route using zeroth host is forbidden"
 unset expect_failure
+# =====================================================
+# ==== END OF TESTS THAT CURRENTLY EXPECT FAILURE =====
+# =====================================================
+
 
 # But, even 255.255/16 is OK!
 pingtest 255.255.3.1 255.255.50.77 16 "assign and ping inside 255.255/16"
 
 # Or 255.255.255/24
 pingtest 255.255.255.1 255.255.255.254 24 "assign and ping inside 255.255.255/24"
-
 
 # Routing between different networks
 route_test 240.5.6.7 240.5.6.1  255.1.2.1    255.1.2.3      24 "route between 240.5.6/24 and 255.1.2/24"
