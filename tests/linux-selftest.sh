@@ -147,6 +147,9 @@ ip netns del bar-ns
 ip netns del router-ns
 
 show_output
+
+# inverted tests will expect failure instead of success
+[ -n "$expect_failure" ] && test_result=`expr 1 - $test_result`
 show_result $test_result "$6"
 }
 
@@ -165,7 +168,13 @@ pingtest 0.0.1.5       0.0.0.0         16 "assigning 0.0.0.0 is forbidden"
 pingtest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 is forbidden"
 # Test support for not having all of 127 be loopback
 # Currently Linux does not allow this, so this should fail too
-pingtest 127.99.4.5 127.99.4.6 16 "can't assign and ping inside 127/8"
+pingtest 127.99.4.5 127.99.4.6 16 "assign and ping inside 127/8 is forbidden"
+# Test support for zeroth host
+# Currently Linux does not allow this, so this should fail too
+pingtest 5.10.15.20 5.10.15.0 24 "assign and ping zeroth host is forbidden"
+# Routing using zeroth host as a gateway/endpoint
+# Currently Linux does not allow this, so this should fail too
+route_test 192.168.42.1 192.168.42.0 9.8.7.6 9.8.7.0 24 "route using zeroth host is forbidden"
 unset expect_failure
 
 # But, even 255.255/16 is OK!
@@ -174,16 +183,9 @@ pingtest 255.255.3.1 255.255.50.77 16 "assign and ping inside 255.255/16"
 # Or 255.255.255/24
 pingtest 255.255.255.1 255.255.255.254 24 "assign and ping inside 255.255.255/24"
 
-#    Test support for zeroth host
-# pingtest 5.10.15.20 5.10.15.0 24 "assign and ping zeroth host"
-
 
 # Routing between different networks
 route_test 240.5.6.7 240.5.6.1  255.1.2.1    255.1.2.3      24 "route between 240.5.6/24 and 255.1.2/24"
 route_test 0.200.6.7 0.200.38.1 245.99.101.1 245.99.200.111 16 "route between 0.200/16 and 245.99/16"
-
-#   Routing using zeroth host as a gateway/endpoint (also requires zeroth host
-#   patch)!
-# route_test 192.168.42.1 192.168.42.0 9.8.7.6 9.8.7.0 24 "route using zeroth host"
 
 exit ${result}
