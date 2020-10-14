@@ -10,8 +10,6 @@
 # This is work in progress toward an eventual submission to the Linux
 # selftests (in linux/tools/testing/selftests).
 
-# TODO: document arguments to internal fnuctions
-
 # TODO: This needs a nettest binary, from linux/tools/testing/selftests/net;
 #       either integrate this with the selftests so this is guaranteed to
 #       be available, or use a different dependency for TCP socket testing!
@@ -44,8 +42,16 @@ fi
 }
 
 _do_pingtest(){
-# expects caller to set up foo-ns and bar-ns namespaces
-# and clean them up afterward
+# Perform a simple set of link tests between a pair of
+# IP addresses on a shared (virtual) segment.
+# foo --- bar
+# Arguments: ip_a ip_b prefix_length test_description
+#
+# Caller must set up foo-ns and bar-ns namespaces
+# containing linked veth devices foo and bar,
+# respectively.
+
+
 ip -n foo-ns address add $1/$3 dev foo || return 1
 ip -n foo-ns link set foo up || return 1
 ip -n bar-ns address add $2/$3 dev bar || return 1
@@ -68,8 +74,18 @@ return 0
 }
 
 _do_route_test(){
-# expects caller to set up foo-ns, bar-ns, and router_ns before,
-# and clean them up afterward
+# Perform a simple set of gateway tests.
+#
+# [foo] <---> [foo1]-[bar1] <---> [bar]   /prefix
+#  host          gateway          host
+#
+# Arguments: foo_ip foo1_ip bar1_ip bar_ip prefix_len test_description
+# Displays test result and returns success or failue.
+
+# Caller must set up foo-ns, bar-ns, and router-ns
+# containing linked veth devices foo-foo1, bar1-bar
+# (foo in foo-ns, foo1 and bar1 in router-ns, and
+# bar in bar-ns).
 
 ip -n foo-ns address add $1/$5 dev foo || return 1
 ip -n foo-ns link set foo up || return 1
@@ -105,6 +121,8 @@ return 0
 }
 
 pingtest(){
+# Sets up veth link and tries to connect over it.
+# Arguments: ip_a ip_b prefix_len test_description
 hide_output
 ip netns add foo-ns
 ip netns add bar-ns
@@ -127,8 +145,11 @@ show_result $test_result "$4"
 
 
 route_test(){
-	# [a] <---> [b]-[c] <---> [d]   /mask
-test_result=0
+# Sets up a simple gateway and tries to connect through it.
+# [foo] <---> [foo1]-[bar1] <---> [bar]   /prefix
+# Arguments: foo_ip foo1_ip bar1_ip bar_ip prefix_len test_description
+# Returns success or failure.
+
 hide_output
 ip netns add foo-ns
 ip netns add bar-ns
@@ -182,7 +203,6 @@ unset expect_failure
 # =====================================================
 # ==== END OF TESTS THAT CURRENTLY EXPECT FAILURE =====
 # =====================================================
-
 
 # But, even 255.255/16 is OK!
 pingtest 255.255.3.1 255.255.50.77 16 "assign and ping inside 255.255/16"
