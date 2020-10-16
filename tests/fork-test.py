@@ -16,6 +16,12 @@ import os
 import ctypes
 import sys
 
+# the environment this is looking for was created with
+# ip netns add wow; ip netns add yow
+# ip link add foo netns wow type veth peer name bar netns yow
+# ip -n wow address add 192.168.11.3/24 dev foo; ip -n wow link set foo up
+# ip -n yow address add 192.168.11.5/24 dev bar; ip -n yow link set bar up
+
 parent_ns="wow"
 parent_ip="192.168.11.3"
 port=12345
@@ -25,6 +31,7 @@ done=False
 socket.setdefaulttimeout(3)
 
 def netns(s):
+    print("in netns")
     # Attempt to join the network namespace s by means of
     # a system-level call to open(2) followed by setns(2).
     libc = ctypes.CDLL("/lib/x86_64-linux-gnu/libc.so.6")
@@ -33,6 +40,7 @@ def netns(s):
     if fd < 0:
         raise ValueError
     result = libc.setns(fd, 0)
+    print(ctypes.get_errno())
     if result < 0:
         raise OSError
     libc.close(fd)
@@ -50,11 +58,11 @@ def parent(child_pid, ns=parent_ns):
     sock.listen(1)
     print('PARENT: port bound; going to signal the child')
     os.kill(child_pid, signal.SIGUSR1)
-    print('PARENT: signal sent!')
+    print('PARENT: signal sent')
     a, b = sock.accept()
     data = a.recv(100)
     print('PARENT: -------> Received "{}" <------ (success)'.format(data))
-    print('PARENT: Going to wait...')
+    print('PARENT: Going to wait for child...')
     pid, code = os.wait()
     print('PARENT: Done waiting with {}'.format(code))
     ret += code
@@ -64,7 +72,7 @@ def handler(signum, frame, ns=child_ns):
     global ret
     if signum == signal.SIGUSR1:
         try:
-            print('CHILD:  I got the signal!')
+            print('CHILD:  Received the signal')
             netns(ns)
             print('CHILD:  Switched to network namespace {}'.format(ns))
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -72,11 +80,11 @@ def handler(signum, frame, ns=child_ns):
             sock.connect((parent_ip, port))
             print('CHILD:  Sending data')
             sock.send("hello world")
-            print('CHILD:  Data sent!')
+            print('CHILD:  Data sent')
         except:
             ret += 1
     else:
-        print('CHILD:  I got some other signal!')
+        print('CHILD:  I got some other signal')
         ret += 1
     done=True
 
@@ -87,10 +95,10 @@ def child(ppid):
         try:
             os.kill(ppid, 0)
         except OSError:
-            print('CHILD:  The parent died!')
+            print('CHILD:  The parent died')
             raise OSError
         pass
-    print('CHILD:  going to exit!')
+    print('CHILD:  going to exit')
 
 if os.getuid():
     print("need to be root for netns manipulation")
