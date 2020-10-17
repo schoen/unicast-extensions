@@ -30,7 +30,7 @@ avoid network troubles (broadcast storms) caused when some hosts on a
 LAN treated the zeroth host as unicast and others treated it as broadcast.
 BSD operating systems since 4.3BSD, including all the current BSD OSes,
 default to the standard IP broadcast address, just like Linux (and every
-other contemporary OS). 4.2BSD has been obsolete for more than 30 years,
+other contemporary OS).  4.2BSD has been obsolete for more than 30 years,
 so there is no modern likelihood of it causing broadcast storms, except
 among researchers of computing history.
 
@@ -42,7 +42,9 @@ this purpose, and never has.)  We don't benefit from having two different
 broadcast addresses; I have not been able to find any documentation that
 suggests that users or software should ever intentionally use the
 all-zero form or that justifies it other than as a historic Berkeleyism.
-
+RFCs 1112, 1812, and 3021 state that hosts and routers need to maintain
+compatibility with the old form -- but they give no rationale for this
+other than the existence of the 4.2BSD behavior.
 
 
 Signed-off-by: Seth Schoen <schoen@loyalty.org>
