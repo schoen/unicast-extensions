@@ -85,6 +85,14 @@ ppp/ppp-2.4.7.patch
 
 	The author of this code is my former Linuxcare coworker.
 
+probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
+
+	This patch has not been merged as of 2020-12-07.
+
+	It aims to make the RIPE Atlas measurement project's software probe
+	capable of testing connectivity to various addresses that we're
+	interested in.
+
 pureftpd/pure-ftpd-1.0.46.patch
 
 	This patch has not been merged as of 2020-09-28.
