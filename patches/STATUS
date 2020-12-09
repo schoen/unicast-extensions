@@ -85,7 +85,7 @@ ppp/ppp-2.4.7.patch
 
 	The author of this code is my former Linuxcare coworker.
 
-probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
+measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 
 	This patch has not been merged as of 2020-12-07.
 
