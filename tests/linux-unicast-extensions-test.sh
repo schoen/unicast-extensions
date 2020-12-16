@@ -10,10 +10,6 @@
 # This is work in progress toward an eventual submission to the Linux
 # selftests (in linux/tools/testing/selftests).
 
-# TODO: This uses fast-fork-test, which is a customized adaptation of
-#       the functionality of nettest. Ideally, fast-fork-test should
-#       be merged into nettest and we should just use that.
-
 result=0
 
 hide_output(){ exec 3>&1 4>&2 >/dev/null 2>/dev/null; }
@@ -47,16 +43,8 @@ ip -n bar-ns link set bar up || return 1
 ip netns exec foo-ns timeout 2 ping -c 1 $2 || return 1
 ip netns exec bar-ns timeout 2 ping -c 1 $1 || return 1
 
-./fast-fork-test foo-ns bar-ns $1 12345 || return 1
-# using nettest (for this simple test, it's akin to netcat)
-# ip netns exec foo-ns "$NETTEST" -s &
-# sleep 0.5
-# ip netns exec bar-ns "$NETTEST" -r $1 || return 1
-
-./fast-fork-test bar-ns foo-ns $2 12345 || return 1
-# ip netns exec bar-ns "$NETTEST" -s &
-# sleep 0.5
-# ip netns exec foo-ns "$NETTEST" -r $2 || return 1
+./nettest -B -N bar-ns -O foo-ns -r $1 || return 1
+./nettest -B -N foo-ns -O bar-ns -r $2 || return 1
 
 wait
 return 0
@@ -97,8 +85,8 @@ ip netns exec foo-ns timeout 2 ping -c 1 $4 || return 1
 ip netns exec bar-ns timeout 2 ping -c 1 $3 || return 1
 ip netns exec bar-ns timeout 2 ping -c 1 $1 || return 1
 
-./fast-fork-test foo-ns bar-ns $1 12345 || return 1
-./fast-fork-test bar-ns foo-ns $4 12345 || return 1
+./nettest -B -N bar-ns -O foo-ns -r $1 || return 1
+./nettest -B -N foo-ns -O bar-ns -r $4 || return 1
 
 wait
 return 0
@@ -115,8 +103,8 @@ ip link add foo netns foo-ns type veth peer name bar netns bar-ns
 test_result=0
 _do_pingtest "$@" || test_result=1
 
-ip netns pids foo-ns | xargs kill -9
-ip netns pids bar-ns | xargs kill -9
+ip netns pids foo-ns | xargs -r kill -9
+ip netns pids bar-ns | xargs -r kill -9
 ip netns del foo-ns
 ip netns del bar-ns
 show_output
@@ -144,9 +132,9 @@ ip link add bar netns bar-ns type veth peer name bar1 netns router-ns
 test_result=0
 _do_route_test "$@" || test_result=1
 
-ip netns pids foo-ns | xargs kill -9
-ip netns pids bar-ns | xargs kill -9
-ip netns pids router-ns | xargs kill -9
+ip netns pids foo-ns | xargs -r kill -9
+ip netns pids bar-ns | xargs -r kill -9
+ip netns pids router-ns | xargs -r kill -9
 ip netns del foo-ns
 ip netns del bar-ns
 ip netns del router-ns
