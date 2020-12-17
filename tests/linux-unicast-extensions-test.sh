@@ -62,7 +62,6 @@ ip netns exec bar-ns timeout 2 ping -c 1 $1 || return 1
 ./nettest -B -N bar-ns -O foo-ns -r $1 || return 1
 ./nettest -B -N foo-ns -O bar-ns -r $2 || return 1
 
-wait
 return 0
 }
 
@@ -104,7 +103,6 @@ ip netns exec bar-ns timeout 2 ping -c 1 $1 || return 1
 ./nettest -B -N bar-ns -O foo-ns -r $1 || return 1
 ./nettest -B -N foo-ns -O bar-ns -r $4 || return 1
 
-wait
 return 0
 }
 
