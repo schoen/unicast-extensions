@@ -14,8 +14,12 @@
 
 # * Currently the kernel accepts addresses in 0/8 and 240/4 as valid.
 
+# * Notwithstanding that, 0.0.0.0 and 255.255.255.255 cannot be assigned.
+
 # * Currently the kernel DOES NOT accept unicast use of the zeroth
 #   host in an IPv4 subnet (e.g. 192.168.100.0/32 in 192.168.100.0/24).
+#   This is treated as a second broadcast address, for compatibility
+#   with 4.2BSD (!).
 
 # * Currently the kernel DOES NOT accept unicast use of any of 127/8.
 
