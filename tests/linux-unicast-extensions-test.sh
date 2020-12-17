@@ -1,14 +1,25 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-2.0
 
-# Self-tests for IPv4 address extensions: the kernel's ability to accept
-# certain traditionally unused or unallocated IPv4 addresses. Currently
-# the kernel accepts addresses in 0/8 and 240/4 as valid. These tests
-# check this for interface assignment, ping, TCP, and forwarding. Must
-# be run as root (to manipulate network namespaces and virtual interfaces).
+# By Seth Schoen (c) 2020, for the IPv4 Unicast Extensions Project
+# Thanks to David Ahern for help and advice on nettest modifications.
 
-# This is work in progress toward an eventual submission to the Linux
-# selftests (in linux/tools/testing/selftests).
+# Self-tests for IPv4 address extensions: the kernel's ability to accept
+# certain traditionally unused or unallocated IPv4 addresses. For each kind
+# of address, we test for interface assignment, ping, TCP, and forwarding.
+# Must be run as root (to manipulate network namespaces and virtual
+# interfaces).
+
+# Things we test for here:
+
+# * Currently the kernel accepts addresses in 0/8 and 240/4 as valid.
+
+# * Currently the kernel DOES NOT accept unicast use of the zeroth
+#   host in an IPv4 subnet (e.g. 192.168.100.0/32 in 192.168.100.0/24).
+
+# * Currently the kernel DOES NOT accept unicast use of any of 127/8.
+
+# * Currently the kernel DOES NOT accept unicast use of any of 224/4.
 
 result=0
 
@@ -24,9 +35,10 @@ else
 fi
 }
 
-_do_pingtest(){
+_do_segmenttest(){
 # Perform a simple set of link tests between a pair of
-# IP addresses on a shared (virtual) segment.
+# IP addresses on a shared (virtual) segment, using
+# ping and nettest.
 # foo --- bar
 # Arguments: ip_a ip_b prefix_length test_description
 #
@@ -92,7 +104,7 @@ wait
 return 0
 }
 
-pingtest(){
+segmenttest(){
 # Sets up veth link and tries to connect over it.
 # Arguments: ip_a ip_b prefix_len test_description
 hide_output
@@ -101,7 +113,7 @@ ip netns add bar-ns
 ip link add foo netns foo-ns type veth peer name bar netns bar-ns
 
 test_result=0
-_do_pingtest "$@" || test_result=1
+_do_segmenttest "$@" || test_result=1
 
 ip netns pids foo-ns | xargs -r kill -9
 ip netns pids bar-ns | xargs -r kill -9
@@ -147,18 +159,18 @@ show_result $test_result "$6"
 }
 
 # Test support for 240/4
-pingtest 240.1.2.1   240.1.2.4    24 "assign and ping within 240/4 (1 of 2)"
-pingtest 250.100.2.1 250.100.30.4 16 "assign and ping within 240/4 (2 of 2)"
+segmenttest 240.1.2.1   240.1.2.4    24 "assign and ping within 240/4 (1 of 2)"
+segmenttest 250.100.2.1 250.100.30.4 16 "assign and ping within 240/4 (2 of 2)"
 
 # Test support for 0/8
-pingtest 0.1.2.17    0.1.2.23  24 "assign and ping within 0/8 (1 of 2)"
-pingtest 0.77.240.17 0.77.2.23 16 "assign and ping within 0/8 (2 of 2)"
+segmenttest 0.1.2.17    0.1.2.23  24 "assign and ping within 0/8 (1 of 2)"
+segmenttest 0.77.240.17 0.77.2.23 16 "assign and ping within 0/8 (2 of 2)"
 
 # Even 255.255/16 is OK!
-pingtest 255.255.3.1 255.255.50.77 16 "assign and ping inside 255.255/16"
+segmenttest 255.255.3.1 255.255.50.77 16 "assign and ping inside 255.255/16"
 
 # Or 255.255.255/24
-pingtest 255.255.255.1 255.255.255.254 24 "assign and ping inside 255.255.255/24"
+segmenttest 255.255.255.1 255.255.255.254 24 "assign and ping inside 255.255.255/24"
 
 # Routing between different networks
 route_test 240.5.6.7 240.5.6.1  255.1.2.1    255.1.2.3      24 "route between 240.5.6/24 and 255.1.2/24"
@@ -170,21 +182,21 @@ route_test 0.200.6.7 0.200.38.1 245.99.101.1 245.99.200.111 16 "route between 0.
 expect_failure=true
 # It should still not be possible to use 0.0.0.0 or 255.255.255.255
 # as a unicast address.  Thus, these tests expect failure.
-pingtest 0.0.1.5       0.0.0.0         16 "assigning 0.0.0.0 (is forbidden)"
-pingtest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 (is forbidden)"
+segmenttest 0.0.1.5       0.0.0.0         16 "assigning 0.0.0.0 (is forbidden)"
+segmenttest 255.255.255.1 255.255.255.255 16 "assigning 255.255.255.255 (is forbidden)"
 # Test support for not having all of 127 be loopback
 # Currently Linux does not allow this, so this should fail too
-pingtest 127.99.4.5 127.99.4.6 16 "assign and ping inside 127/8 (is forbidden)"
+segmenttest 127.99.4.5 127.99.4.6 16 "assign and ping inside 127/8 (is forbidden)"
 # Test support for zeroth host
 # Currently Linux does not allow this, so this should fail too
-pingtest 5.10.15.20 5.10.15.0 24 "assign and ping zeroth host (is forbidden)"
+segmenttest 5.10.15.20 5.10.15.0 24 "assign and ping zeroth host (is forbidden)"
 # Routing using zeroth host as a gateway/endpoint
 # Currently Linux does not allow this, so this should fail too
 route_test 192.168.42.1 192.168.42.0 9.8.7.6 9.8.7.0 24 "routing using zeroth host (is forbidden)"
 
 # Test support for unicast use of class D
 # Currently Linux does not allow this, so this should fail too
-pingtest 225.1.2.3 225.1.2.200 24 "assign and ping class D address (is forbidden)"
+segmenttest 225.1.2.3 225.1.2.200 24 "assign and ping class D address (is forbidden)"
 # Routing using class D as a gateway
 route_test 225.1.42.1 225.1.42.2 9.8.7.6 9.8.7.1 24 "routing using class D (is forbidden)"
 
