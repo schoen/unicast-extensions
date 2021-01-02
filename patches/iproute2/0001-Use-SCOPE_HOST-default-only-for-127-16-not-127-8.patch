@@ -1,0 +1,37 @@
+From 5a3877baec01d0b30dd7cca1166f186e8a0f7293 Mon Sep 17 00:00:00 2001
+From: Seth Schoen <schoen@loyalty.org>
+Date: Fri, 1 Jan 2021 16:46:24 -0800
+Subject: [PATCH] Use SCOPE_HOST default only for 127/16, not 127/8
+
+The ip command would set the scope for an added address
+to SCOPE_HOST (unroutable) if the address was in 127/8.
+Even if the kernel allows other portions of 127/8 to be
+routable, this behavior would prevent a user from assigning
+them to a link in a routable way. Change this so that the
+default scope applies only to 127.0/16.
+
+This probably only makes sense together with our kernel patch
+to reduce the loopback network to a /16, although it might
+also be useful for some uses of route_localnet.
+---
+ ip/ipaddress.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ip/ipaddress.c b/ip/ipaddress.c
+index 571346b1..d198ee1a 100644
+--- a/ip/ipaddress.c
++++ b/ip/ipaddress.c
+@@ -2240,8 +2240,8 @@ void ipaddr_reset_filter(int oneline, int ifindex)
+ 
+ static int default_scope(inet_prefix *lcl)
+ {
+-	if (lcl->family == AF_INET) {
+-		if (lcl->bytelen >= 1 && *(__u8 *)&lcl->data == 127)
++	if (lcl->family == AF_INET && lcl->bytelen >= 1 &&
++		(ntohl((*(__u32 *)&lcl->data)) & 0xffff0000) == 0x7f000000) {
+ 			return RT_SCOPE_HOST;
+ 	}
+ 	return 0;
+-- 
+2.17.1
+
