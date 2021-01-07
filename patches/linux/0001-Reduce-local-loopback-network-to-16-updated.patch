@@ -1,0 +1,82 @@
+From b7f1cc78ccbf86331be1aa856b895cd86a0b726c Mon Sep 17 00:00:00 2001
+From: Seth Schoen <schoen@loyalty.org>
+Date: Wed, 6 Jan 2021 16:17:12 -0800
+Subject: [PATCH] Reduce local loopback network to /16 (updated)
+
+Make the special-case local loopback network 127/16 instead of
+127/8, which makes 127.1.0.0 to 127.255.255.255 available for
+non-loopback use.  Compared to prior patch, improve initialization
+of lo interface in devinet.c so its default netmask will be /8.
+
+This also requires a patch to the userspace iproute2 utilities
+so that the newly-released addresses don't get SCOPE_HOST when
+configured with ip(8).
+
+Differently from the route_localnet patch, this patch maintains the
+loopback block 127/16 as a Martian address when it appears on a
+non-loopback interface.
+---
+ include/linux/in.h            | 2 +-
+ include/uapi/linux/in.h       | 3 ++-
+ net/ipv4/devinet.c            | 4 ++--
+ tools/include/uapi/linux/in.h | 2 +-
+ 4 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/include/linux/in.h b/include/linux/in.h
+index 1873ef642605..32bcf89433cf 100644
+--- a/include/linux/in.h
++++ b/include/linux/in.h
+@@ -37,7 +37,7 @@ static inline int proto_ports_offset(int proto)
+ 
+ static inline bool ipv4_is_loopback(__be32 addr)
+ {
+-	return (addr & htonl(0xff000000)) == htonl(0x7f000000);
++	return (addr & htonl(0xffff0000)) == htonl(0x7f000000);
+ }
+ 
+ static inline bool ipv4_is_multicast(__be32 addr)
+diff --git a/include/uapi/linux/in.h b/include/uapi/linux/in.h
+index 7d6687618d80..189b1f002aa2 100644
+--- a/include/uapi/linux/in.h
++++ b/include/uapi/linux/in.h
+@@ -294,7 +294,8 @@ struct sockaddr_in {
+ 
+ /* Address to loopback in software to local host.  */
+ #define	INADDR_LOOPBACK		0x7f000001	/* 127.0.0.1   */
+-#define	IN_LOOPBACK(a)		((((long int) (a)) & 0xff000000) == 0x7f000000)
++#define	INADDR_LOOPBACK_PREFIXLEN	16
++#define IN_LOOPBACK(a)          ((((long int) (a)) & 0xffff0000) == 0x7f000000)
+ 
+ /* Defines for Multicast INADDR */
+ #define INADDR_UNSPEC_GROUP		0xe0000000U	/* 224.0.0.0   */
+diff --git a/net/ipv4/devinet.c b/net/ipv4/devinet.c
+index 75f67994fc85..5488c38bce6d 100644
+--- a/net/ipv4/devinet.c
++++ b/net/ipv4/devinet.c
+@@ -1557,8 +1557,8 @@ static int inetdev_event(struct notifier_block *this, unsigned long event,
+ 				INIT_HLIST_NODE(&ifa->hash);
+ 				ifa->ifa_local =
+ 				  ifa->ifa_address = htonl(INADDR_LOOPBACK);
+-				ifa->ifa_prefixlen = 8;
+-				ifa->ifa_mask = inet_make_mask(8);
++				ifa->ifa_prefixlen = INADDR_LOOPBACK_PREFIXLEN;
++				ifa->ifa_mask = inet_make_mask(INADDR_LOOPBACK_PREFIXLEN);
+ 				in_dev_hold(in_dev);
+ 				ifa->ifa_dev = in_dev;
+ 				ifa->ifa_scope = RT_SCOPE_HOST;
+diff --git a/tools/include/uapi/linux/in.h b/tools/include/uapi/linux/in.h
+index 7d6687618d80..cb2797f181da 100644
+--- a/tools/include/uapi/linux/in.h
++++ b/tools/include/uapi/linux/in.h
+@@ -294,7 +294,7 @@ struct sockaddr_in {
+ 
+ /* Address to loopback in software to local host.  */
+ #define	INADDR_LOOPBACK		0x7f000001	/* 127.0.0.1   */
+-#define	IN_LOOPBACK(a)		((((long int) (a)) & 0xff000000) == 0x7f000000)
++#define	IN_LOOPBACK(a)		((((long int) (a)) & 0xffff0000) == 0x7f000000)
+ 
+ /* Defines for Multicast INADDR */
+ #define INADDR_UNSPEC_GROUP		0xe0000000U	/* 224.0.0.0   */
+-- 
+2.17.1
+
