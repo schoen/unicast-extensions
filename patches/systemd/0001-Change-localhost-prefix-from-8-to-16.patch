@@ -1,0 +1,41 @@
+From 97ed7fa4e8a8926b2fe1eca1b460d68359688d56 Mon Sep 17 00:00:00 2001
+From: Seth Schoen <schoen@loyalty.org>
+Date: Fri, 8 Jan 2021 12:32:10 -0800
+Subject: [PATCH] Change localhost prefix from /8 to /16
+
+---
+ src/basic/in-addr-util.c  | 4 ++--
+ src/core/loopback-setup.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/basic/in-addr-util.c b/src/basic/in-addr-util.c
+index a4f13b620a..24f5337343 100644
+--- a/src/basic/in-addr-util.c
++++ b/src/basic/in-addr-util.c
+@@ -85,8 +85,8 @@ bool in4_addr_is_local_multicast(const struct in_addr *a) {
+ bool in4_addr_is_localhost(const struct in_addr *a) {
+         assert(a);
+ 
+-        /* All of 127.x.x.x is localhost. */
+-        return (be32toh(a->s_addr) & UINT32_C(0xFF000000)) == UINT32_C(127) << 24;
++        /* Updated to use only 127.1.0.0-127.255.255.255 as localhost. */
++        return (be32toh(a->s_addr) & UINT32_C(0xFFFF0000)) == UINT32_C(127) << 24;
+ }
+ 
+ bool in4_addr_is_non_local(const struct in_addr *a) {
+diff --git a/src/core/loopback-setup.c b/src/core/loopback-setup.c
+index 76022ce423..ba64c72bbf 100644
+--- a/src/core/loopback-setup.c
++++ b/src/core/loopback-setup.c
+@@ -73,7 +73,7 @@ static int add_ipv4_address(sd_netlink *rtnl, struct state *s) {
+         if (r < 0)
+                 return r;
+ 
+-        r = sd_rtnl_message_addr_set_prefixlen(req, 8);
++        r = sd_rtnl_message_addr_set_prefixlen(req, 16);
+         if (r < 0)
+                 return r;
+ 
+-- 
+2.17.1
+
