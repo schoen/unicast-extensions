@@ -1,3 +1,11 @@
+freebsd/freebsd_e.diff
+
+	This patch has not been merged as of 2020-09-25.
+
+freebsd/in_zeronet.patch
+
+	This patch has not been merged as of 2020-09-25.
+
 isdn-utils/isdn4k-utils-3.27_20151118.patch
 
 	I'm not sure what would be considered the upstream source for this
@@ -20,13 +28,12 @@ isdn-utils/isdn4k-utils-3.27_20151118.patch
 	2020-09-28.  As noted below, the affected code originally came
 	from pppd.
 
-freebsd/freebsd_e.diff
+iproute2/0001-Use-SCOPE_HOST-default-only-for-127-16-not-127-8.patch
 
-	This patch has not been merged as of 2020-09-25.
+	This patch has not been merged as of 2021-01-08.
 
-freebsd/in_zeronet.patch
-
-	This patch has not been merged as of 2020-09-25.
+	This patch is meant to be used in conjunction with a Linux kernel
+	patch.  It has been tested successfully.
 
 linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
@@ -49,6 +56,14 @@ linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patc
 
 	This was included in Linux release tags v4.20 and v5.0.
 
+linux/0001-Reduce-local-loopback-network-to-16-updated.patch
+
+	This patch has not been merged as of 2020-01-08.  It is a more
+	comprehensive version of 0002-Reduce-localhost-to-a-16.patch.
+
+	In order to make the loopback network actually shrink to /16, this patch
+	requires userspace changes in iproute2 and systemd.
+
 linux/0001-Reduce-multicast-range.patch
 
 	This patch has not been merged as of 2020-09-25.  It is a narrower
@@ -64,6 +79,16 @@ linux/0002-Reduce-localhost-to-a-16.patch
 	This patch has not been merged as of 2020-09-25.  It is a narrower
 	part of the functionality of
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
+	It has been superseded by 0001-Reduce-local-loopback-network-to-16-updated.patch.
+
+measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
+
+	This patch has not been merged as of 2020-01-08.
+
+	It may require corresponding changes in the RIPE Atlas backend in order to
+	request probes to test reserved address space (since scans that specify
+	reserved address targets numerically are blocked from doing so by both the
+	probe software and the backend).
 
 openbsd/openbsd_class_e.diff
 
@@ -133,3 +158,10 @@ routing/0001-Relax-martians-check-in-babeld.patch
 	A version of this patch was committed on December 22, 2018.  See
 
 	https://github.com/jech/babeld/commit/19a442ba8df5db57c13a041501629c12ff9cef83
+
+systemd/0001-Change-localhost-prefix-from-8-to-16.patch
+
+	This patch has not been merged as of 2021-01-08.
+
+	This patch is meant to be used in conjunction with a Linux kernel
+	patch.  It has not been tested yet.
