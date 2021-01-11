@@ -1,7 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-2.0
 
-# By Seth Schoen (c) 2020, for the IPv4 Unicast Extensions Project
+# By Seth Schoen (c) 2021, for the IPv4 Unicast Extensions Project
 # Thanks to David Ahern for help and advice on nettest modifications.
 
 # Self-tests for IPv4 address extensions: the kernel's ability to accept
@@ -24,6 +24,9 @@
 # * Currently the kernel DOES NOT accept unicast use of any of 127/8.
 
 # * Currently the kernel DOES NOT accept unicast use of any of 224/4.
+
+# These tests provide an easy way to flip the expected result of any
+# of these behaviors for testing kernel patches that change them.
 
 result=0
 
