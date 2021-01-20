@@ -90,6 +90,10 @@ measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 	reserved address targets numerically are blocked from doing so by both the
 	probe software and the backend).
 
+linux/0001-selftests-add-IPv4-unicast-extensions-tests.patch
+
+	This patch was submitted to netdev on 2020-01-20.
+
 openbsd/openbsd_class_e.diff
 
 	This patch has not been merged as of 2020-09-28.  It's closely
