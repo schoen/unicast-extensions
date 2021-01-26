@@ -92,7 +92,8 @@ measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 
 linux/0001-selftests-add-IPv4-unicast-extensions-tests.patch
 
-	This patch was submitted to netdev on 2020-01-20.
+	This patch was submitted to netdev on 2020-01-20 and resubmitted
+	with fixes on 2020-01-25.
 
 openbsd/openbsd_class_e.diff
 
