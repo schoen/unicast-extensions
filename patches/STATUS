@@ -58,7 +58,7 @@ linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patc
 
 linux/0001-Reduce-local-loopback-network-to-16-updated.patch
 
-	This patch has not been merged as of 2020-01-08.  It is a more
+	This patch has not been merged as of 2021-01-08.  It is a more
 	comprehensive version of 0002-Reduce-localhost-to-a-16.patch.
 
 	In order to make the loopback network actually shrink to /16, this patch
@@ -83,7 +83,7 @@ linux/0002-Reduce-localhost-to-a-16.patch
 
 measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 
-	This patch has not been merged as of 2020-01-08.
+	This patch has not been merged as of 2021-01-08.
 
 	It may require corresponding changes in the RIPE Atlas backend in order to
 	request probes to test reserved address space (since scans that specify
@@ -92,8 +92,9 @@ measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 
 linux/0001-selftests-add-IPv4-unicast-extensions-tests.patch
 
-	This patch was submitted to netdev on 2020-01-20 and resubmitted
-	with fixes on 2020-01-25.
+	This patch was committed on 2021-01-26.  See
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=9b0b7837b9f1
 
 openbsd/openbsd_class_e.diff
 
