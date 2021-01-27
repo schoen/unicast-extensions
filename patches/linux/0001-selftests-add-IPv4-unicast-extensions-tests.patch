@@ -1,6 +1,6 @@
-From 70b8797ae2e1ad95438dab28a7e37b010c3d472e Mon Sep 17 00:00:00 2001
-From: Seth Schoen <schoen@loyalty.org>
-Date: Mon, 25 Jan 2021 15:35:54 -0800
+From 66bfc6c6fcb90238f91a8d11888e3748a1edb4c9 Mon Sep 17 00:00:00 2001
+From: Seth David Schoen <schoen@loyalty.org>
+Date: Mon, 25 Jan 2021 20:02:21 -0800
 Subject: [PATCH] selftests: add IPv4 unicast extensions tests
 
 Add selftests for kernel behavior with regard to various classes of
@@ -12,10 +12,14 @@ Expect the current kernel behavior at the time of this patch. That is:
 
 * 0/8 and 240/4 may be used as unicast, with the exceptions of 0.0.0.0
   and 255.255.255.255;
-* the lowest host in a subnet may only be used as a broadcast address;
+* the lowest address in a subnet may only be used as a broadcast address;
 * 127/8 may not be used as unicast (the route_localnet option, which is
   disabled by default, still leaves it treated slightly specially);
 * 224/4 may not be used as unicast.
+
+Signed-off-by: Seth David Schoen <schoen@loyalty.org>
+Suggested-by: John Gilmore <gnu@toad.com>
+Acked-by: Dave Taht <dave.taht@gmail.com>
 ---
  tools/testing/selftests/net/Makefile          |   1 +
  .../selftests/net/unicast_extensions.sh       | 228 ++++++++++++++++++
@@ -36,7 +40,7 @@ index fa5fa425d148..25f198bec0b2 100644
  TEST_GEN_FILES += psock_fanout psock_tpacket msg_zerocopy reuseport_addr_any
 diff --git a/tools/testing/selftests/net/unicast_extensions.sh b/tools/testing/selftests/net/unicast_extensions.sh
 new file mode 100755
-index 000000000000..936600082bba
+index 000000000000..dbf0421986df
 --- /dev/null
 +++ b/tools/testing/selftests/net/unicast_extensions.sh
 @@ -0,0 +1,228 @@
@@ -59,7 +63,7 @@ index 000000000000..936600082bba
 +# * Notwithstanding that, 0.0.0.0 and 255.255.255.255 cannot be assigned.
 +#
 +# * Currently the kernel DOES NOT accept unicast use of the lowest
-+#   host in an IPv4 subnet (e.g. 192.168.100.0/32 in 192.168.100.0/24).
++#   address in an IPv4 subnet (e.g. 192.168.100.0/32 in 192.168.100.0/24).
 +#   This is treated as a second broadcast address, for compatibility
 +#   with 4.2BSD (!).
 +#
@@ -244,13 +248,13 @@ index 000000000000..936600082bba
 +# Currently Linux does not allow this, so this should fail too
 +segmenttest 127.99.4.5 127.99.4.6 16 "assign and ping inside 127/8 (is forbidden)"
 +#
-+# Test support for lowest host
++# Test support for lowest address
 +# Currently Linux does not allow this, so this should fail too
-+segmenttest 5.10.15.20 5.10.15.0 24 "assign and ping lowest host (is forbidden)"
++segmenttest 5.10.15.20 5.10.15.0 24 "assign and ping lowest address (is forbidden)"
 +#
-+# Routing using lowest host as a gateway/endpoint
++# Routing using lowest address as a gateway/endpoint
 +# Currently Linux does not allow this, so this should fail too
-+route_test 192.168.42.1 192.168.42.0 9.8.7.6 9.8.7.0 24 "routing using lowest host (is forbidden)"
++route_test 192.168.42.1 192.168.42.0 9.8.7.6 9.8.7.0 24 "routing using lowest address (is forbidden)"
 +#
 +# Test support for unicast use of class D
 +# Currently Linux does not allow this, so this should fail too
