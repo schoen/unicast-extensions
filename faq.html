@@ -414,4 +414,67 @@ where an unexpected packet could cause a crash were, quite reasonably,
 <a href="https://en.wikipedia.org/wiki/Ping_of_death">treated as urgent bugs</a> to be fixed.</p>
 </dd>
 
+<dt>
+<b>Why should reserved addresses be turned into global space that gets allocated
+	and announced publicly, rather than used as additional RFC 1918-style
+	private address space?</b>
+<dd>
+<p>Some proposals like <a href="https://tools.ietf.org/html/draft-wilson-class-e-02">Wilson, Michaelson, and Huston's</a> draft from 2009 have advocated using
+reserved space such as 240/4 as private address space, like 192.168/16 from
+RFC 1918.  There is considerable demand for private address space, and it
+has the advantage the changes needed to support it would only need to be
+made by organizations that actually want to use it. Some organizations have
+also started using various IPv4 blocks (including allocated but
+never-publicly-announced blocks like 22/8 and 25/8, and unallocated and
+reserved blocks like 240/4) as private address space on an unofficial basis
+without standards coordination with the rest of the Internet. These
+organizations might like the security of knowing that their practices are
+officially approved by the Internet community.
+</p>
+<p>
+However, we think that global unicast is a better and more valuable use of
+the remaining reserved address space.  In particular, organizations that
+control a private network well enough to set addressing policy for it are
+especially well-positioned to use IPv6 on that network, since they don't
+have to rely on any other networks' behavior to adopt IPv6 internally.
+IPv4 addresses, on the other hand, may still be required by networks that
+need to achieve interoperability with distant strangers, with whom they can't
+coordinate easily.  There may be counterexamples to this calculus,
+particularly for private addresses meant for large carrier-grade NAT
+deployments, but intuitively "we're rolling out a new datacenter/organizational
+network and we need more IPv4 space to talk to ourselves" makes less
+sense than "we're rolling out a new public service and we need more IPv4
+space to let users elsewhere in the world reach us".
+</p>
+<p>
+In any case, we should start with the work necessary to support reserved
+address space as globally routable, since this work will also make this
+space usable for private allocations, while the converse is not necessarily
+true. The technical work is almost all the same, no matter what these
+addresses are allocated for.  Millions of hosts, routers, and ancillary         
+equipment like Internet-of-Things devices would need to enable unicast          
+use of the address, and be able to route them, whether they are being           
+used and routed inside a data center, inside a company, or in the whole         
+world.</p>
+<p>
+This will still preserve the option to subsequently "allocate" some
+portion of this space as private if this course of action appears
+particularly beneficial.  Our Internet-Drafts do not actually perform any
+allocation of reserved address space, while our software patches will be
+helpful to future users of this space with either global or organizational
+scope.  Once the reserved address space is successfully unreserved (and
+successfully usable at least for up-to-date hosts and routers), we can
+have a further discussion of the most valuable allocation method for it.
+</p>
+<p>
+We are motivated by the disconnect between the indifference of the
+Internet policy community, versus the prices that ordinary Internet
+users and large Internet companies are paying for IPv4 addresses&mdash;in
+the range of $25 per address and gradually rising. This indicates enormous
+demand and potential value that will be created by selling new addresses
+publicly, increasing the supply of IPv4 addresses and driving the price
+lower.
+</p>
+</dd>
+
 </dl>
