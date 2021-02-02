@@ -70,9 +70,9 @@ linux/0001-Reduce-multicast-range.patch
 	part of the functionality of
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
 
-linux/0001-Treat-IPv4-zero-host-as-ordinary-unicast-address.patch
+linux/0001-Treat-IPv4-lowest-address-as-ordinary-unicast-address.patch
 
-	This patch is new as of 2020-09-23 and has not been merged yet.
+	This patch is new as of 2021-02-01 and has not been merged yet.
 
 linux/0002-Reduce-localhost-to-a-16.patch
 
