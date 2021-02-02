@@ -1,10 +1,10 @@
 From c92f9caeececaaad9461da47592d01a9a8111f2c Mon Sep 17 00:00:00 2001
 From: Seth Schoen <schoen@loyalty.org>
 Date: Fri, 25 Sep 2020 16:29:30 -0700
-Subject: [PATCH] Treat IPv4 zero host as ordinary unicast address.
+Subject: [PATCH] Treat IPv4 lowest address as ordinary unicast address.
 
-This patch treats the zeroth host in a subnet (the host whose address
-within the subnet contains all 0 bits) as an ordinary unicast address
+This patch treats the lowest address in a subnet (the address
+within the subnet which contains all 0 bits) as an ordinary unicast address
 instead of as a potential second broadcast address.  For example, in
 subnet 192.168.17.24/29, which contains 8 addresses, this patch makes
 address 192.168.17.24 usable as a normal unicast address (while
@@ -25,14 +25,24 @@ that use non-standard broadcast address forms, substituting 0 for -1.
 All hosts SHOULD recognize and accept any of these non-standard
 broadcast addresses as the destination address of an incoming
 datagram.").  This has been repeated in subsequent RFCs, always with
-backwards-compatibility rationales.  The zero address was reserved to
+backwards-compatibility rationales.  The lowest address was reserved to
 avoid network troubles (broadcast storms) caused when some hosts on a
-LAN treated the zeroth host as unicast and others treated it as broadcast.
+LAN treated the lowest address as unicast and others treated it as broadcast.
 BSD operating systems since 4.3BSD, including all the current BSD OSes,
 default to the standard IP broadcast address, just like Linux (and every
 other contemporary OS).  4.2BSD has been obsolete for more than 30 years,
 so there is no modern likelihood of it causing broadcast storms, except
 among researchers of computing history.
+
+Tests with this patch show that other Linux hosts on the local segment
+simply ignore a host numbered with the lowest address, both for incoming
+and outgoing packet purposes.  They don't interoperate with it, but they
+also don't cause broadcast storms or any other malfunction.  Of course,
+unmodified "distant" hosts that are not on the same segment successfully
+interoperate as long as the gateway is willing to forward packets
+(as they have no way of knowing that the lowest address "shouldn't"
+be used -- or indeed whether or not it is actually the lowest address
+in a network segment or not).
 
 Modern documentation continues to teach the definition of the directed,
 or "net-directed", broadcast address as "a host ID of all one bits",
