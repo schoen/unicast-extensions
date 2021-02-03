@@ -1,0 +1,52 @@
+From 1cf434211e25ab8b31f1316982cbb84a20a64180 Mon Sep 17 00:00:00 2001
+From: Seth Schoen <schoen@loyalty.org>
+Date: Wed, 3 Feb 2021 13:57:24 -0800
+Subject: [PATCH] Don't hardcode refusing to issue .0 or .255 addresses
+
+Even following current Internet standards, it can be perfectly
+legitimate to issue addresses that end in .0 or .255 via DHCP --
+this can happen whenever the network is larger than /8.  For
+example, 10.3.4.0 or 10.3.4.255 is a legitimate host address in
+10/8 or 10.3/16.
+
+We also want to be able to issue .0 addresses for our lowest host
+kernel patch and proposed standards changes.
+
+This behavior is already fully controllable by the user simply by
+setting start_ip and end_ip correctly.  Users who don't want to
+issue .0 or .255 should set start_ip greater than .0 or end_ip less
+than .255 and dhcpd will already respect these bounds.  (This is
+also the case for other DHCP servers -- the recommended example
+configurations will come with a lower bound starting with .1 or some
+other value, which is typically appropriate, but the user is still
+allowed to change this to .0 if so desired.)
+
+---
+ networking/udhcp/dhcpd.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/networking/udhcp/dhcpd.c b/networking/udhcp/dhcpd.c
+index cd32cb437..7b2782896 100644
+--- a/networking/udhcp/dhcpd.c
++++ b/networking/udhcp/dhcpd.c
+@@ -295,12 +295,11 @@ static uint32_t find_free_or_expired_nip(const uint8_t *safe_mac, unsigned arppi
+ 		uint32_t nip;
+ 		struct dyn_lease *lease;
+ 
+-		/* ie, 192.168.55.0 */
+-		if ((addr & 0xff) == 0)
+-			goto next_addr;
+-		/* ie, 192.168.55.255 */
+-		if ((addr & 0xff) == 0xff)
+-			goto next_addr;
++		/* (Addresses ending in .0 or .255 can legitimately be allocated
++		 * in various situations, so _don't_ skip these.  The user needs
++		 * to choose start_ip and end_ip correctly for the particular
++		 * environment.) */
++
+ 		nip = htonl(addr);
+ 		/* skip our own address */
+ 		if (nip == server_data.server_nip)
+-- 
+2.25.1
+
