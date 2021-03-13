@@ -1,0 +1,64 @@
+From 44f703ca17e90d1f2a18f2b999ece38cbd13c0db Mon Sep 17 00:00:00 2001
+From: Seth David Schoen <schoen@loyalty.org>
+Date: Fri, 12 Mar 2021 16:28:26 -0800
+Subject: [PATCH 1/1] ip.7: Add "special and reserved addresses" section
+
+Add a more detailed description of the IP addresses that have
+a special meaning in Internet standards, and how these affect
+Linux.
+
+Signed-off-by: Seth David Schoen <schoen@loyalty.org>
+---
+ man7/ip.7 | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/man7/ip.7 b/man7/ip.7
+index d9299eb9e..478cda269 100644
+--- a/man7/ip.7
++++ b/man7/ip.7
+@@ -39,7 +39,7 @@
+ .\"	    commit 76e21053b5bf33a07c76f99d27a74238310e3c71
+ .\"	    Author: Erich E. Hoover <ehoover@mines.edu>
+ .\"
+-.TH IP  7 2020-11-01 "Linux" "Linux Programmer's Manual"
++.TH IP  7 2021-03-10 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ ip \- Linux IPv4 protocol implementation
+ .SH SYNOPSIS
+@@ -232,6 +232,7 @@ In particular, this means that you need to call
+ on the number that is assigned to a port.
+ All address/port manipulation
+ functions in the standard library work in network byte order.
++.SS Special and reserved addresses
+ .PP
+ There are several special addresses:
+ .B INADDR_LOOPBACK
+@@ -245,6 +246,25 @@ means any address for binding;
+ means any host and has the same effect on bind as
+ .B INADDR_ANY
+ for historical reasons.
++.PP
++Internet standards have also traditionally reserved various
++addresses for particular uses. The addresses
++in the ranges 0.0.0.0 through 0.255.255.255 and 240.0.0.0 through
++255.255.255.254 (0/8 and 240/4 in CIDR notation) are reserved globally
++(but Linux permits addresses within these ranges, other than 0.0.0.0,
++to be assigned to an interface and used like other unicast addresses).
++All addresses in 127.0.0.0 through 127.255.255.255
++("127/8") are treated as loopback addresses akin to the standardized
++local loopback address 127.0.0.1, while addresses in 224.0.0.0 through
++239.255.255.255 ("224/4") are dedicated to multicast use.
++.PP
++On any locally-attached IP subnet, the lowest-numbered address and
++highest-numbered address (e.g., the .0 and .255 addresses on a subnet
++with netmask 255.255.255.0) are both designated as broadcast addresses.
++These cannot usefully be assigned to an interface, and can only be
++addressed with a socket on which the
++.B SO_BROADCAST
++option has been explicitly enabled.
+ .SS Socket options
+ IP supports some protocol-specific socket options that can be set with
+ .BR setsockopt (2)
+-- 
+2.25.1
+

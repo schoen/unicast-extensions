@@ -1,0 +1,48 @@
+From 30e80fe3c7d76e9bf14a61e76bb9cbf77946bf20 Mon Sep 17 00:00:00 2001
+From: Seth David Schoen <schoen@loyalty.org>
+Date: Fri, 12 Mar 2021 16:33:11 -0800
+Subject: [PATCH] ip.7: Describe lowest-host behavior change
+
+Update the reserved addresses documentation to describe the
+behavior change that treats only the highest address, not the
+lowest address, in an IPv4 subnet as a broadcast address.
+
+Signed-off-by: Seth David Schoen <schoen@loyalty.org>
+---
+ man7/ip.7 | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/man7/ip.7 b/man7/ip.7
+index 478cda269..d51c09196 100644
+--- a/man7/ip.7
++++ b/man7/ip.7
+@@ -258,13 +258,21 @@ All addresses in 127.0.0.0 through 127.255.255.255
+ local loopback address 127.0.0.1, while addresses in 224.0.0.0 through
+ 239.255.255.255 ("224/4") are dedicated to multicast use.
+ .PP
+-On any locally-attached IP subnet, the lowest-numbered address and
+-highest-numbered address (e.g., the .0 and .255 addresses on a subnet
+-with netmask 255.255.255.0) are both designated as broadcast addresses.
+-These cannot usefully be assigned to an interface, and can only be
+-addressed with a socket on which the
++On any locally-attached IP subnet, the highest-numbered address
++(e.g., the .255 address on a subnet with netmask 255.255.255.0) is
++designated as a broadcast addresses.  It cannot usefully be assigned
++to an interface, and can only be addressed with a socket on which the
+ .B SO_BROADCAST
+ option has been explicitly enabled.
++.PP
++Although Internet standards historically reserved the lowest-numbered
++address for broadcast as well, this behavior provides no benefit today
++and, since release x.y.z, Linux now allows this address (e.g., the .0 address
++in a /24 network) to be assigned to an interface and used for unicast
++purposes.  This will not interoperate with other systems on the local
++network segment that follow the traditional behavior, but will work with
++traditional systems elsewhere on the network (not on the same segment), if
++the local router is willing to route this address.
+ .SS Socket options
+ IP supports some protocol-specific socket options that can be set with
+ .BR setsockopt (2)
+-- 
+2.25.1
+

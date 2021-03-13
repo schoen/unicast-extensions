@@ -53,6 +53,12 @@ linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	The other parts have not been merged as of 2020-09-25, and
 	correspond to other pending patches below.
+
+linux/0001-ip.7-Add-special-and-reserved-addresses-section.patch
+linux/0001-ip.7-Describe-lowest-host-behavior-change.patch
+
+	These patches against the man-pages tree are new as of 2021-03-12
+	and have not been merged yet.
 	
 linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
 
