@@ -1,7 +1,7 @@
 From c92f9caeececaaad9461da47592d01a9a8111f2c Mon Sep 17 00:00:00 2001
-From: Seth Schoen <schoen@loyalty.org>
+From: Seth David Schoen <schoen@loyalty.org>
 Date: Fri, 25 Sep 2020 16:29:30 -0700
-Subject: [PATCH] Treat IPv4 lowest address as ordinary unicast address.
+Subject: [PATCH net-next 1/2] Treat IPv4 lowest address as ordinary unicast address.
 
 This patch treats the lowest address in a subnet (the address
 within the subnet which contains all 0 bits) as an ordinary unicast address
@@ -25,39 +25,48 @@ that use non-standard broadcast address forms, substituting 0 for -1.
 All hosts SHOULD recognize and accept any of these non-standard
 broadcast addresses as the destination address of an incoming
 datagram.").  This has been repeated in subsequent RFCs, always with
-backwards-compatibility rationales.  The lowest address was reserved to
-avoid network troubles (broadcast storms) caused when some hosts on a
-LAN treated the lowest address as unicast and others treated it as broadcast.
-BSD operating systems since 4.3BSD, including all the current BSD OSes,
-default to the standard IP broadcast address, just like Linux (and every
-other contemporary OS).  4.2BSD has been obsolete for more than 30 years,
-so there is no modern likelihood of it causing broadcast storms, except
-among researchers of computing history.
+backwards-compatibility rationales.  Network troubles (broadcast storms)
+ensued when some early hosts on a LAN treated the lowest address as
+unicast and others treated it as broadcast.  Multiple 1989 changes to IP
+successfully prevented these.  The key was adding the layering violation
+requiring hosts to ignore all IP datagrams with unicast destination
+addresses that were received in low-level (Ethernet) broadcasts.  That
+change is still in effect, and this patch does not alter it.  All
+operating systems since 4.3BSD, including all the current BSD OSes, now
+use the standard IP broadcast address.  4.2BSD has been obsolete for
+more than 30 years, and all modern hosts ignore hardware broadcasts
+containing unicast IP addresses, so there is no modern likelihood of
+broadcast storms even when hosts disagree on the unicast vs. broadcast
+status of a given address.
 
 Tests with this patch show that other Linux hosts on the local segment
 simply ignore a host numbered with the lowest address, both for incoming
 and outgoing packet purposes.  They don't interoperate with it, but they
-also don't cause broadcast storms or any other malfunction.  Of course,
-unmodified "distant" hosts that are not on the same segment successfully
-interoperate as long as the gateway is willing to forward packets
-(as they have no way of knowing that the lowest address "shouldn't"
-be used -- or indeed whether or not it is actually the lowest address
-in a network segment or not).
+also don't cause broadcast storms or any other malfunction.  If patched,
+they have no trouble interoperating with a host at the lowest address.
 
-Modern documentation continues to teach the definition of the directed,
-or "net-directed", broadcast address as "a host ID of all one bits",
-sometimes giving the analogy to the Ethernet-layer broadcast address
-FF:FF:FF:FF:FF:FF.  (Ethernet does not use 00:00:00:00:00:00 for
-this purpose, and never has.)  We don't benefit from having two different
-broadcast addresses; I have not been able to find any documentation that
-suggests that users or software should ever intentionally use the
-all-zero form or that justifies it other than as a historic Berkeleyism.
-RFCs 1112, 1812, and 3021 state that hosts and routers need to maintain
-compatibility with the old form -- but they give no rationale for this
-other than the existence of the 4.2BSD behavior.
+Unmodified "distant" hosts that are not on the same segment successfully
+interoperate, as long as the gateway on the local segment, and the local
+host itself using the lowest address, have this patch.  (Distant hosts
+have no way of knowing whether the a given address is the lowest address
+in a faraway network segment, so they treat it no differently than any
+other unicast address.)  This means that each local site can change this
+behavior locally, resulting immediatelly in global interoperability with
+the newly usable lowest local address.
+
+Modern software and documentation continues to use the definition of the
+directed, or "net-directed", broadcast address as "a host ID of all one
+bits".  The Internet no longer gets any benefit from having two different
+broadcast addresses usable on every Ethernet segment.  I have not been
+able to find any documentation that suggests that users or software should
+ever intentionally use the all-zero form or that justifies it other than
+as a historic Berkeleyism.  RFCs 1112, 1812, and 3021 state that hosts and
+routers need to maintain compatibility with the old form -- but they give
+no rationale other than the past existence of the 4.2BSD behavior.
 
 
-Signed-off-by: Seth Schoen <schoen@loyalty.org>
+Signed-off-by: Seth David Schoen <schoen@loyalty.org>
+Suggested-by: John Gilmore <gnu@toad.com>
 ---
  net/ipv4/fib_frontend.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
