@@ -48,10 +48,10 @@ they have no trouble interoperating with a host at the lowest address.
 Unmodified "distant" hosts that are not on the same segment successfully
 interoperate, as long as the gateway on the local segment, and the local
 host itself using the lowest address, have this patch.  (Distant hosts
-have no way of knowing whether the a given address is the lowest address
+have no way of knowing whether a given address is the lowest address
 in a faraway network segment, so they treat it no differently than any
 other unicast address.)  This means that each local site can change this
-behavior locally, resulting immediatelly in global interoperability with
+behavior locally, resulting immediately in global interoperability with
 the newly usable lowest local address.
 
 Modern software and documentation continues to use the definition of the
