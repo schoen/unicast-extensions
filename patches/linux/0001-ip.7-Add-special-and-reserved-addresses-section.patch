@@ -8,6 +8,7 @@ a special meaning in Internet standards, and how these affect
 Linux.
 
 Signed-off-by: Seth David Schoen <schoen@loyalty.org>
+Suggested-by: John Gilmore <gnu@toad.com>
 ---
  man7/ip.7 | 22 +++++++++++++++++++++-
  1 file changed, 21 insertions(+), 1 deletion(-)
