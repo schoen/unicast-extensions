@@ -8,6 +8,7 @@ and addressable as a unicast (non-broadcast) address on a
 local network segment.
 
 Signed-off-by: Seth David Schoen <schoen@loyalty.org>
+Acked-by: Dave Taht <dave.taht@gmail.com>
 ---
  .../testing/selftests/net/unicast_extensions.sh | 17 +++++++++--------
  1 file changed, 9 insertions(+), 8 deletions(-)

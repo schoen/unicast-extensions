@@ -67,6 +67,7 @@ no rationale other than the past existence of the 4.2BSD behavior.
 
 Signed-off-by: Seth David Schoen <schoen@loyalty.org>
 Suggested-by: John Gilmore <gnu@toad.com>
+Acked-by: Dave Taht <dave.taht@gmail.com>
 ---
  net/ipv4/fib_frontend.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
