@@ -115,11 +115,11 @@ up never getting used on the Internet.</p>
 main loopback address 127.0.0.1, and over 16 million <em>other</em> addresses, all of
 which currently have the same meaning&mdash;"this machine".</p>
 
-<p>The <b>zeroth host</b> on each subnet. This is the address that <em>ends</em> with zero,
-such as 103.224.182.0 (in 103.224.182.0/24). (On a subnet smaller than /24, the zero host's
-address doesn't end in ".0" but it still ends with zeroes in the binary representation. It is
-always equal to the subnet's network address; for instance, 93.184.216.32/28's zeroth host
-is 93.184.216.32, which ends with 0000 in binary.)  Current standards call for not using this
+<p>The <b>lowest address</b> on each subnet (sometimes also called "zeroth address"). This is the address that <em>ends</em> with zero,
+such as 103.224.182.0 (in 103.224.182.0/24). On a subnet smaller than /24, the lowest address doesn't end in ".0", but it still ends with zeroes in the binary representation. For example, the lowest address in 192.168.86.96/28 is 192.168.86.96, whose binary representation <tt>11000000 10101000 01010110 0110<b>0000</b></tt> ends with four zeroes (32-28=4).</p>
+<p>
+The lowest address is always exactly equal to the subnet's network address; for instance, 93.184.216.32/28's lowest address
+is 93.184.216.32, which ends with 0000 in binary.  Current standards call for not using this
 address to be used to refer to an individual device, mainly for compatibility with some
 no-longer used software from 1988.</p>
 
@@ -150,7 +150,7 @@ there any other plan to use them for any purpose.</p>
 
 <p>The loopback network: 127.1.0.0-127.255.255.255 → Roughly 2<sup>24</sup>-1<sup>16</sup>-1=16,711,680 addresses.</p>
 
-<p>The zeroth host: Typically one address per subnet Internetwide; the
+<p>The lowest address: Typically one address per subnet Internetwide; the
 total depends on the number of subnets, which depends on the
 configuration of private networks, not just public address allocations,
 and cannot be publicly observed. (For example, whether 93.184.216.64 is
@@ -172,8 +172,8 @@ address space.</p>
 The challenges for each group of addresses mentioned above are a bit different.
 Existing software does often make assumptions that class E and the zero network's
 addresses won't be used at all (except for the special case of 0.0.0.0 by DHCP
-clients), that the 127 network will be used only for loopback, that the zeroth
-host on a subnet is an alternative second local broadcast address, or that class D
+clients), that the 127 network will be used only for loopback, that the lowest
+address on a subnet is an alternative second local broadcast address, or that class D
 addresses will be used only for identifying multicast groups. In some cases, the
 software will have to be modified to change these assumptions before devices will
 recognize them as legitimate ordinary ("unicast") addresses.
@@ -405,7 +405,7 @@ developers to add IPv6 support.</p>
 <dt><b>Does using historically reserved addresses on the Internet break or crash
 devices?</b></dt>
 <dd>
-<p>There are rumors that using, say, 0/8 or 240/4 addresses, or the zeroth host
+<p>There are rumors that using, say, 0/8 or 240/4 addresses, or the lowest address
 on a subnet, as ordinary unicast addresses could trigger serious software bugs
 and make computers crash.  We've asked people who claimed this for details, but so
 far no one has ever provided an example, nor have we found any examples through our
