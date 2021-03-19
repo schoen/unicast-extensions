@@ -1,7 +1,7 @@
 From c92f9caeececaaad9461da47592d01a9a8111f2c Mon Sep 17 00:00:00 2001
 From: Seth David Schoen <schoen@loyalty.org>
 Date: Fri, 25 Sep 2020 16:29:30 -0700
-Subject: [PATCH net-next 1/2] Treat IPv4 lowest address as ordinary unicast address.
+Subject: [PATCH net-next 1/2] ip: Treat IPv4 lowest address as ordinary unicast address.
 
 Treat the lowest address in a subnet (the address within the subnet
 which contains all 0 bits) as an ordinary unicast address instead
