@@ -1,7 +1,7 @@
 From e82a531a1a61e5d659a37993f2edf36294f64109 Mon Sep 17 00:00:00 2001
 From: Seth David Schoen <schoen@loyalty.org>
 Date: Wed, 10 Mar 2021 12:39:24 -0800
-Subject: [PATCH next-next 2/2] selftests: Lowest IPv4 address in a subnet is valid
+Subject: [PATCH net-next 2/2] selftests: Lowest IPv4 address in a subnet is valid
 
 Expect the lowest IPv4 address in a subnet to be assignable
 and addressable as a unicast (non-broadcast) address on a
