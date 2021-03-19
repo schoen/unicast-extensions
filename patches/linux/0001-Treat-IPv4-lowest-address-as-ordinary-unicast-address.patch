@@ -3,16 +3,17 @@ From: Seth David Schoen <schoen@loyalty.org>
 Date: Fri, 25 Sep 2020 16:29:30 -0700
 Subject: [PATCH net-next 1/2] Treat IPv4 lowest address as ordinary unicast address.
 
-This patch treats the lowest address in a subnet (the address
-within the subnet which contains all 0 bits) as an ordinary unicast address
-instead of as a potential second broadcast address.  For example, in
-subnet 192.168.17.24/29, which contains 8 addresses, this patch makes
-address 192.168.17.24 usable as a normal unicast address (while
-continuing to support 192.168.17.31 as a broadcast address).  Since
-EVERY network number or subnet formerly had its host number 0 reserved,
-this patch adds 1 more usable host address to every network and subnet
-(i.e., 2^(32-n)-1 instead of 2^(32-n)-2 addresses available for
-assignment on each IPv4 /n subnet).  For small subnets, this is a
+Treat the lowest address in a subnet (the address within the subnet
+which contains all 0 bits) as an ordinary unicast address instead
+of as a potential second broadcast address.  For example, in subnet
+192.168.17.24/29, which contains 8 addresses, make address 192.168.17.24
+usable as a normal unicast address (while continuing to support
+192.168.17.31 as a broadcast address).
+
+Since EVERY network number or subnet formerly had its host number 0
+reserved, this patch adds 1 more usable host address to every network
+and subnet (i.e., 2^(32-n)-1 instead of 2^(32-n)-2 addresses available
+for assignment on each IPv4 /n subnet).  For small subnets, this is a
 significant gain; instead of 6 usable host addresses, a /29 would now
 contain 7, a 16% increase.
 
@@ -29,7 +30,7 @@ backwards-compatibility rationales.  Network troubles (broadcast storms)
 ensued when some early hosts on a LAN treated the lowest address as
 unicast and others treated it as broadcast.  Multiple 1989 changes to IP
 successfully prevented these.  The key was adding the layering violation
-requiring hosts to ignore all IP datagrams with unicast destination
+rule requiring hosts to ignore all IP datagrams with unicast destination
 addresses that were received in low-level (Ethernet) broadcasts.  That
 change is still in effect, and this patch does not alter it.  All
 operating systems since 4.3BSD, including all the current BSD OSes, now
@@ -59,10 +60,14 @@ directed, or "net-directed", broadcast address as "a host ID of all one
 bits".  The Internet no longer gets any benefit from having two different
 broadcast addresses usable on every Ethernet segment.  I have not been
 able to find any documentation that suggests that users or software should
-ever intentionally use the all-zero form or that justifies it other than
+ever intentionally use the all-zero form, or that justifies it other than
 as a historic Berkeleyism.  RFCs 1112, 1812, and 3021 state that hosts and
 routers need to maintain compatibility with the old form -- but they give
 no rationale other than the past existence of the 4.2BSD behavior.
+
+We're happy to provide more historical details or information about
+behavior of other systems in this regard by e-mail or as future patches
+to kernel documentation files.
 
 
 Signed-off-by: Seth David Schoen <schoen@loyalty.org>
