@@ -59,6 +59,9 @@ linux/0001-ip.7-Describe-lowest-host-behavior-change.patch
 
 	These patches against the man-pages tree are new as of 2021-03-12
 	and have not been merged yet.
+
+	The former patch (documenting existing kernel behavior) was
+	submitted to linux-man on 2021-03-19.
 	
 linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
 
