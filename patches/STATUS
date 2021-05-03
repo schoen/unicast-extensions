@@ -122,11 +122,23 @@ openbsd/openbsd_class_e.diff
 	This patch has not been merged as of 2020-09-28.  It's closely
 	related to, though narrower than, the FreeBSD patch.
 
+openwrt/0001-Reduce-loopback-netmask-netmask-to-16.patch
+
+	This patch is new as of May 3, 2021, and has not been merged yet.  It
+	needs testing to double-check that it has the expected effect in
+	combination with a patched kernel.
+
+	This is the equivalent in functionality for OpenWrt of the systemd
+	patch
+
+	systemd/0001-Change-localhost-prefix-from-8-to-16.patch
+
 openwrt/0001-Support-class-e-addressing-in-netifd.patch
 
 	This patch was committed on December 16, 2018.  See
 
 	https://git.openwrt.org/?p=project/netifd.git;a=commitdiff;h=cd089c52de96e47cf99410f66701e04e24155b9a
+
 
 ppp/ppp-2.4.7.patch
 
