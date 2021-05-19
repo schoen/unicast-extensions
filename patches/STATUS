@@ -89,9 +89,9 @@ linux/0001-Reduce-multicast-range.patch
 
 linux/0001-Treat-IPv4-lowest-address-as-ordinary-unicast-address.patch
 
-	This patch is new as of 2021-02-01 and has not been merged yet.
+        This patch was committed on 2021-05-17.  See
 
-	A version of this patch was submitted to netdev on 2021-03-19.
+	https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/net/ipv4?id=94c821c74bf5fe0c25e09df5334a16f98608db90
 
 linux/0002-Reduce-localhost-to-a-16.patch
 
