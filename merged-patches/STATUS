@@ -1,0 +1,49 @@
+linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
+
+	The 0/8 part of this patch was merged in 96125bf9985a7, approved
+	by David S. Miller on June 26, 2019.
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=96125bf9985a
+
+	This was included in Linux release tag v5.2.
+
+	The other parts have not been merged as of 2020-09-25, and
+	correspond to other pending patches below.
+
+linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
+
+	This patch was merged in 65cab850f0eea, approved by David S. Miller
+	on December 14, 2018.
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=65cab850f0eea
+
+	This was included in Linux release tags v4.20 and v5.0.
+
+linux/0001-Treat-IPv4-lowest-address-as-ordinary-unicast-address.patch
+
+        This patch was committed on 2021-05-17.  See
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/net/ipv4?id=94c821c74bf5fe0c25e09df5334a16f98608db90
+
+measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
+
+	A narrower version of this patch (continuing to exclude all of 224/4
+	and 127/8) was adopted by the RIPE Atlas project at the beginning of
+	March 2021.
+
+	It will require corresponding changes in the RIPE Atlas backend in
+	order to request probes to test reserved address space (since scans
+	that specify reserved address targets numerically are blocked from
+	doing so by both the probe software and the backend).
+
+linux/0001-selftests-add-IPv4-unicast-extensions-tests.patch
+
+	This patch was committed on 2021-01-26.  See
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=9b0b7837b9f1
+
+openwrt/0001-Support-class-e-addressing-in-netifd.patch
+
+	This patch was committed on December 16, 2018.  See
+
+	https://git.openwrt.org/?p=project/netifd.git;a=commitdiff;h=cd089c52de96e47cf99410f66701e04e24155b9a

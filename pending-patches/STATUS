@@ -42,18 +42,6 @@ iproute2/0001-Use-SCOPE_HOST-default-only-for-127-16-not-127-8.patch
 	This patch is meant to be used in conjunction with a Linux kernel
 	patch.  It has been tested successfully.
 
-linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
-
-	The 0/8 part of this patch was merged in 96125bf9985a7, approved
-	by David S. Miller on June 26, 2019.
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=96125bf9985a
-
-	This was included in Linux release tag v5.2.
-
-	The other parts have not been merged as of 2020-09-25, and
-	correspond to other pending patches below.
-
 linux/0001-ip.7-Add-special-and-reserved-addresses-section.patch
 linux/0001-ip.7-Describe-lowest-host-behavior-change.patch
 
@@ -64,15 +52,6 @@ linux/0001-ip.7-Describe-lowest-host-behavior-change.patch
 	submitted to linux-man on 2021-03-19, and a revised version based
 	on comments was resubmitted on 2021-03-29.
 	
-linux/0001-linux-kernel-Allow-class-e-address-assignment-via-ifconfig-ioctl.patch
-
-	This patch was merged in 65cab850f0eea, approved by David S. Miller
-	on December 14, 2018.
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=65cab850f0eea
-
-	This was included in Linux release tags v4.20 and v5.0.
-
 linux/0001-Reduce-local-loopback-network-to-16-updated.patch
 
 	This patch has not been merged as of 2021-01-08.  It is a more
@@ -86,12 +65,6 @@ linux/0001-Reduce-multicast-range.patch
 	This patch has not been merged as of 2020-09-25.  It is a narrower
 	part of the functionality of
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
-
-linux/0001-Treat-IPv4-lowest-address-as-ordinary-unicast-address.patch
-
-        This patch was committed on 2021-05-17.  See
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/net/ipv4?id=94c821c74bf5fe0c25e09df5334a16f98608db90
 
 linux/0002-Reduce-localhost-to-a-16.patch
 
@@ -111,12 +84,6 @@ measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 	that specify reserved address targets numerically are blocked from
 	doing so by both the probe software and the backend).
 
-linux/0001-selftests-add-IPv4-unicast-extensions-tests.patch
-
-	This patch was committed on 2021-01-26.  See
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=9b0b7837b9f1
-
 openbsd/openbsd_class_e.diff
 
 	This patch has not been merged as of 2020-09-28.  It's closely
@@ -133,13 +100,6 @@ openwrt/0001-Reduce-loopback-netmask-netmask-to-16.patch
 
 	systemd/0001-Change-localhost-prefix-from-8-to-16.patch
 
-openwrt/0001-Support-class-e-addressing-in-netifd.patch
-
-	This patch was committed on December 16, 2018.  See
-
-	https://git.openwrt.org/?p=project/netifd.git;a=commitdiff;h=cd089c52de96e47cf99410f66701e04e24155b9a
-
-
 ppp/ppp-2.4.7.patch
 
 	This patch has not been merged as of 2020-09-28.  The affected code
@@ -148,14 +108,6 @@ ppp/ppp-2.4.7.patch
 	the original upstream pppd).
 
 	The author of this code is my former Linuxcare coworker.
-
-measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
-
-	This patch has not been merged as of 2020-12-07.
-
-	It aims to make the RIPE Atlas measurement project's software probe
-	capable of testing connectivity to various addresses that we're
-	interested in.
 
 pureftpd/pure-ftpd-1.0.46.patch
 
@@ -191,12 +143,6 @@ routing/0001-martians_check-remove-all-but-0.0.0.0-32-from-0.0.0..patch
 	2020-09-28.  See, e.g.,
 
 	https://github.com/jech/babeld/blob/master/util.c
-
-routing/0001-Relax-martians-check-in-babeld.patch
-
-	A version of this patch was committed on December 22, 2018.  See
-
-	https://github.com/jech/babeld/commit/19a442ba8df5db57c13a041501629c12ff9cef83
 
 systemd/0001-Change-localhost-prefix-from-8-to-16.patch
 
