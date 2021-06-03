@@ -1,3 +1,9 @@
+busybox/0001-Don-t-hardcode-refusing-to-issue-.0-or-.255-addresse.patch
+
+	This patch was merged on 2021-05-03.  See
+
+	http://lists.busybox.net/pipermail/busybox/2021-June/088873.html
+
 linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	The 0/8 part of this patch was merged in 96125bf9985a7, approved
@@ -47,3 +53,13 @@ openwrt/0001-Support-class-e-addressing-in-netifd.patch
 	This patch was committed on December 16, 2018.  See
 
 	https://git.openwrt.org/?p=project/netifd.git;a=commitdiff;h=cd089c52de96e47cf99410f66701e04e24155b9a
+
+	Dave further noted that this is one of three accepted patches on
+	OpenWrt that completed 240/4 support for OpenWrt 19.01.
+
+	* Backport of Linux 4.20 ifconfig ioctl. Status: ACCEPTED.
+	* Removal of IN_EXPERIMENTAL check in netifd. Status: ACCEPTED.
+	* Removal of 240/4 from BCP38 package. Status: ACCEPTED.
+
+	(The OpenWrt patch history for the first and last of these is
+	apparently not recorded in the Unicast Extensions repository.)
