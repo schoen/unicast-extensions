@@ -1,10 +1,27 @@
+freebsd/0001-Don-t-use-lowest-address-as-broadcast.patch
+
+	This patch is new as of 2021-06-09 and has not been merged yet.
+
+	It should probably be folded into https://reviews.freebsd.org/D19316
+	by Rodney Grimes, which is a currently-working patch that adds
+	support for 240/4, 0/8, and 127/8 unicast routing in the FreeBSD
+	kernel.
+
 freebsd/freebsd_e.diff
 
 	This patch has not been merged as of 2020-09-25.
 
+	It should probably be considered superseded by
+	https://reviews.freebsd.org/D19316 (which adds the same
+	functionality in a different way).
+
 freebsd/in_zeronet.patch
 
 	This patch has not been merged as of 2020-09-25.
+
+	It should probably be considered superseded by
+	https://reviews.freebsd.org/D19316 (which adds the same
+	functionality in a different way).
 
 isdn-utils/isdn4k-utils-3.27_20151118.patch
 
