@@ -1,10 +1,9 @@
-freebsd/0001-Don-t-use-lowest-address-as-broadcast-sysctl-gated.patch
+freebsd/subnet_addr.diff
 
-	This patch is new as of 2021-06-09 (updated 2021-06-14 with sysctl)
-	and has not been merged yet.
+	This patch is new as of 2021-06-09 (updated 2021-06-14 with sysctl
+	and 2021-06-15 based on review feedback) and has not been merged yet.
 
-	Submitted to Rodney Grimes for review and possible submission to
-	FreeBSD kernel.
+	Hopefully this will soon be tracked in FreeBSD's "reviews" system.
 
 freebsd/freebsd_e.diff
 
