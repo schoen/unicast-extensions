@@ -1,0 +1,154 @@
+diff --git a/bsd/net/pf.c b/bsd/net/pf.c
+index 2a630927..a74b4324 100644
+--- a/bsd/net/pf.c
++++ b/bsd/net/pf.c
+@@ -9834,8 +9834,7 @@ done:
+ 			    s->nat_rule.ptr != NULL &&
+ 			    (s->nat_rule.ptr->action == PF_RDR ||
+ 			    s->nat_rule.ptr->action == PF_BINAT) &&
+-			    (ntohl(pd.dst->v4addr.s_addr) >> IN_CLASSA_NSHIFT)
+-			    == IN_LOOPBACKNET) {
++			    IN_LOOPBACK(ntohl(pd.dst->v4addr.s_addr))) {
+ 				pd.pf_mtag->pftag_flags |= PF_TAG_TRANSLATE_LOCALHOST;
+ 			}
+ 		}
+diff --git a/bsd/netinet/in.c b/bsd/netinet/in.c
+index 64b694bc..99aaca89 100644
+--- a/bsd/netinet/in.c
++++ b/bsd/netinet/in.c
+@@ -306,17 +306,10 @@ boolean_t
+ in_canforward(struct in_addr in)
+ {
+ 	u_int32_t i = ntohl(in.s_addr);
+-	u_int32_t net;
+ 
+-	if (IN_EXPERIMENTAL(i) || IN_MULTICAST(i)) {
++	if (IN_MULTICAST(i) || IN_LOOPBACK(i)) {
+ 		return FALSE;
+ 	}
+-	if (IN_CLASSA(i)) {
+-		net = i & IN_CLASSA_NET;
+-		if (net == 0 || net == (IN_LOOPBACKNET << IN_CLASSA_NSHIFT)) {
+-			return FALSE;
+-		}
+-	}
+ 	return TRUE;
+ }
+ 
+@@ -1963,11 +1956,11 @@ in_broadcast(struct in_addr in, struct ifnet *ifp)
+ 		IFA_LOCK(ifa);
+ 		if (ifa->ifa_addr->sa_family == AF_INET &&
+ 		    (in.s_addr == ia->ia_broadaddr.sin_addr.s_addr ||
+-		    in.s_addr == ia->ia_netbroadcast.s_addr ||
++		    in.s_addr == ia->ia_netbroadcast.s_addr
+ 		    /*
+-		     * Check for old-style (host 0) broadcast.
++		     * Don't check for old-style (host 0) broadcast.
+ 		     */
+-		    t == ia->ia_subnet || t == ia->ia_net) &&
++		    ) &&
+ 		    /*
+ 		     * Check for an all one subnetmask. These
+ 		     * only exist when an interface gets a secondary
+diff --git a/bsd/netinet/in.h b/bsd/netinet/in.h
+index dc391afe..b8022308 100644
+--- a/bsd/netinet/in.h
++++ b/bsd/netinet/in.h
+@@ -347,7 +347,6 @@ struct in_addr {
+ #define IN_MULTICAST(i)         IN_CLASSD(i)
+ 
+ #define IN_EXPERIMENTAL(i)      (((u_int32_t)(i) & 0xf0000000) == 0xf0000000)
+-#define IN_BADCLASS(i)          (((u_int32_t)(i) & 0xf0000000) == 0xf0000000)
+ 
+ #define INADDR_LOOPBACK         (u_int32_t)0x7f000001
+ 
+@@ -367,8 +366,11 @@ struct in_addr {
+ #ifdef __APPLE__
+ #define IN_LINKLOCALNETNUM      (u_int32_t)0xA9FE0000 /* 169.254.0.0 */
+ #define IN_LINKLOCAL(i)         (((u_int32_t)(i) & IN_CLASSB_NET) == IN_LINKLOCALNETNUM)
+-#define IN_LOOPBACK(i)          (((u_int32_t)(i) & 0xff000000) == 0x7f000000)
+-#define IN_ZERONET(i)           (((u_int32_t)(i) & 0xff000000) == 0)
++
++/* Modified for proof-of-concept for draft-intarea-schoen-unicast-lowest-address
++ * and draft-intarea-schoen-unicast-127 */
++#define IN_LOOPBACK(i)          (((u_int32_t)(i) & 0xffff0000) == 0x7f000000)
++#define IN_ZERONET(i)           (((u_int32_t)(i) & 0xff000000) == INADDR_ANY)
+ 
+ #define IN_PRIVATE(i)   ((((u_int32_t)(i) & 0xff000000) == 0x0a000000) || \
+ 	                 (((u_int32_t)(i) & 0xfff00000) == 0xac100000) || \
+@@ -388,7 +390,6 @@ struct in_addr {
+ #define IN_ANY_LOCAL(i)         (IN_LINKLOCAL(i) || IN_LOCAL_GROUP(i))
+ #endif /* __APPLE__ */
+ 
+-#define IN_LOOPBACKNET          127                     /* official! */
+ #endif  /* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
+ 
+ /*
+diff --git a/bsd/netinet/ip_icmp.c b/bsd/netinet/ip_icmp.c
+index 0fb3d6f7..5333cde0 100644
+--- a/bsd/netinet/ip_icmp.c
++++ b/bsd/netinet/ip_icmp.c
+@@ -811,8 +811,7 @@ icmp_reflect(struct mbuf *m)
+ 	int optlen = (IP_VHL_HL(ip->ip_vhl) << 2) - sizeof(struct ip);
+ 
+ 	if (!in_canforward(ip->ip_src) &&
+-	    ((ntohl(ip->ip_src.s_addr) & IN_CLASSA_NET) !=
+-	    (IN_LOOPBACKNET << IN_CLASSA_NSHIFT))) {
++	    !IN_LOOPBACK(ntohl(ip->ip_src.s_addr))) {
+ 		m_freem(m);     /* Bad return address */
+ 		goto done;      /* Ip_output() will check for broadcast */
+ 	}
+diff --git a/bsd/netinet/ip_input.c b/bsd/netinet/ip_input.c
+index af5c216e..ce8d32b7 100644
+--- a/bsd/netinet/ip_input.c
++++ b/bsd/netinet/ip_input.c
+@@ -1107,8 +1107,9 @@ ipfw_tags_done:
+ 	}
+ 
+ 	/* 127/8 must not appear on wire - RFC1122 */
+-	if ((ntohl(ip->ip_dst.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET ||
+-	    (ntohl(ip->ip_src.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET) {
++	/* Modified here for draft-intarea-schoen-unicast-127 */
++	if (IN_LOOPBACK(ntohl(ip->ip_dst.s_addr)) ||
++	    IN_LOOPBACK(ntohl(ip->ip_src.s_addr))) {
+ 		/*
+ 		 * Allow for the following exceptions:
+ 		 *
+@@ -1855,8 +1856,9 @@ ipfw_tags_done:
+ 	}
+ 
+ 	/* 127/8 must not appear on wire - RFC1122 */
+-	if ((ntohl(ip->ip_dst.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET ||
+-	    (ntohl(ip->ip_src.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET) {
++        /* Modified here for draft-intarea-schoen-unicast-127 */
++	if (IN_LOOPBACK(ntohl(ip->ip_dst.s_addr)) ||
++            IN_LOOPBACK(ntohl(ip->ip_src.s_addr))) {
+ 		/*
+ 		 * Allow for the following exceptions:
+ 		 *
+diff --git a/bsd/netinet/ip_output.c b/bsd/netinet/ip_output.c
+index ec6a8ecb..30128463 100644
+--- a/bsd/netinet/ip_output.c
++++ b/bsd/netinet/ip_output.c
+@@ -514,6 +514,8 @@ loopit:
+ 	/*
+ 	 * We must not send if the packet is destined to network zero.
+ 	 * RFC1122 3.2.1.3 (a) and (b).
++	 * This is redefined to 0.0.0.0/32 for proof-of-concept for
++	 * draft-intarea-schoen-unicast-0.
+ 	 */
+ 	if (IN_ZERONET(ntohl(pkt_dst.s_addr))) {
+ 		error = EHOSTUNREACH;
+@@ -1509,9 +1511,10 @@ skip_ipsec:
+ 
+ 
+ 	/* 127/8 must not appear on wire - RFC1122 */
++	/* Modified here for draft-intarea-schoen-unicast-127 */
+ 	if (!(ifp->if_flags & IFF_LOOPBACK) &&
+-	    ((ntohl(ip->ip_src.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET ||
+-	    (ntohl(ip->ip_dst.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET)) {
++	    ((IN_LOOPBACK(ntohl(ip->ip_dst.s_addr)) ||
++            IN_LOOPBACK(ntohl(ip->ip_src.s_addr))))) {
+ 		OSAddAtomic(1, &ipstat.ips_badaddr);
+ 		error = EADDRNOTAVAIL;
+ 		goto bad;
