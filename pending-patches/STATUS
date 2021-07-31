@@ -4,6 +4,8 @@ darwin/unicast-extensions.diff
 	yet actually tested as part of a Darwin kernel).  It will be
 	tested informally by someone Dave knows.
 
+	This patch is against xnu-7195.121.3.
+
 freebsd/subnet_addr.diff
 
 	This patch is new as of 2021-06-09 (updated 2021-06-14 with sysctl
