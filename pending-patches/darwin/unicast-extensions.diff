@@ -69,8 +69,8 @@ index dc391afe..d382ba65 100644
 -#define IN_LOOPBACK(i)          (((u_int32_t)(i) & 0xff000000) == 0x7f000000)
 -#define IN_ZERONET(i)           (((u_int32_t)(i) & 0xff000000) == 0)
 +
-+/* Modified for proof-of-concept for draft-intarea-schoen-unicast-lowest-address
-+ * and draft-intarea-schoen-unicast-127 */
++/* Modified for proof-of-concept for draft-schoen-intarea-unicast-lowest-address
++ * and draft-schoen-intarea-unicast-127 */
 +#define IN_LOOPBACK(i)          (((u_int32_t)(i) & 0xffff0000) == 0x7f000000)
 +#define IN_ZERONET(i)           ((u_int32_t)(i) == INADDR_ANY)
  
@@ -108,7 +108,7 @@ index af5c216e..ce8d32b7 100644
  	/* 127/8 must not appear on wire - RFC1122 */
 -	if ((ntohl(ip->ip_dst.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET ||
 -	    (ntohl(ip->ip_src.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET) {
-+	/* Modified here for draft-intarea-schoen-unicast-127 */
++	/* Modified here for draft-schoen-intarea-unicast-127 */
 +	if (IN_LOOPBACK(ntohl(ip->ip_dst.s_addr)) ||
 +	    IN_LOOPBACK(ntohl(ip->ip_src.s_addr))) {
  		/*
@@ -120,7 +120,7 @@ index af5c216e..ce8d32b7 100644
  	/* 127/8 must not appear on wire - RFC1122 */
 -	if ((ntohl(ip->ip_dst.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET ||
 -	    (ntohl(ip->ip_src.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET) {
-+        /* Modified here for draft-intarea-schoen-unicast-127 */
++        /* Modified here for draft-schoen-intarea-unicast-127 */
 +	if (IN_LOOPBACK(ntohl(ip->ip_dst.s_addr)) ||
 +            IN_LOOPBACK(ntohl(ip->ip_src.s_addr))) {
  		/*
@@ -135,7 +135,7 @@ index ec6a8ecb..30128463 100644
  	 * We must not send if the packet is destined to network zero.
  	 * RFC1122 3.2.1.3 (a) and (b).
 +	 * This is redefined to 0.0.0.0/32 for proof-of-concept for
-+	 * draft-intarea-schoen-unicast-0.
++	 * draft-schoen-intarea-unicast-0.
  	 */
  	if (IN_ZERONET(ntohl(pkt_dst.s_addr))) {
  		error = EHOSTUNREACH;
@@ -143,7 +143,7 @@ index ec6a8ecb..30128463 100644
  
  
  	/* 127/8 must not appear on wire - RFC1122 */
-+	/* Modified here for draft-intarea-schoen-unicast-127 */
++	/* Modified here for draft-schoen-intarea-unicast-127 */
  	if (!(ifp->if_flags & IFF_LOOPBACK) &&
 -	    ((ntohl(ip->ip_src.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET ||
 -	    (ntohl(ip->ip_dst.s_addr) >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET)) {
