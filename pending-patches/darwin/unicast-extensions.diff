@@ -51,7 +51,7 @@ index 64b694bc..99aaca89 100644
  		     * Check for an all one subnetmask. These
  		     * only exist when an interface gets a secondary
 diff --git a/bsd/netinet/in.h b/bsd/netinet/in.h
-index dc391afe..b8022308 100644
+index dc391afe..d382ba65 100644
 --- a/bsd/netinet/in.h
 +++ b/bsd/netinet/in.h
 @@ -347,7 +347,6 @@ struct in_addr {
@@ -72,7 +72,7 @@ index dc391afe..b8022308 100644
 +/* Modified for proof-of-concept for draft-intarea-schoen-unicast-lowest-address
 + * and draft-intarea-schoen-unicast-127 */
 +#define IN_LOOPBACK(i)          (((u_int32_t)(i) & 0xffff0000) == 0x7f000000)
-+#define IN_ZERONET(i)           (((u_int32_t)(i) & 0xff000000) == INADDR_ANY)
++#define IN_ZERONET(i)           ((u_int32_t)(i) == INADDR_ANY)
  
  #define IN_PRIVATE(i)   ((((u_int32_t)(i) & 0xff000000) == 0x0a000000) || \
  	                 (((u_int32_t)(i) & 0xfff00000) == 0xac100000) || \
