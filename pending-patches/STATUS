@@ -60,13 +60,20 @@ iproute2/0001-Use-SCOPE_HOST-default-only-for-127-16-not-127-8.patch
 
 linux/0001-ip.7-Add-special-and-reserved-addresses-section.patch
 linux/0001-ip.7-Describe-lowest-host-behavior-change.patch
+linux/0001-PATCH-v3-ip.7-Add-Special-and-reserved-addresses-sec.patch
 
-	These patches against the man-pages tree are new as of 2021-03-12
-	and have not been merged yet.
+	The first two patches against the man-pages tree are new as of
+	2021-03-12 and have not been merged yet.
 
 	The former patch (documenting existing kernel behavior) was
 	submitted to linux-man on 2021-03-19, and a revised version based
 	on comments was resubmitted on 2021-03-29.
+
+	The third patch combines the former two, on the occasion of the
+	release of Linux 5.14, and is meant as an alternative to them.
+	It also cites specific commits in which special address behaviors
+	were merged in the Linux kernel.  It is new as of 2021-08-30 and
+	has not been merged yet.
 	
 linux/0001-Reduce-local-loopback-network-to-16-updated.patch
 
