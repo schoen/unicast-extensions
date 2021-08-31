@@ -73,7 +73,8 @@ linux/0001-PATCH-v3-ip.7-Add-Special-and-reserved-addresses-sec.patch
 	release of Linux 5.14, and is meant as an alternative to them.
 	It also cites specific commits in which special address behaviors
 	were merged in the Linux kernel.  It is new as of 2021-08-30 and
-	has not been merged yet.
+	has not been merged yet.  It was submitted to linux-man on
+	2021-08-31.
 	
 linux/0001-Reduce-local-loopback-network-to-16-updated.patch
 
