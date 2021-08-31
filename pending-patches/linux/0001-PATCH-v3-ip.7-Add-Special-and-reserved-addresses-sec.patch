@@ -1,7 +1,7 @@
-From ced33edb96ddf707c3865d8e64e4b2bb1d7c9f63 Mon Sep 17 00:00:00 2001
+From ba9a3172b7dc80dac4f5b9182fd9fb7521a00462 Mon Sep 17 00:00:00 2001
 From: Seth Schoen <schoen@loyalty.org>
-Date: Mon, 30 Aug 2021 21:37:00 -0700
-Subject: [PATCH] [PATCH v3] ip.7: Add "Special and reserved addresses" section
+Date: Tue, 31 Aug 2021 11:29:57 -0700
+Subject: [PATCH v3] ip.7: Add "Special and reserved addresses" section
 
 Add a new section with a more detailed description of the IPv4 addresses
 that have a special meaning in Internet standards, and how these affect
@@ -32,11 +32,11 @@ unicast subnet lowest address (since 5.14):
 Signed-off-by: Seth David Schoen <schoen@loyalty.org>
 Suggested-by: John Gilmore <gnu@toad.com>
 ---
- man7/ip.7 | 49 ++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 46 insertions(+), 3 deletions(-)
+ man7/ip.7 | 48 +++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 45 insertions(+), 3 deletions(-)
 
 diff --git a/man7/ip.7 b/man7/ip.7
-index 7eee2811e..7daee6532 100644
+index 7eee2811e..0c228a9c2 100644
 --- a/man7/ip.7
 +++ b/man7/ip.7
 @@ -232,6 +232,7 @@ In particular, this means that you need to call
@@ -47,7 +47,7 @@ index 7eee2811e..7daee6532 100644
  .PP
  There are several special addresses:
  .B INADDR_LOOPBACK
-@@ -239,12 +240,54 @@ There are several special addresses:
+@@ -239,12 +240,53 @@ There are several special addresses:
  always refers to the local host via the loopback device;
  .B INADDR_ANY
  (0.0.0.0)
@@ -88,20 +88,19 @@ index 7eee2811e..7daee6532 100644
 +address (e.g., the .0 address on a subnet with netmask 255.255.255.0)
 +for broadcast, though they call it "obsolete" for this purpose.
 +.IP \(bu 2
-+Since Linux 2.6.25, 240/4 addresses (except 255.255.255.255) are not treated
-+specially and can be assigned to an interface and used like other unicast addresses.
++Since Linux 2.6.25, 240/4 addresses (except 255.255.255.255) are treated
++as ordinary unicast addresses, and can therefore be assigned to an interface.
 +.IP \(bu
 +Since Linux 5.3, this is also true for 0/8 addresses (except 0.0.0.0).
 +.IP \(bu
 +Since Linux 5.14, this is also true for the lowest address on a subnet
 +(e.g., the .0 address in a /24 network).
 +.PP
-+Unpatched operating systems that follow the traditional behaviors may not
-+interoperate with these historically reserved addresses.  The lowest
-+address on a subnet is not considered a broadcast address by distant
-+hosts (those not attached to the local network segment), and distant hosts
-+can thus interoperate with it without any software changes so long as the
-+local router is willing to route this address.
++Operating systems that follow the traditional behaviors may not
++interoperate with a system using these historically reserved addresses.
++However, distant hosts will interoperate with the lowest address on a
++subnet, as long as the local router and the host to which it is assigned
++both treat it as a unicast address.
  .SS Socket options
  IP supports some protocol-specific socket options that can be set with
  .BR setsockopt (2)
