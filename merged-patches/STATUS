@@ -31,6 +31,8 @@ linux/0001-Treat-IPv4-lowest-address-as-ordinary-unicast-address.patch
 
 	https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/net/ipv4?id=94c821c74bf5fe0c25e09df5334a16f98608db90
 
+	This was included in Linux tag v5.14 on 2021-08-29.
+
 measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 
 	A narrower version of this patch (continuing to exclude all of 224/4
