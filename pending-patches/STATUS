@@ -6,16 +6,6 @@ darwin/unicast-extensions.diff
 
 	This patch is against xnu-7195.121.3.
 
-freebsd/subnet_addr.diff
-
-	This patch is new as of 2021-06-09 (updated 2021-06-14 with sysctl
-	and 2021-06-15 based on review feedback) and has not been merged yet.
-
-	Mike Karels has made his own variant after some discussion, which is
-	now tracked at
-
-	https://reviews.freebsd.org/D31861
-
 freebsd/freebsd_e.diff
 
 	This patch has not been merged as of 2020-09-25.

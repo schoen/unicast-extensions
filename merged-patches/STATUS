@@ -4,6 +4,18 @@ busybox/0001-Don-t-hardcode-refusing-to-issue-.0-or-.255-addresse.patch
 
 	http://lists.busybox.net/pipermail/busybox/2021-June/088873.html
 
+freebsd/subnet_addr.diff
+
+	Mike Karels made his own variant of this patch after some discussion,
+	which is now tracked at
+
+	https://reviews.freebsd.org/D31861
+
+	This is gradually being incorporated into FreeBSD versions,
+	starting with 14-current on 2021-09-17.
+
+	https://reviews.freebsd.org/R10:fd0765933c3ccb059ad7456e657b2e8ed22f58b0
+
 linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	The 0/8 part of this patch was merged in 96125bf9985a7, approved
