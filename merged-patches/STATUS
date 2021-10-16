@@ -49,7 +49,8 @@ measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 
 	A narrower version of this patch (continuing to exclude all of 224/4
 	and 127/8) was adopted by the RIPE Atlas project at the beginning of
-	March 2021.
+	March 2021.  (EDIT: We are double-checking on this; it might not
+	actually have been merged at that time.)
 
 	It will require corresponding changes in the RIPE Atlas backend in
 	order to request probes to test reserved address space (since scans
