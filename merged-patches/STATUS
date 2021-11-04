@@ -16,6 +16,15 @@ freebsd/subnet_addr.diff
 
 	https://reviews.freebsd.org/R10:fd0765933c3ccb059ad7456e657b2e8ed22f58b0
 
+	It was merged into main FreeBSD sometime in October 2021, probably
+	October 19, 2021.
+
+	https://reviews.freebsd.org/R10:3ee882bf21afec1adca131783468e9091826521a
+
+	I believe that means it will be included in FreeBSD 13 releases that
+	occur after that date.  (I'm not sure about FreeBSD 12 releases after
+	that date, such as FreeBSD 12.3.)
+
 linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	The 0/8 part of this patch was merged in 96125bf9985a7, approved
