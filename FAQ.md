@@ -57,6 +57,6 @@ but CGN networks are wildly popular.
 
 As a totally new address range, making class-e in particular globally
 routable makes it more possible to address other long-standing bugs in
-IPv4 implementations like [zeroth networks](ZEROTH.md), attempt to make
+IPv4 implementations like [zeroth networks](LOWEST.md), attempt to make
 more protocols available through NAT (such as udp-lite, sctp), and so on.
 
