@@ -92,14 +92,15 @@ linux/0002-Reduce-localhost-to-a-16.patch
 
 measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 
-	A narrower version of this patch (continuing to exclude all of 224/4
-	and 127/8) was adopted by the RIPE Atlas project at the beginning of
-	March 2021.
+	We thought that a narrower version of this patch (continuing to
+	exclude all of 224/4 and 127/8) was adopted by the RIPE Atlas
+	project at the beginning of March 2021.  However, this is not the
+	case and this patch is still pending.
 
-	It will require corresponding changes in the RIPE Atlas backend in
-	order to request probes to test reserved address space (since scans
-	that specify reserved address targets numerically are blocked from
-	doing so by both the probe software and the backend).
+	It will also require corresponding changes in the RIPE Atlas backend
+	in order to request probes to test reserved address space (since
+	scans that specify reserved address targets numerically are blocked
+	from doing so by both the probe software and the backend).
 
 openbsd/openbsd_class_e.diff
 

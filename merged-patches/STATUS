@@ -54,18 +54,6 @@ linux/0001-Treat-IPv4-lowest-address-as-ordinary-unicast-address.patch
 
 	This was included in Linux tag v5.14 on 2021-08-29.
 
-measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
-
-	A narrower version of this patch (continuing to exclude all of 224/4
-	and 127/8) was adopted by the RIPE Atlas project at the beginning of
-	March 2021.  (EDIT: We are double-checking on this; it might not
-	actually have been merged at that time.)
-
-	It will require corresponding changes in the RIPE Atlas backend in
-	order to request probes to test reserved address space (since scans
-	that specify reserved address targets numerically are blocked from
-	doing so by both the probe software and the backend).
-
 linux/0001-selftests-add-IPv4-unicast-extensions-tests.patch
 
 	This patch was committed on 2021-01-26.  See
