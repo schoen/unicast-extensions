@@ -97,6 +97,10 @@ measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 	project at the beginning of March 2021.  However, this is not the
 	case and this patch is still pending.
 
+	I opened a pull request for Philip Homburg's modified version at
+
+	https://github.com/RIPE-NCC/ripe-atlas-probe-busybox/pull/7
+
 	It will also require corresponding changes in the RIPE Atlas backend
 	in order to request probes to test reserved address space (since
 	scans that specify reserved address targets numerically are blocked
