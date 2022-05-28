@@ -106,11 +106,6 @@ measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 	scans that specify reserved address targets numerically are blocked
 	from doing so by both the probe software and the backend).
 
-openbsd/openbsd_class_e.diff
-
-	This patch has not been merged as of 2020-09-28.  It's closely
-	related to, though narrower than, the FreeBSD patch.
-
 openwrt/0001-Reduce-loopback-netmask-netmask-to-16.patch
 
 	This patch is new as of May 3, 2021, and has not been merged yet.  It

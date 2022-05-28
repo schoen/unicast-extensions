@@ -60,6 +60,16 @@ linux/0001-selftests-add-IPv4-unicast-extensions-tests.patch
 
 	https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=9b0b7837b9f1
 
+openbsd/openbsd_class_e.patch
+
+	This patch was committed on May 5, 2022.  Git commit mirror (CVS is
+	official) at commit a96e5a4e7eee0bf74bc3996f6f2e9a55de158edf.
+
+	Related patches by the OpenBSD developers to improve kernel and
+	some userspace support for 240/4 and 0/8 were merged on May 6, 2022,
+	with git commit mirror ef8f8f938aa6d1ea1347e941d416f4a2c0029c60
+	("Relax the limitation of what is an acceptable unicast IP").
+
 openwrt/0001-Support-class-e-addressing-in-netifd.patch
 
 	This patch was committed on December 16, 2018.  See
