@@ -1,0 +1,61 @@
+From 455db523be3beeebdec9741c13d7397fddf2bee1 Mon Sep 17 00:00:00 2001
+From: Seth Schoen <schoen@loyalty.org>
+Date: Fri, 30 Sep 2022 17:03:11 -0700
+Subject: [PATCH] Don't treat 0/8 and 240/4 specially in IPv4 classification
+
+With the exception of 0.0.0.0 and 255.255.255.255, which have additional
+special meanings, treat 0/8 and 240/4 as normal unicast addresses by
+default.  This is because some people are experimenting with using these
+addresses as regular unicast (either for private addresses or for potential
+future public addresses).
+
+On the public Internet, they would still be regarded as bogons and one
+could make (maybe by default) a bogon-filtering rule in bird.conf that
+would not permit these addresses to be routed.  Dave Taht, who wrote a
+prior version of this patch, suggested that in any case it is better to
+have bogons defined in a configuration file than hard-coded in software.
+---
+ lib/ip.c | 5 +++--
+ lib/ip.h | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/lib/ip.c b/lib/ip.c
+index 4c5fa47f..4e573838 100644
+--- a/lib/ip.c
++++ b/lib/ip.c
+@@ -87,8 +87,9 @@ ip4_classify(ip4_addr ad)
+ 
+   if (b < 0xe0)
+   {
+-    if (b == 0x00)				/* 0.0.0.0/8        This network */
++    if (a == 0x00000000)			/* 0.0.0.0/32       Unset address */
+       return IADDR_INVALID;
++						/* 0.0.0.0/8 is otherwise reserved, but some people are using it or trying to */
+ 
+     if (b == 0x7f)				/* 127.0.0.0/8      Loopback address */
+       return IADDR_HOST | SCOPE_HOST;
+@@ -107,7 +108,7 @@ ip4_classify(ip4_addr ad)
+   if (a == 0xffffffff)				/* 255.255.255.255  Broadcast address */
+     return IADDR_BROADCAST | SCOPE_LINK;
+ 
+-  return IADDR_HOST | SCOPE_SITE;		/* 240.0.0.0/4      Reserved / private */
++  return IADDR_HOST | SCOPE_UNIVERSE;		/* 240.0.0.0/4      Reserved / private, but some people are using it or trying to */
+ }
+ 
+ int
+diff --git a/lib/ip.h b/lib/ip.h
+index 9eef2e16..875b9f5e 100644
+--- a/lib/ip.h
++++ b/lib/ip.h
+@@ -245,7 +245,7 @@ static inline int ip6_is_v4mapped(ip6_addr a)
+ #define ipa_is_link_local(x) ip6_is_link_local(x)
+ 
+ static inline int ip4_is_unicast(ip4_addr a)
+-{ return _I(a) < 0xe0000000; }
++{ return _I(a) < 0xe0000000 || (_I(a) >= 0xf0000000 && _I(a) != 0xffffffff); }
+ 
+ /* XXXX remove */
+ static inline int ipa_classify_net(ip_addr a)
+-- 
+2.25.1
+

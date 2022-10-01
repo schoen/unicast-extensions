@@ -153,6 +153,12 @@ routing/0001-bird-treat-former-classe-addresses-as-valid-addresse.patch
 	(I need to do some more searches to see if this patch was ever
 	introduced into the project's Gitlab instance or a mailing list.)
 
+0001-Don-t-treat-0-8-and-240-4-specially-in-IPv4-classifi.patch
+
+	This is an updated version of the former patch.  I attempted to
+	submit it upstread to bird on 2022-09-30, but it's not clear
+	whether it was accepted into bird's version control system.
+
 routing/0001-martians_check-remove-all-but-0.0.0.0-32-from-0.0.0..patch
 
 	This is apparently meant to be applied to babeld (the name doesn't
