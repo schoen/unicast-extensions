@@ -145,19 +145,17 @@ routing/0001-Allow-Class-E-addresses-throughout-FRR.patch
 
 routing/0001-bird-treat-former-classe-addresses-as-valid-addresse.patch
 
-	This patch has not been merged as of 2020-09-25.  I'm not sure whether
-	it was submitted to the upstream project or not.  See, e.g.,
-
-	https://gitlab.nic.cz/labs/bird/-/blob/master/lib/ip.c
-
-	(I need to do some more searches to see if this patch was ever
-	introduced into the project's Gitlab instance or a mailing list.)
+	This patch has not been merged as of 2020-09-25.  I'm not sure
+	whether it was submitted to the upstream project or not.  It is
+	superseded by
+	0001-Don-t-treat-0-8-and-240-4-specially-in-IPv4-classifi.patch.
 
 0001-Don-t-treat-0-8-and-240-4-specially-in-IPv4-classifi.patch
 
-	This is an updated version of the former patch.  I attempted to
-	submit it upstread to bird on 2022-09-30, but it's not clear
-	whether it was accepted into bird's version control system.
+	This is an updated version of the former patch.  It was submitted
+	upstream to bird on 2022-09-30 via a method suggested on their
+	GitLab site that turns out not to work, and resubmited 2022-11-18
+	via the project mailing list.
 
 routing/0001-martians_check-remove-all-but-0.0.0.0-32-from-0.0.0..patch
 
