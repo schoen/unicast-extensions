@@ -150,7 +150,7 @@ routing/0001-bird-treat-former-classe-addresses-as-valid-addresse.patch
 	superseded by
 	0001-Don-t-treat-0-8-and-240-4-specially-in-IPv4-classifi.patch.
 
-0001-Don-t-treat-0-8-and-240-4-specially-in-IPv4-classifi.patch
+routing/0001-Don-t-treat-0-8-and-240-4-specially-in-IPv4-classifi.patch
 
 	This is an updated version of the former patch.  It was submitted
 	upstream to bird on 2022-09-30 via a method suggested on their
