@@ -165,6 +165,11 @@ routing/0001-Don-t-treat-0-8-and-240-4-specially-in-IPv4-classifi.patch
 	GitLab site that turns out not to work, and resubmited 2022-11-18
 	via the project mailing list.
 
+	The overall goal of improving routing of 240/4 and 0/8, either
+	with this patch or a variant approach, was not received positively
+	by a BIRD developer who reviewed the patch.  The patch has not
+	been merged as of 2022-12-25.
+
 routing/0001-martians_check-remove-all-but-0.0.0.0-32-from-0.0.0..patch
 
 	This is apparently meant to be applied to babeld (the name doesn't
