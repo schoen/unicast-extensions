@@ -90,22 +90,6 @@ linux/0002-Reduce-localhost-to-a-16.patch
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
 	It has been superseded by 0001-Reduce-local-loopback-network-to-16-updated.patch.
 
-measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
-
-	We thought that a narrower version of this patch (continuing to
-	exclude all of 224/4 and 127/8) was adopted by the RIPE Atlas
-	project at the beginning of March 2021.  However, this is not the
-	case and this patch is still pending.
-
-	I opened a pull request for Philip Homburg's modified version at
-
-	https://github.com/RIPE-NCC/ripe-atlas-probe-busybox/pull/7
-
-	It will also require corresponding changes in the RIPE Atlas backend
-	in order to request probes to test reserved address space (since
-	scans that specify reserved address targets numerically are blocked
-	from doing so by both the probe software and the backend).
-
 openwrt/0001-Reduce-loopback-netmask-netmask-to-16.patch
 
 	This patch is new as of May 3, 2021, and has not been merged yet.  It
