@@ -125,6 +125,11 @@ openwrt/615-v5.14-dont-treat-lowest-address-as-broadcast.patch
 	target/linux/generic/backport-5.10/
 	and was submitted to OpenWRT on 2022-12-02.
 
+	Some OpenWRT target architectures no longer need this patch because
+	their default kernel has been switched to 5.15.  As of 2022-12-26,
+	this is true of 18 of 39 architectures (and might be true of all
+	architectures prior to the next tagged OpenWRT release).
+
 ppp/ppp-2.4.7.patch
 
 	This patch has not been merged as of 2020-09-28.  The affected code
