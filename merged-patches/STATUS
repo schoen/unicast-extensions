@@ -66,12 +66,20 @@ measurement/probe-busybox/0001-Reduce-special-cases-for-IPv4-address-space.patch
 
 	https://github.com/RIPE-NCC/ripe-atlas-probe-measurements/commit/59475f848b2e55fa14f6c43e62557b97ed005241
 
-	It may also require corresponding changes in the RIPE Atlas backend
-	in order to request probes to test reserved address space (since
-	scans that specify reserved address targets numerically are blocked
-	from doing so by both the probe software and the backend).  (I don't
-	believe that the code for the Atlas backend coordination server is
-	publicly available from RIPE.)
+	Here are attempts at both ping and traceroute Atlas measurements to
+	240.1.2.3:
+
+	https://atlas.ripe.net/measurements/48100582/
+	https://atlas.ripe.net/measurements/48100585/	
+
+	The ping measurements report simple reachability failures, while
+	some of the traceroute measurements show some router hopes before
+	failure and others report that the address was "not allowed".  It
+	appears that the difference is that hardware probes performed the
+	traceroute, while software probes didn't.  We should check whether
+	software probes known to be updated to a recent version also refuse
+	this task or not (or perhaps if the RIPE Atlas backend is refusing
+	to assign the task to a client that is running a software probe?).
 
 openbsd/openbsd_class_e.patch
 
