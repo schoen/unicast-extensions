@@ -106,3 +106,9 @@ openwrt/0001-Support-class-e-addressing-in-netifd.patch
 
 	(The OpenWrt patch history for the first and last of these is
 	apparently not recorded in the Unicast Extensions repository.)
+
+openwrt/615-v5.14-dont-treat-lowest-address-as-broadcast.patch
+
+	A version of this patch was committed on January 4, 2023.  See
+
+	https://github.com/openwrt/openwrt/commit/68f983ba4102faac55211c6c6e799641ed3e3da6

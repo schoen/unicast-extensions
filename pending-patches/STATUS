@@ -101,19 +101,6 @@ openwrt/0001-Reduce-loopback-netmask-netmask-to-16.patch
 
 	systemd/0001-Change-localhost-prefix-from-8-to-16.patch
 
-openwrt/615-v5.14-dont-treat-lowest-address-as-broadcast.patch
-
-	This patch contains a backport of the lowest-address patch from
-	upstream Linux 5.14 (and later versions) to Linux 5.10, in the
-	OpenWRT tree.  It belongs in the directory
-	target/linux/generic/backport-5.10/
-	and was submitted to OpenWRT on 2022-12-02.
-
-	Some OpenWRT target architectures no longer need this patch because
-	their default kernel has been switched to 5.15.  As of 2022-12-26,
-	this is true of 18 of 39 architectures (and might be true of all
-	architectures prior to the next tagged OpenWRT release).
-
 ppp/ppp-2.4.7.patch
 
 	This patch has not been merged as of 2020-09-28.  The affected code
