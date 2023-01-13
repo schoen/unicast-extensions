@@ -112,3 +112,8 @@ openwrt/615-v5.14-dont-treat-lowest-address-as-broadcast.patch
 	A version of this patch was committed on January 4, 2023.  See
 
 	https://github.com/openwrt/openwrt/commit/68f983ba4102faac55211c6c6e799641ed3e3da6
+
+https://sourceforge.net/p/iperf2/code/ci/575799f87bc3f6b62d2107588704c54b88ebfc6f/  (not in this tree)
+
+	This patch fixing 240/4 support was committed on January 9,
+	2023 after Dave Taht proposed it to the iperf2 project.
