@@ -1,0 +1,33 @@
+From 323c87d4c2de7598ac810632450816732056b111 Mon Sep 17 00:00:00 2001
+From: Seth Schoen <schoen@loyalty.org>
+Date: Sun, 22 Jan 2023 14:39:24 -0800
+Subject: [PATCH] Backport 5.14: lowest-address is not broadcast
+
+Allow the lowest address in a network segment to be used as an
+ordinary unicast address, not a duplicate broadcast address.
+
+Signed-off-by: Seth David Schoen <schoen@loyalty.org>
+Suggested-by: John Gilmore <gnu@toad.com>
+---
+ net/ipv4/fib_frontend.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/net/ipv4/fib_frontend.c b/net/ipv4/fib_frontend.c
+index 5f786ef662ea..0b3fadc002d6 100644
+--- a/net/ipv4/fib_frontend.c
++++ b/net/ipv4/fib_frontend.c
+@@ -1129,10 +1129,8 @@ void fib_add_ifaddr(struct in_ifaddr *ifa)
+ 				  prefix, ifa->ifa_prefixlen, prim,
+ 				  ifa->ifa_rt_priority);
+ 
+-		/* Add network specific broadcasts, when it takes a sense */
++		/* Add the network broadcast address, when it makes sense */
+ 		if (ifa->ifa_prefixlen < 31) {
+-			fib_magic(RTM_NEWROUTE, RTN_BROADCAST, prefix, 32,
+-				  prim, 0);
+ 			fib_magic(RTM_NEWROUTE, RTN_BROADCAST, prefix | ~mask,
+ 				  32, prim, 0);
+ 			arp_invalidate(dev, prefix | ~mask, false);
+-- 
+2.25.1
+
