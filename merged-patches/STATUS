@@ -25,6 +25,10 @@ freebsd/subnet_addr.diff
 	occur after that date.  (I'm not sure about FreeBSD 12 releases after
 	that date, such as FreeBSD 12.3.)
 
+linux/0001-Add-special-and-reserved-addresses-section.patch
+
+	This documentation patch was accepted on April 14, 2023.
+
 linux/0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch
 
 	The 0/8 part of this patch was merged in 96125bf9985a7, approved

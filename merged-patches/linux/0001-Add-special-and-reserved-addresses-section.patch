@@ -1,0 +1,126 @@
+From 175e3e35426cf820bcb65a03d9d9c22c46e2fb89 Mon Sep 17 00:00:00 2001
+From: Seth Schoen <schoen@loyalty.org>
+Date: Fri, 14 Apr 2023 11:40:31 -0700
+Subject: [PATCH v5] ip.7: Add "special and reserved addresses" section
+
+Break out the discussion of special and reserved IPv4 addresses into
+a subsection, formatted as a pair of definition lists, and briefly
+describing three cases in which Linux no longer treats addresses
+specially, where other systems do or did.
+
+Also add a specific example to the NOTES paragraph that discourages
+the use of IP broadcasting, so people can more easily understand
+what they are supposed to do instead.
+---
+ man7/ip.7 | 83 +++++++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 75 insertions(+), 8 deletions(-)
+
+diff --git a/man7/ip.7 b/man7/ip.7
+index 6c50d0281..6f1ee4dbe 100644
+--- a/man7/ip.7
++++ b/man7/ip.7
+@@ -237,19 +237,82 @@ In particular, this means that you need to call
+ on the number that is assigned to a port.
+ All address/port manipulation
+ functions in the standard library work in network byte order.
+-.PP
++.SS Special and reserved addresses
+ There are several special addresses:
+-.B INADDR_LOOPBACK
+-(127.0.0.1)
++.TP
++.BR INADDR_LOOPBACK " (127.0.0.1)"
+ always refers to the local host via the loopback device;
++.TP
++.BR INADDR_ANY " (0.0.0.0)"
++means any address for socket binding;
++.TP
++.BR INADDR_BROADCAST " (255.255.255.255)"
++has the same effect on
++.BR bind (2)
++as
+ .B INADDR_ANY
+-(0.0.0.0)
+-means any address for binding;
++for historical reasons.
++A packet addressed to
+ .B INADDR_BROADCAST
+-(255.255.255.255)
+-means any host and has the same effect on bind as
++through a socket which has
++.B SO_BROADCAST
++set will be broadcast to all hosts on the local network segment,
++as long as the link is broadcast-capable.
++
++.TP
++Highest-numbered address
++.TQ
++Lowest-numbered address
++On any locally-attached non-point-to-point IP subnet
++with a link type that supports broadcasts,
++the highest-numbered address
++(e.g., the .255 address on a subnet with netmask 255.255.255.0)
++is designated as a broadcast address.
++It cannot usefully be assigned to an individual interface,
++and can only be addressed with a socket on which the
++.B SO_BROADCAST
++option has been set.
++Internet standards have historically
++also reserved the lowest-numbered address
++(e.g., the .0 address on a subnet with netmask 255.255.255.0)
++for broadcast, though they call it "obsolete" for this purpose.
++(Some sources also refer to this as the "network address.")
++Since Linux 5.14,
++.\" commit 58fee5fc83658aaacf60246aeab738946a9ba516
++it is treated as an ordinary unicast address
++and can be assigned to an interface.
++
++.PP
++Internet standards have traditionally also reserved various addresses
++for particular uses, though Linux no longer treats
++some of these specially.
++
++.TP
++[0.0.0.1, 0.255.255.255]
++.TQ
++[240.0.0.0, 255.255.255.254]
++Addresses in these ranges (0/8 and 240/4) are reserved globally.
++Since Linux 5.3
++.\" commit 96125bf9985a75db00496dd2bc9249b777d2b19b
++and Linux 2.6.25,
++.\" commit 1e637c74b0f84eaca02b914c0b8c6f67276e9697
++respectively,
++the 0/8 and 240/4 addresses, other than
+ .B INADDR_ANY
+-for historical reasons.
++and
++.BR INADDR_BROADCAST ,
++are treated as ordinary unicast addresses.
++Systems that follow the traditional behaviors may not
++interoperate with these historically reserved addresses.
++.TP
++[127.0.0.1, 127.255.255.254]
++Addresses in this range (127/8) are treated as loopback addresses
++akin to the standardized local loopback address
++.B INADDR_LOOPBACK
++(127.0.0.1);
++.TP
++[224.0.0.0, 239.255.255.255]
++Addresses in this range (224/4) are dedicated to multicast use.
+ .SS Socket options
+ IP supports some protocol-specific socket options that can be set with
+ .BR setsockopt (2)
+@@ -1343,6 +1406,10 @@ with careless broadcasts.
+ For new application protocols
+ it is better to use a multicast group instead of broadcasting.
+ Broadcasting is discouraged.
++See RFC 6762 for an example of a protocol (mDNS)
++using the more modern multicast approach
++to communicating with an open-ended
++group of hosts on the local network.
+ .PP
+ Some other BSD sockets implementations provide
+ .B IP_RCVDSTADDR
+-- 
+2.25.1
+
