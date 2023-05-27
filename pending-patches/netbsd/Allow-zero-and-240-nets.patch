@@ -1,0 +1,17 @@
+diff -r 8e4f9c22f4df sys/netinet/in.c
+--- a/sys/netinet/in.c  Fri May 26 13:21:51 2023 +0000
++++ b/sys/netinet/in.c  Fri May 26 17:00:08 2023 -0700
+@@ -303,11 +303,11 @@
+ {
+        u_int32_t net;
+ 
+-       if (IN_EXPERIMENTAL(in.s_addr) || IN_MULTICAST(in.s_addr))
++       if (IN_MULTICAST(in.s_addr))
+                return (0);
+        if (IN_CLASSA(in.s_addr)) {
+                net = in.s_addr & IN_CLASSA_NET;
+-               if (net == 0 || net == htonl(IN_LOOPBACKNET << IN_CLASSA_NSHIFT))
++               if (in.s_addr == 0 || net == htonl(IN_LOOPBACKNET << IN_CLASSA_NSHIFT))
+                        return (0);
+        }
+        return (1);

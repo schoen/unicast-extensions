@@ -72,6 +72,11 @@ linux/0002-Reduce-localhost-to-a-16.patch
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
 	It has been superseded by 0001-Reduce-local-loopback-network-to-16-updated.patch.
 
+netbsd/Allow-zero-and-240-nets.patch
+
+	This patch is new as of 2023-05-26, and allows NetBSD to use 0/8
+	and 240/4.
+
 openwrt/0001-Reduce-loopback-netmask-netmask-to-16.patch
 
 	This patch is new as of May 3, 2021, and has not been merged yet.  It
