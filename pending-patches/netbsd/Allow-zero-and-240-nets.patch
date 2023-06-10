@@ -6,12 +6,12 @@ diff -r 8e4f9c22f4df sys/netinet/in.c
         u_int32_t net;
  
 -       if (IN_EXPERIMENTAL(in.s_addr) || IN_MULTICAST(in.s_addr))
-+       if (IN_MULTICAST(in.s_addr))
++       if (in.s_addr == INADDR_BROADCAST || IN_MULTICAST(in.s_addr))
                 return (0);
         if (IN_CLASSA(in.s_addr)) {
                 net = in.s_addr & IN_CLASSA_NET;
 -               if (net == 0 || net == htonl(IN_LOOPBACKNET << IN_CLASSA_NSHIFT))
-+               if (in.s_addr == 0 || net == htonl(IN_LOOPBACKNET << IN_CLASSA_NSHIFT))
++               if (in.s_addr == INADDR_ANY || net == htonl(IN_LOOPBACKNET << IN_CLASSA_NSHIFT))
                         return (0);
         }
         return (1);
