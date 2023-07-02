@@ -1,0 +1,102 @@
+Index: in.c
+===================================================================
+RCS file: /cvsroot/src/sys/netinet/in.c,v
+retrieving revision 1.234.2.1
+diff -u -r1.234.2.1 in.c
+--- in.c	8 Oct 2020 18:04:59 -0000	1.234.2.1
++++ in.c	2 Jul 2023 23:30:33 -0000
+@@ -165,6 +165,14 @@
+ #define HOSTZEROBROADCAST 0
+ #endif
+ 
++#ifndef ALLOWNETZERO
++#define ALLOWNETZERO 0
++#endif
++
++#ifndef ALLOWNET240
++#define ALLOWNET240 0
++#endif
++
+ /* Note: 61, 127, 251, 509, 1021, 2039 are good. */
+ #ifndef IN_MULTI_HASH_SIZE
+ #define IN_MULTI_HASH_SIZE	509
+@@ -172,6 +180,8 @@
+ 
+ static int			subnetsarelocal = SUBNETSARELOCAL;
+ static int			hostzeroisbroadcast = HOSTZEROBROADCAST;
++static int			allownet0 = ALLOWNETZERO;
++static int			allownet240 = ALLOWNET240;
+ 
+ /*
+  * This list is used to keep track of in_multi chains which belong to
+@@ -297,18 +307,24 @@
+ /*
+  * Determine whether an IP address is in a reserved set of addresses
+  * that may not be forwarded, or whether datagrams to that destination
+- * may be forwarded.
++ * may be forwarded.  If allownet0 sysctl is turned on, addresses
++ * in 0/8 are permitted.  If allownet240 sysctl is turned on, addresses
++ * in 240/4 are permitted.
+  */
+ int
+ in_canforward(struct in_addr in)
+ {
+ 	u_int32_t net;
+ 
+-	if (IN_EXPERIMENTAL(in.s_addr) || IN_MULTICAST(in.s_addr))
++	if (in.s_addr == INADDR_BROADCAST || IN_MULTICAST(in.s_addr))
++		return (0);
++	if (IN_EXPERIMENTAL(in.s_addr) && !allownet240)
+ 		return (0);
+ 	if (IN_CLASSA(in.s_addr)) {
+ 		net = in.s_addr & IN_CLASSA_NET;
+-		if (net == 0 || net == htonl(IN_LOOPBACKNET << IN_CLASSA_NSHIFT))
++		if (net == 0 && !allownet0)
++			return (0);
++		if (in.s_addr == INADDR_ANY || net == htonl(IN_LOOPBACKNET << IN_CLASSA_NSHIFT))
+ 			return (0);
+ 	}
+ 	return (1);
+@@ -2352,11 +2368,26 @@
+ 		       IPCTL_SUBNETSARELOCAL, CTL_EOL);
+ 	sysctl_createv(clog, 0, NULL, NULL,
+ 		       CTLFLAG_PERMANENT|CTLFLAG_READWRITE,
++		       CTLTYPE_INT, "allownet0",
++		       SYSCTL_DESCR("Network 0/8 may be used"),
++		       NULL, 0, &allownet0, 0,
++		       CTL_NET, PF_INET, IPPROTO_IP,
++		       IPCTL_ALLOWNETZERO, CTL_EOL);
++	sysctl_createv(clog, 0, NULL, NULL,
++		       CTLFLAG_PERMANENT|CTLFLAG_READWRITE,
++		       CTLTYPE_INT, "allownet240",
++		       SYSCTL_DESCR("Network 240/4 may be used"),
++		       NULL, 0, &allownet240, 0,
++		       CTL_NET, PF_INET, IPPROTO_IP,
++		       IPCTL_ALLOWNET240, CTL_EOL);
++	sysctl_createv(clog, 0, NULL, NULL,
++		       CTLFLAG_PERMANENT|CTLFLAG_READWRITE,
+ 		       CTLTYPE_INT, "hostzerobroadcast",
+ 		       SYSCTL_DESCR("All zeroes address is broadcast address"),
+ 		       NULL, 0, &hostzeroisbroadcast, 0,
+ 		       CTL_NET, PF_INET, IPPROTO_IP,
+ 		       IPCTL_HOSTZEROBROADCAST, CTL_EOL);
++
+ }
+ 
+ #if NARP > 0
+Index: in.h
+===================================================================
+RCS file: /cvsroot/src/sys/netinet/in.h,v
+retrieving revision 1.108
+diff -u -r1.108 in.h
+--- in.h	9 Nov 2018 11:46:28 -0000	1.108
++++ in.h	2 Jul 2023 23:30:33 -0000
+@@ -364,6 +364,8 @@
+ #define	IPCTL_LOOPBACKCKSUM    23	/* do IP checksum on loopback */
+ #define	IPCTL_STATS		24	/* IP statistics */
+ #define	IPCTL_DAD_COUNT        25	/* DAD packets to send */
++#define	IPCTL_ALLOWNETZERO     26	/* OK to use 0/8 */
++#define	IPCTL_ALLOWNET240      27	/* OK to use 240/4 */
+ 
+ #endif /* _NETBSD_SOURCE */
+ 

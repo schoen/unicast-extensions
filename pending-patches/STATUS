@@ -72,6 +72,11 @@ linux/0002-Reduce-localhost-to-a-16.patch
 	0001-Allow-0.0.0.0-8-and-reduce-localnet-and-enable-225-2.patch.
 	It has been superseded by 0001-Reduce-local-loopback-network-to-16-updated.patch.
 
+netbsd/Allow-with-sysctl.patch
+
+	This is a version of the other patch that puts this functionality
+	behind a pair of sysctls (disabled by default).
+
 netbsd/Allow-zero-and-240-nets.patch
 
 	This patch is new as of 2023-05-26, and allows NetBSD to use 0/8
